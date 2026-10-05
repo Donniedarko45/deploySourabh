@@ -1,0 +1,16 @@
+import assert from "node:assert/strict";
+import { publishableCaseStudies, publishableStories, publishableTrust } from "../lib/content.ts";
+const fixture = { slug:"test-fixture",title:"Test fixture",industry:"Test fixture",challenge:"Test fixture",image:"/test-fixture.webp",imageAlt:"Test fixture",services:["Test fixture"],solution:"Test fixture",outcome:"Test fixture",verification:{approved:true,source:"Test-only approval record"} };
+assert.equal(publishableCaseStudies([fixture]).length,1);
+assert.equal(publishableCaseStudies([{...fixture,verification:{approved:false,source:"Test-only record"}}]).length,0);
+assert.equal(publishableCaseStudies([{...fixture,verification:{approved:true,source:" "}}]).length,0);
+for(const field of ["slug","title","industry","challenge","image","imageAlt","solution","outcome"])assert.equal(publishableCaseStudies([{...fixture,[field]:" "}]).length,0,field+" must be complete");
+assert.equal(publishableCaseStudies([{...fixture,services:[]}]).length,0);
+assert.equal(publishableCaseStudies([{...fixture,services:[" "]}]).length,0);
+const story={client:"Test fixture",title:"Test fixture",story:"Test fixture",attribution:"Test fixture",verification:{approved:true,source:"Test-only record"}};
+assert.equal(publishableStories([story]).length,1);
+assert.equal(publishableStories([{...story,attribution:""}]).length,0);
+assert.equal(publishableStories([{...story,verification:{approved:false,source:"Test-only record"}}]).length,0);
+assert.equal(publishableTrust([{name:"Test fixture",verification:{approved:true,source:"Test-only record"}}]).length,1);
+assert.equal(publishableTrust([{name:"Test fixture",verification:{approved:true,source:""}}]).length,0);
+console.log("Publishing safeguards passed: approval, provenance, completeness and clean source.");

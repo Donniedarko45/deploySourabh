@@ -1,0 +1,2 @@
+import { ProjectLink } from "./Motion";
+export default function FinalCta() {return <section className="final-cta container"><p className="eyebrow"><span className="orange-line"/>LET’S BUILD WHAT’S NEXT</p><div><h2>Have something<br /><span className="muted">ambitious to build</span><span className="accent">?</span></h2><div className="final-cta-side"><p>Bring the challenge.<br />We’ll bring the thinking,<br />the craft, and the code.</p><ProjectLink>Tell us about your project</ProjectLink></div></div></section>}

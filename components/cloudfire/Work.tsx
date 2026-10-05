@@ -1,0 +1,29 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { caseStudies, clientStories, trustItems, publishableCaseStudies, publishableStories, publishableTrust } from "@/lib/content";
+import { Reveal } from "./Motion";
+export function Trust() {
+ const records=publishableTrust(trustItems);if(!records.length)return null;
+ return <section className="trust container" aria-label="Selected clients"><span className="eyebrow">IN GOOD COMPANY</span>{records.map(record=><span key={record.name}>{record.logo?<Image src={record.logo} alt={record.name} width={130} height={40}/>:record.name}</span>)}</section>;
+}
+export function Study({ study, index }: { study: ReturnType<typeof publishableCaseStudies>[number]; index: number }) {
+ return <Reveal className={`study study-${index%2}`}><Link href={`/work/${study.slug}`} className="study-image"><Image src={study.image} alt={study.imageAlt} width={1400} height={900} sizes="(max-width: 700px) 100vw, 80vw"/><span className="study-arrow"><ArrowUpRight size={26}/></span></Link><div className="study-info"><div><p className="eyebrow">{study.industry}</p><h3>{study.title}</h3><p>{study.challenge}</p><div className="study-tags">{study.services.map(service=><span key={service}>{service}</span>)}</div></div><div><p className="eyebrow">THE SOLUTION</p><p>{study.solution}</p><p className="eyebrow">VERIFIED OUTCOME</p><p>{study.outcome}</p><Link className="text-link" href={`/work/${study.slug}`}>Read the case study<ArrowUpRight size={16}/></Link></div></div></Reveal>;
+}
+export default function Work({ full = false }: { full?: boolean }) {
+ const records=publishableCaseStudies(caseStudies);const development=process.env.NODE_ENV==="development";
+ return <section id="work" className={`section container work-section ${full?"work-full":""}`}><div className="section-heading"><div><p className="eyebrow"><span className="section-index">01 /</span> SELECTED WORK</p><h2>Ambition, engineered.<br /><span className="muted">From problem to product.</span></h2></div>{!full&&<Link href="/work" className="text-link">Explore our work<ArrowUpRight size={16}/></Link>}</div>
+ {records.length ? (full?records:records.slice(0,2)).map((study,index)=><Study key={study.slug} study={study} index={index}/>) : development ? <DevelopmentWork/> : <div className="work-empty"><span className="eyebrow">OUR APPROACH</span><h3>Every product starts<br />with a better question.</h3><p>What needs to change in your business? Let’s define the problem, the product, and the evidence that will tell us it works.</p><Link href="/contact" className="text-link">Talk through your challenge<ArrowUpRight size={16}/></Link></div>}
+ </section>;
+}
+function DevelopmentWork() {
+ return <div className="development-work"><div className="development-label"><span className="orange-dot"/>DEVELOPMENT PREVIEW · CONTENT PLACEHOLDER · NOT CLIENT WORK</div>
+   <div className="preview-composition"><div className="preview-sidebar"><div className="preview-brand">CF<span>/ PRODUCT</span></div><span className="skeleton-label"/><span className="skeleton-label short"/><span className="skeleton-label"/><div className="preview-sidebar-bottom">INTERFACE<br/>PLACEHOLDER</div></div><div className="preview-product"><div className="preview-top"><span>Product workspace</span><span className="mono">DESIGN REVIEW</span></div><div className="preview-product-heading"><span className="eyebrow">APPROVED SCREENSHOT PENDING</span><h3>Make the complex<br />work beautifully.</h3><p>A dedicated space for a real product interface.</p></div><div className="preview-system"><div><span className="mono">01 / INPUT</span><span className="skeleton-label"/><span className="skeleton-label short"/></div><span className="system-link"/><div className="highlight"><span className="mono">02 / PRODUCT</span><svg width="35" height="35" viewBox="0 0 35 35" fill="none" aria-hidden="true"><path d="m17.5 2 15 8.5V26l-15 8L2.5 26V10.5L17.5 2Z" stroke="currentColor"/><path d="m2.5 10.5 15 8 15-8M17.5 18.5V34" stroke="currentColor"/></svg></div><span className="system-link"/><div><span className="mono">03 / OUTPUT</span><span className="skeleton-label"/><span className="skeleton-label short"/></div></div><div className="preview-product-bottom"><span>Strategy. Design. Engineering.</span><span className="mono">CF — WORK TEMPLATE</span></div></div></div>
+   <div className="preview-info"><div><p className="eyebrow">INDUSTRY — PENDING VERIFICATION</p><h3>Your next case study<br />belongs here.</h3></div><div><p>Challenge, solution, services, product screenshot and verified outcome are required before publication.</p><Link href="/contact" className="text-link">Start a conversation <ArrowUpRight size={16}/></Link></div></div>
+ </div>;
+}
+export function ClientStory() {
+ const story=publishableStories(clientStories)[0];if(story)return <section className="client-story container section"><p className="eyebrow">06 / CLIENT PERSPECTIVE</p><h2>{story.title}</h2>{story.image&&<Image src={story.image} alt={story.client} width={1200} height={700}/>}<p className="large-copy">{story.story}</p>{story.quote&&<blockquote>“{story.quote}”</blockquote>}<p>{story.attribution} · {story.client}</p></section>;
+ if(process.env.NODE_ENV!=="development")return null;
+ return <section className="client-story container section"><div className="development-label">DEVELOPMENT PREVIEW · VERIFIED CUSTOMER STORY PENDING</div><div className="story-placeholder"><p className="eyebrow">06 / CLIENT PERSPECTIVE</p><h2>A story worth telling.<br /><span className="muted">Evidence worth showing.</span></h2><p>This space is reserved for one approved customer story, with a real challenge, a documented solution, and an attributable perspective.</p><span className="mono">NO TESTIMONIAL OR CUSTOMER CLAIM IS PUBLISHED.</span></div></section>;
+}

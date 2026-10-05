@@ -1,0 +1,1 @@
+export default function PageIntro({label,title,description}:{label:string;title:React.ReactNode;description?:string}){return <header className="page-intro container"><p className="eyebrow"><span className="orange-line"/>{label}</p><h1>{title}</h1>{description&&<p>{description}</p>}</header>}

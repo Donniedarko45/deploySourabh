@@ -11,18 +11,21 @@ import {
   Share2,
   TrendingUp,
   Palette,
+
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import Footer from "@/components/Footer";
 import { Service } from "@/lib/servicesData";
 
 // Map icon names to components
-const iconMap: { [key: string]: any } = {
+const iconMap: Record<string, LucideIcon> = {
   Smartphone,
   Globe,
   Code2,
   Share2,
   TrendingUp,
   Palette,
+
 };
 
 const slideUp = {

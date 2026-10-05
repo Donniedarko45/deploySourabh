@@ -1,34 +1,21 @@
-import type { Metadata } from "next";
-import { Outfit, Cinzel } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Instrument_Sans, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-import SpaceBackground from "@/components/SpaceBackground";
 import Navbar from "@/components/Navbar";
-import Preloader from "@/components/Preloader";
-
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
-const cinzel = Cinzel({ subsets: ["latin"], variable: "--font-cinzel" });
-
+import Footer from "@/components/Footer";
+import MotionProvider from "@/components/cloudfire/MotionProvider";
+const display = Instrument_Sans({ subsets: ["latin"], variable: "--font-display", display: "swap" });
+const body = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
+const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 export const metadata: Metadata = {
-  title: "CloudFire IIT Service",
-  description: "Innovative IT Solutions for the Future",
+  title: { default: "CloudFire — Product thinking. Engineering depth.", template: "%s — CloudFire" },
+  description: "CloudFire combines strategy, design and engineering to build digital products, intelligent automation and cloud platforms that move businesses forward.",
+  openGraph: { title: "CloudFire — Product thinking. Engineering depth.", description: "A technology partner for ambitious digital products.", type: "website" },
 };
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${outfit.variable} ${cinzel.variable} font-sans antialiased`}
-        suppressHydrationWarning
-      >
-        <Preloader />
-        <Navbar />
-        <SpaceBackground />
-        <main className="relative z-10 w-full min-h-screen">{children}</main>
-      </body>
-    </html>
-  );
+export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#0A0A0A", colorScheme: "dark" };
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <html lang="en"><body className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <MotionProvider><a className="skip-link" href="#main-content">Skip to content</a><Navbar />
+    <main id="main-content">{children}</main><Footer /></MotionProvider>
+  </body></html>;
 }
