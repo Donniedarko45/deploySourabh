@@ -1,0 +1,8 @@
+.poster, .canvas { transition: opacity 900ms var(--ease-out); }
+.canvas { opacity: 0; pointer-events: none; aspect-ratio: 3 / 2; }
+.backdrop[data-ready=true] .canvas { opacity: 1; }
+.backdrop[data-ready=true] .poster { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .canvas { display: none; transition: none; }
+  .backdrop[data-ready=true] .poster { opacity: 1; transition: none; }
+}

@@ -20,7 +20,7 @@ export const servicesData: Service[] = [
     gradient: "from-blue-500/20 to-cyan-500/20",
     border: "group-hover:border-blue-500/50",
     longDescription:
-      "In a world dominated by mobile interactions, having a high-performance application is no longer a luxury—it's a necessity. We engineer robust, scalable, and intuitive mobile applications that serve as the perfect extension of your brand. Our expert developers specialize in both native iOS & Android development as well as powerful cross-platform solutions using React Native and Flutter. From concept to deployment and beyond, we ensure your app not only meets market standards but sets new benchmarks for user experience and functionality.",
+      "In a world dominated by mobile interactions, having a high-performance application is no longer a luxury. It is a necessity. We engineer robust, scalable, and intuitive mobile applications that serve as the perfect extension of your brand. Our expert developers specialize in both native iOS & Android development as well as powerful cross-platform solutions using React Native and Flutter. From concept to deployment and beyond, we ensure your app not only meets market standards but sets new benchmarks for user experience and functionality.",
     features: [
       "Custom Native iOS & Android Development",
       "High-Performance Cross-Platform Apps (React Native, Flutter)",

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import Brand from "@/components/cloudfire/Brand";
-const links = [{ title: "Capabilities", href: "/capabilities" }, { title: "Work", href: "/work" }, { title: "Industries", href: "/industries" }, { title: "Insights", href: "/insights" }, { title: "Company", href: "/company" }];
+const links = [{ title: "Capabilities", href: "/capabilities" }, { title: "Work", href: "/work" }, { title: "Industries", href: "/industries" }, { title: "Insights", href: "/insights" }];
 export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);

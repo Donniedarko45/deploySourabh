@@ -1,0 +1,35 @@
+/* Phones give the atmosphere its own space, with a protected reading area. */
+@media (max-width: 599px) {
+  .hero {
+    padding-bottom: clamp(180px, 48vw, 265px);
+  }
+  .hero :global(.hero-actions) :global(.button-secondary) {
+    color: var(--foreground);
+    text-shadow: 0 1px 10px #000;
+  }
+  .hero :global(.hero-art) {
+    display: none;
+  }
+  .hero :global(.hero-backdrop-img) {
+    top: auto;
+    bottom: 36px;
+    left: 50%;
+    right: auto;
+    width: max(620px, 155vw);
+    height: auto;
+    translate: -45% 0;
+    animation: none;
+  }
+  .hero :global(.hero-backdrop)::after {
+    background: linear-gradient(
+      180deg,
+      var(--background) 0%,
+      var(--background) 32%,
+      rgba(10, 10, 10, .97) 42%,
+      rgba(10, 10, 10, .84) 56%,
+      rgba(10, 10, 10, .3) 65%,
+      rgba(10, 10, 10, .05) 73%,
+      var(--background) 100%
+    );
+  }
+}

@@ -10,8 +10,8 @@ export default function Workflow() {
     <div className="sticky-heading"><p className="eyebrow"><span className="section-index">03 /</span> THE WAY WE WORK</p><Reveal><h2>Not another<br />development<br /><span className="accent">vendor.</span></h2></Reveal></div>
     <div className="positioning-content"><p className="large-copy">Your ambition.<br />Our shared responsibility.</p><p>CloudFire works as an extension of your product team. We connect business decisions with technical decisions, challenge assumptions early, and build with the people who will use and own the product.</p><p>Clear communication. Thoughtful tradeoffs. Working software you can review. A partnership built around what happens after launch.</p>
       <div className="workflow" aria-label="Our delivery process">{workflow.map((item,index)=><button key={item.title} aria-pressed={step===index} onClick={()=>setStep(index)}><span className="mono">0{index+1}</span>{item.title}{index<workflow.length-1&&<ArrowRight size={13}/>}</button>)}</div>
-      <div className="workflow-detail" aria-live="polite"><span className="eyebrow accent">0{step+1} / {workflow[step].title.toUpperCase()}</span><p>{workflow[step].body}</p><span className="mono">OUTPUT — {workflow[step].output}</span></div>
-      <Link className="text-link" href="/company">Meet your technology partner <ArrowUpRight size={16}/></Link>
+      <div className="workflow-detail" aria-live="polite"><span key={`e${step}`} className="eyebrow accent">0{step+1} / {workflow[step].title.toUpperCase()}</span><p key={`p${step}`}>{workflow[step].body}</p><span key={`o${step}`} className="mono">OUTPUT: {workflow[step].output}</span></div>
+      <Link className="text-link" href="/contact">Start a conversation <ArrowUpRight size={16}/></Link>
     </div>
   </div></section>;
 }

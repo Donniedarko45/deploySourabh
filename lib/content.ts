@@ -3,26 +3,95 @@
  * Do not migrate them here. A record requires a real source and explicit approval.
  */
 export interface Approval { approved: boolean; source: string }
-export interface CaseStudy {
-  slug: string; title: string; industry: string; challenge: string;
-  image: string; imageAlt: string; services: string[]; solution: string;
-  outcome: string; verification: Approval;
+/**
+ * A shipped project. Every record links to the real thing (a live site or a public repository), and only states
+ * what a visitor could verify there. `role` and `outcome` are deliberately optional: add them only when the
+ * team has confirmed what CloudFire did and has a source for any result. They render when present.
+ */
+export interface ProjectImage { src: string; width: number; height: number }
+export interface Project {
+  slug: string; title: string; industry: string;
+  summary: string; url: string; built: string[];
+  image?: ProjectImage; featured?: boolean;
+  role?: string; outcome?: string;
+  verification: Approval;
 }
 export interface ClientStory {
   client: string; title: string; story: string; attribution: string;
   quote?: string; image?: string; verification: Approval;
 }
 export interface TrustItem { name: string; logo?: string; verification: Approval }
-export const caseStudies: CaseStudy[] = [];
+// The number of live projects, as stated by the CloudFire team (2026-10-05). The site shows a curated selection of them.
+export const liveProjectCount = "20+";
+// Display order is array order. Featured projects (with an image) lead the page; the rest form the index.
+export const projects: Project[] = [
+  { slug: "modulx", title: "MODULX", industry: "Industrial manufacturing · B2B",
+    summary: "Product and quote site for a BIS-approved Diesel Exhaust Fluid manufacturer in Bhiwadi, Rajasthan, supplying everything from 10 litre buckets to 12 KL tankers across India.",
+    url: "https://modulx.in/", built: ["Custom-built site"], featured: true,
+    image: { src: "/work/modulx.jpg", width: 1440, height: 2600 },
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+  { slug: "aegisstore", title: "AegisStore", industry: "Open source · Distributed systems",
+    summary: "A distributed object store inspired by Amazon S3. Files live in buckets and are replicated across storage nodes, with SHA-256 verification, automatic failover, version restore and live analytics.",
+    url: "https://github.com/Donniedarko45/AegisStore", built: ["Fastify", "React", "PostgreSQL", "Redis", "Docker"], featured: true,
+    image: { src: "/work/aegisstore.jpg", width: 1440, height: 900 },
+    verification: { approved: true, source: "Public repository listed by the CloudFire team as its own work, 2026-10-05; README read the same day." } },
+  { slug: "death-wish-coffee", title: "Death Wish Coffee", industry: "E-commerce · Food & beverage",
+    summary: "Online store for a USDA Organic and Fair Trade Certified coffee brand, with bundles, subscriptions and merchandise.",
+    url: "https://www.deathwishcoffee.com/", built: ["Shopify"], featured: true,
+    image: { src: "/work/death-wish-coffee.jpg", width: 1440, height: 2600 },
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+  { slug: "101-blockchains", title: "101 Blockchains", industry: "Education · Web3 & AI",
+    summary: "Training platform for Web3, blockchain and AI professionals, with courses and accredited certifications for individuals and teams.",
+    url: "https://101blockchains.com/", built: ["WordPress"], featured: true,
+    image: { src: "/work/101-blockchains.jpg", width: 1440, height: 2600 },
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+  { slug: "kleenly", title: "Kleenly", industry: "E-commerce · Personal care",
+    summary: "Direct-to-consumer storefront for a plastic-free, all-natural deodorant brand, built around bundle-building.",
+    url: "https://livekleenly.com/", built: ["WordPress", "Elementor"],
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+  { slug: "remedy-films", title: "Remedy Films", industry: "Media · Video production",
+    summary: "Site for an Atlanta video production company that makes film, photo and social content for brands and ad agencies.",
+    url: "https://remedyfilms.com/", built: ["WordPress"],
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+  { slug: "ashwini-trading-academy", title: "Ashwini Trading Academy", industry: "Education · Financial markets",
+    summary: "Site for a SEBI-registered research analyst's trading academy in Bangalore, with course information, live market sessions and a demo-class sign-up.",
+    url: "https://ashwinitradingacademy.com/", built: ["Custom-built site"],
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+  { slug: "kudose", title: "Kudose Mental Health", industry: "Healthcare · Mental health",
+    summary: "Site for a mental health practice offering services and medication management, with a patient portal.",
+    url: "https://kudose2u.com/", built: ["WordPress"],
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+  { slug: "seawag", title: "Seawag", industry: "E-commerce · Consumer products",
+    summary: "Storefront for a waterproof phone case brand, with separate storefronts for Europe, Australia, New Zealand and the USA.",
+    url: "https://www.seawag.com/", built: ["Webflow"],
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+  { slug: "momo-and-co", title: "Momo & Co", industry: "Food & hospitality · London",
+    summary: "Site for a London street-food business serving handmade Himalayan momo dumplings, with locations, click & collect, delivery and a loyalty club.",
+    url: "https://momoandco.uk/", built: ["WordPress"],
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+  // Held back until the team confirms what CloudFire actually did on each. These are large companies' own sites, and a
+  // card here reads as "we built this". To publish: add a `role` that states the real contribution, then set approved: true.
+  { slug: "headspace", title: "Headspace", industry: "Health & wellness · App",
+    summary: "Marketing site for the Headspace meditation, sleep and mental health app.",
+    url: "https://www.headspace.com/", built: ["Next.js"],
+    verification: { approved: false, source: "Pending: role on this project to be confirmed by the CloudFire team." } },
+  { slug: "sephora", title: "Sephora", industry: "Retail · Beauty",
+    summary: "Online storefront for the global beauty retailer.",
+    url: "https://www.sephora.com/", built: [],
+    verification: { approved: false, source: "Pending: role on this project to be confirmed by the CloudFire team." } },
+];
 export const clientStories: ClientStory[] = [];
 export const trustItems: TrustItem[] = [];
 const filled = (values: string[]) => values.every(value => value.trim().length > 0);
 const approved = (verification: Approval) => verification.approved === true && filled([verification.source]);
-export function publishableCaseStudies(records: CaseStudy[]) {
+const optional = (value?: string) => value === undefined || value.trim().length > 0;
+export function publishableProjects(records: Project[]) {
   return records.filter(record => approved(record.verification) &&
-    filled([record.slug, record.title, record.industry, record.challenge, record.image,
-      record.imageAlt, record.solution, record.outcome]) &&
-    record.services.length > 0 && filled(record.services));
+    filled([record.slug, record.title, record.industry, record.summary]) &&
+    /^https:\/\/[^\s/]+\.[^\s/]+/.test(record.url.trim()) &&
+    record.built.length > 0 && filled(record.built) &&
+    optional(record.role) && optional(record.outcome) &&
+    (!record.featured || (!!record.image && filled([record.image.src]) && record.image.width > 0 && record.image.height > 0)));
 }
 export function publishableStories(records: ClientStory[]) {
   return records.filter(record => approved(record.verification) &&
@@ -36,22 +105,22 @@ export const linkedIn = "https://www.linkedin.com/company/cloudfire-it-services/
 export const capabilities = [
   { id: "product-engineering", number: "01", title: "Product Engineering", label: "FROM IDEA TO EVERYDAY ESSENTIAL",
     headline: "Build the product.\nMove the business.",
-    description: "Web and mobile platforms shaped around your users, your operations, and the next stage of your business.",
+    description: "Turn a new idea, a manual process or an ageing application into a web or mobile product your team can run and improve.",
     items: ["Product strategy & technical discovery", "Web & mobile engineering", "API design & systems integration", "Modernization & ongoing evolution"],
-    deliverable: "A maintainable product, an intentional architecture, and a team ready to own what comes next." },
+    deliverable: "Working software, tested integrations and a documented handover, with a clear plan for the next release." },
   { id: "ai-automation", number: "02", title: "AI & Automation", label: "INTELLIGENCE WITH A PURPOSE",
     headline: "Less busywork.\nMore possibility.",
-    description: "Connect the systems you already use. Put intelligence into the workflows that slow your team down.",
+    description: "Help your team find answers, process documents and move work between systems, with clear checks before AI takes action.",
     items: ["Workflow mapping & opportunity assessment", "Document intelligence & knowledge retrieval", "Human-reviewed AI assistants", "Business system orchestration"],
     deliverable: "A focused workflow with review controls, measurable acceptance criteria, and a clear path to production." },
   { id: "cloud-platform", number: "03", title: "Cloud & Platform", label: "A FOUNDATION FOR WHAT COMES NEXT",
     headline: "Built to run.\nReady to evolve.",
-    description: "Resilient infrastructure and delivery systems that make change safer, operations clearer, and scale more deliberate.",
+    description: "Replace fragile deployments and unclear ownership with repeatable releases, useful monitoring and a recovery plan.",
     items: ["Cloud architecture & migration planning", "Infrastructure as code", "CI/CD & developer platforms", "Observability, reliability & security"],
     deliverable: "A documented platform, repeatable deployments, and visibility into how your systems behave." },
   { id: "experience-growth", number: "04", title: "Experience & Growth", label: "CLARITY AT EVERY INTERACTION",
     headline: "Make complex\nfeel intuitive.",
-    description: "Digital product experiences that connect business intent with what people actually need to do.",
+    description: "Find where users get stuck. Prototype clearer journeys, test them with people and build consistent interfaces your team can extend.",
     items: ["User research & product discovery", "Interaction design & prototyping", "Design systems & accessibility", "Product analytics & experimentation"],
     deliverable: "A coherent experience, a reusable design system, and a learning plan grounded in real user behavior." },
 ];

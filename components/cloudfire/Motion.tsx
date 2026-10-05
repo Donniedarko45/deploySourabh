@@ -14,7 +14,7 @@ export function ProjectLink({ children = "Start a Project", href = "/contact", s
   const springY = useSpring(y, { stiffness: 100, damping: 20, mass: 0.5 });
   const transform = useMotionTemplate`translate(${springX}px, ${springY}px)`;
   const reduce = useReducedMotion();
-  return <m.div className="magnetic-wrap" style={{ transform: reduce || !magnetic ? "none" : transform }}
+  return <m.div className="magnetic-wrap" style={{ transform: !magnetic ? "none" : transform }}
     onPointerMove={event => { if (!magnetic || reduce || event.pointerType !== "mouse" || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return; const rect = event.currentTarget.getBoundingClientRect(); x.set((event.clientX - rect.left - rect.width / 2) * 0.12); y.set((event.clientY - rect.top - rect.height / 2) * 0.12); }}
     onPointerLeave={() => { x.set(0); y.set(0); }}>
     <Link className={secondary ? "button button-secondary" : "button button-primary"} href={href}>{children}{secondary ? <ArrowRight size={17} /> : <ArrowUpRight size={18} />}</Link>

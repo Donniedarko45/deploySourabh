@@ -1,0 +1,25 @@
+.brand:global(.brand) { display: inline-flex; align-items: center; gap: 11px; color: var(--foreground); flex-shrink: 0; border-radius: 5px; }
+.brand > .mark { display: block; width: 48px; height: 48px; flex-shrink: 0; }
+.brand > .lockup { display: flex; flex-direction: column; gap: 7px; font-family: var(--font-display), sans-serif; font-size: 32px; line-height: .95; letter-spacing: -.065em; font-weight: 600; }
+.wordmark { display: block; }
+.dot { color: var(--accent); }
+.brand .descriptor { display: flex; align-items: center; gap: 8px; margin: 0 0 0 2px; font: 400 8px / 1 var(--font-mono), monospace; letter-spacing: .22em; color: #b8b7b3; }
+.descriptor > span { display: block; width: 13px; height: 1px; background: var(--accent); flex-shrink: 0; }
+:global(.site-header) .brand:global(.brand) { gap: 11px; }
+:global(.site-header) .brand > .mark { width: 48px; height: 48px; }
+:global(.site-header) .brand > .lockup { font-size: 32px; }
+@media (max-width: 1099px) {
+  :global(.site-header) .brand > .mark { width: 42px; height: 42px; }
+  :global(.site-header) .brand > .lockup { font-size: 29px; }
+}
+@media (max-width: 599px) {
+  :global(.site-header) .brand:global(.brand) { gap: 8px; }
+  :global(.site-header) .brand > .mark { width: 38px; height: 38px; }
+  :global(.site-header) .brand > .lockup { font-size: 26px; gap: 6px; }
+  :global(.site-header) .brand .descriptor { font-size: 7px; gap: 6px; letter-spacing: .16em; }
+  .descriptor > span { width: 10px; }
+}
+@media (max-width: 359px) {
+  :global(.site-header) .brand > .mark { width: 34px; height: 34px; }
+  :global(.site-header) .brand > .lockup { font-size: 24px; }
+}

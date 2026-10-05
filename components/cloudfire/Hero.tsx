@@ -1,56 +1,43 @@
-import Image from "next/image";
-import { ArrowDown } from "lucide-react";
 import { ProjectLink } from "./Motion";
+import styles from "./Hero.module.css";
 import HeroVisual from "./HeroVisual";
+import HeroAtmosphere from "./HeroAtmosphere";
+import HeroStack, { type StackCard } from "./HeroStack";
+import { projects, publishableProjects } from "@/lib/content";
+
+// The deck shows real, published projects only. Each has a 16:10 crop in public/work/hero.
+const deckSlugs = ["modulx", "death-wish-coffee", "101-blockchains", "kleenly"];
+const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 
 export default function Hero() {
+  const live = publishableProjects(projects);
+  const cards: StackCard[] = deckSlugs.flatMap(slug => {
+    const project = live.find(p => p.slug === slug);
+    return project ? [{ slug, title: project.title, host: hostOf(project.url), src: `/work/hero/${slug}.jpg` }] : [];
+  });
   return (
-    <section className="hero container" aria-labelledby="hero-title">
+    <section className={"hero container " + styles.hero} aria-labelledby="hero-title">
+      <HeroAtmosphere />
       <div className="hero-grid">
         <div className="hero-content">
-          <p className="eyebrow hero-kicker">
-            <span className="orange-line" />
-            PRODUCT ENGINEERING · AI · CLOUD
-          </p>
           <h1 id="hero-title">
-            <span className="line-mask"><span>We engineer</span></span>
-            <span className="line-mask"><span>digital products</span></span>
-            <span className="line-mask muted"><span>that move businesses</span></span>
-            <span className="line-mask hero-forward"><span>forward<span className="accent">.</span></span></span>
+            <span className="line-mask"><span>Products that ship.</span></span>
+            <span className="line-mask muted"><span>Systems that last<span className="accent">.</span></span></span>
           </h1>
           <p className="hero-copy">
-            We combine product strategy, design, AI and engineering to build
-            software that performs in the real world—and keeps performing as
-            your business grows.
+            We design and engineer websites, apps and platforms, and put AI to work where it pays off.
+            Shipped for brands across India, the UK and the US.
           </p>
           <div className="hero-actions">
             <ProjectLink magnetic={false} />
             <ProjectLink href="/work" secondary magnetic={false}>Explore Our Work</ProjectLink>
           </div>
         </div>
-        <div className="hero-art" aria-hidden="true">
+        <div className="hero-art">
           <HeroVisual>
-            <Image
-              src="/brand/cloudfire-hero.webp"
-              alt=""
-              width={1200}
-              height={800}
-              priority
-              sizes="(max-width: 599px) 420px, (max-width: 1099px) 40vw, (max-width: 1500px) 45vw, 576px"
-              className="hero-sculpture"
-            />
+            {cards.length > 0 && <HeroStack cards={cards} />}
           </HeroVisual>
-          <div className="art-caption">
-            <span className="orange-dot" />
-            CLOUD + FIRE
-            <span>FIG. 001 — TRANSFORMATION</span>
-          </div>
         </div>
-      </div>
-      <div className="hero-bottom">
-        <a href="#work" className="scroll-cue"><ArrowDown size={15} />SCROLL TO EXPLORE</a>
-        <span>STRATEGY → DESIGN → ENGINEERING</span>
-        <span className="hero-bottom-note">From the first question.<br />To what comes next.</span>
       </div>
     </section>
   );

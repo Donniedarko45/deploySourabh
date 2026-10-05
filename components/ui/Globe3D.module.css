@@ -1,0 +1,8 @@
+.globe { position: relative; width: 100%; height: 100%; isolation: isolate; }
+.fallback, .canvas { position: absolute !important; inset: 0; width: 100%; height: 100%; }
+.fallback { opacity: 1; transition: opacity 700ms var(--ease-out); }
+.canvas { opacity: 0; transition: opacity 700ms var(--ease-out); }
+.globe[data-ready=true] .canvas { opacity: 1; }
+.globe[data-ready=true] .fallback { opacity: 0; }
+@media (hover: none), (pointer: coarse) { .canvas, .canvas :global(canvas) { pointer-events: none !important; touch-action: pan-y !important; } }
+@media (prefers-reduced-motion: reduce) { .canvas, .fallback { transition: none; } }

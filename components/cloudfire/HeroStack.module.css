@@ -1,0 +1,32 @@
+/* Layered browser frames keep their placement while project previews crossfade. */
+:global(.hero-art) { mix-blend-mode: normal; pointer-events: auto; }
+.showcase { position: relative; z-index: 1; width: 100%; }
+.showcase :global(.stack-deck) { position: relative; display: block; aspect-ratio: 6 / 5; }
+.showcase :global(.stack-layer) { position: absolute; left: 1%; bottom: 4%; width: 82%; display: block; background: #101010; border: 1px solid #ffffff26; box-shadow: 0 32px 70px -28px #000; transform-origin: 20% 100%; }
+.showcase :global(.stack-layer)[data-depth="0"] { z-index: 3; transform: rotate(-2.5deg); }
+.showcase :global(.stack-layer)[data-depth="1"] { z-index: 2; transform: translate3d(7%, -19%, 0) rotate(2.5deg) scale(.93); }
+.showcase :global(.stack-layer)[data-depth="2"] { z-index: 1; transform: translate3d(14%, -36%, 0) rotate(6.5deg) scale(.86); }
+.showcase :global(.stack-layer)::after { content: ""; position: absolute; inset: 0; background: #080808; pointer-events: none; opacity: 0; }
+.showcase :global(.stack-layer)[data-depth="1"]::after { opacity: .35; }
+.showcase :global(.stack-layer)[data-depth="2"]::after { opacity: .62; }
+.showcase :global(.stack-deck) :global(.frame-bar) { height: 30px; padding-inline: 12px; }
+.showcase :global(.stack-deck) :global(.frame-url) { font-size: 10px; padding-block: 2px; }
+.showcase :global(.stack-screen) { position: relative; display: block; aspect-ratio: 8 / 5; overflow: hidden; }
+.showcase :global(.stack-card) { position: absolute; inset: 0; display: block; opacity: 0; pointer-events: none; transition: opacity 600ms var(--ease-out); }
+.showcase :global(.stack-card)[data-active=true] { opacity: 1; }
+.showcase :global(.stack-card) img { display: block; width: 100%; height: auto; }
+.showcase[data-instant=true] :global(.stack-card) { transition: none; }
+.showcase :global(.stack-caption) { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; font: 400 11px var(--font-mono), monospace; color: var(--secondary); }
+.showcase :global(.stack-title) { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.showcase :global(.stack-title) strong { font: 500 16px / 1.25 var(--font-display), sans-serif; letter-spacing: -.01em; color: var(--foreground); }
+.showcase :global(.stack-title) > span { font-size: 10px; }
+.showcase :global(.stack-selectors) { display: flex; flex-shrink: 0; gap: 2px; }
+.showcase :global(.stack-selectors) button { position: relative; min-width: 36px; min-height: 44px; padding: 10px 6px; background: transparent; border: 0; color: var(--secondary); font: inherit; transition: color 160ms ease; }
+.showcase :global(.stack-selectors) button::after { content: ""; position: absolute; bottom: 4px; left: 8px; right: 8px; height: 2px; background: var(--accent); opacity: 0; transition: opacity 160ms ease; }
+.showcase :global(.stack-selectors) button[aria-pressed=true] { color: var(--foreground); }
+.showcase :global(.stack-selectors) button[aria-pressed=true]::after { opacity: 1; }
+@media (hover: hover) and (pointer: fine) { .showcase :global(.stack-selectors) button:hover { color: var(--foreground); } }
+@media (max-width: 599px) { .showcase :global(.stack-selectors) button { min-width: 32px; } .showcase :global(.stack-title) strong { font-size: 14px; } }
+@media (prefers-reduced-motion: reduce) { .showcase :global(.stack-card) { transition: none; } }
+
+:global(.hero-art) > :global(.hero-visual-enter) { width: 100%; }

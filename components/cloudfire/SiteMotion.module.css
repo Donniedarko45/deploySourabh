@@ -1,0 +1,5 @@
+.setting { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 0; border: 0; background: transparent; color: var(--secondary); font: inherit; letter-spacing: inherit; transition: color 180ms ease; }
+.setting > span { color: var(--foreground); }
+@media (hover: hover) and (pointer: fine) { .setting:hover { color: var(--foreground); } }
+@media (max-width: 599px) { .setting { min-height: 44px; } :global(.site-footer) { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); } }
+@media (prefers-reduced-motion: reduce) { .setting { display: none; } }

@@ -1,15 +1,80 @@
 "use client";
-import { useState } from "react";
-import { ArrowRight, ArrowUpRight, Check, FileText, GitBranch, UserRound } from "lucide-react";
+
+import { useId, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { ArrowUpRight, Check, FileText, GitBranch, UserRound } from "lucide-react";
 import Link from "next/link";
+import { GoogleGeminiEffect } from "../ui/GoogleGeminiEffect";
+import styles from "./Ai.module.css";
+import { useAmbientPlayback } from "./useAmbientPlayback";
+
+const Globe3D = dynamic(() => import("../ui/Globe3D").then(module => module.Globe3D), { ssr: false, loading: () => <div className={styles.globePlaceholder} /> });
 const uses = [
-  { title:"Customer Operations", subtitle:"Give your team the right context.", body:"Bring together customer history, help content, and incoming requests. Prepare answers with source context and route exceptions to the people who can resolve them.", steps:["Incoming request","Relevant knowledge","Reviewed response"], aim:"Help teams spend more time resolving problems and less time finding context." },
-  { title:"Revenue Operations", subtitle:"Make the handoffs work harder.", body:"Connect inbound requests, qualification rules, and your CRM. Prepare structured records, highlight missing information, and keep your team in control of consequential decisions.", steps:["Inbound request","Structured qualification","Human-owned handoff"], aim:"Give your team a clearer picture of each opportunity and what should happen next." },
-  { title:"Internal Operations", subtitle:"Turn documents into decisions.", body:"Extract information from business documents, validate it against your rules, and flag uncertain results for review before updating the systems your team relies on.", steps:["Business document","Extraction & validation","Approved system update"], aim:"Reduce repetitive re-entry while keeping a review trail and clear ownership." },
+  { title: "Customer Operations", subtitle: "Give your team the right context.", body: "Bring together customer history, help content, and incoming requests. Prepare answers with source context and route exceptions to the people who can resolve them.", steps: ["Incoming request", "Relevant knowledge", "Reviewed response"], aim: "More time resolving problems. Less time finding context." },
+  { title: "Revenue Operations", subtitle: "Make the handoffs work harder.", body: "Connect inbound requests, qualification rules, and your CRM. Prepare structured records, highlight missing information, and keep your team in control of consequential decisions.", steps: ["Inbound request", "Structured qualification", "Human-owned handoff"], aim: "A clearer picture of each opportunity and what happens next." },
+  { title: "Internal Operations", subtitle: "Turn documents into decisions.", body: "Extract information from business documents, validate it against your rules, and flag uncertain results for review before updating the systems your team relies on.", steps: ["Business document", "Extraction & validation", "Approved system update"], aim: "Less repetitive re-entry. Clear ownership and a review trail." },
 ];
-export default function Ai() {
- const [active,setActive]=useState(0);const current=uses[active];
- return <section id="ai" className="ai-section"><div className="container"><div className="section-heading"><div><p className="eyebrow"><span className="section-index">05 /</span> PRACTICAL INTELLIGENCE</p><h2>Put AI to work<br /><span className="muted">inside your business.</span></h2></div><p>Start with the work.<br />Build intelligence around it.</p></div>
- <div className="ai-grid"><div className="ai-use-list">{uses.map((use,index)=><button key={use.title} aria-pressed={index===active} onClick={()=>setActive(index)}><span className="mono">0{index+1}</span><span>{use.title}</span><ArrowUpRight size={19}/></button>)}<p>Illustrative workflows. Shaped to your systems, data, and operating requirements.</p></div>
- <div className="ai-detail" aria-live="polite"><h3>{current.subtitle}</h3><p>{current.body}</p><div className="ai-flow">{current.steps.map((step,index)=><div key={step}>{index===0?<FileText size={21}/>:index===1?<GitBranch size={21}/>:<UserRound size={21}/>}<span>{step}</span>{index<2&&<ArrowRight className="flow-arrow" size={16}/>}</div>)}</div><div className="ai-review"><Check size={15}/><span>Human oversight. Clear evaluation. Deliberate rollout.</span></div><p className="ai-aim">{current.aim}</p><Link href="/capabilities#ai-automation" className="text-link">Explore AI & automation <ArrowUpRight size={16}/></Link></div></div></div></section>;
+
+export default function Ai({ numbered = true }: { numbered?: boolean }) {
+  const [active, setActive] = useState(0);
+  const [instant, setInstant] = useState(false);
+  const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const stage = useRef<HTMLDivElement>(null);
+  const { seen } = useAmbientPlayback(stage);
+  const panelId = useId();
+  const current = uses[active];
+  return <section id="ai" className={"ai-section " + styles.section}>
+    <div className="container">
+      <header className={styles.heading}>
+        <p className="eyebrow">{numbered && <span className="section-index">05 /</span>} PRACTICAL INTELLIGENCE</p>
+        <h2>Put AI to work<br /><span className="muted">inside your business.</span></h2>
+        <p className={styles.intro}>Connect your data, tools, and people.<br />Build intelligence around the work that matters.</p>
+      </header>
+      <div ref={stage} className={styles.stage}>
+        <GoogleGeminiEffect />
+        <div className={styles.source}><span>CONTEXT IN</span><strong>{current.steps[0]}</strong></div>
+        <div className={styles.planet}>{seen ? <Globe3D /> : <div className={styles.globePlaceholder} />}</div>
+        <div className={styles.destination}><span>PEOPLE IN CONTROL</span><strong>{current.steps[2]}</strong></div>
+      </div>
+      <div className={styles.tabs} role="group" aria-label="AI use cases" data-instant={instant}>
+        {uses.map((use, index) => <button key={use.title} ref={element => { buttons.current[index] = element; }}
+          type="button" aria-pressed={index === active} aria-controls={panelId}
+          onClick={event => { setInstant(event.detail === 0); setActive(index); }}
+          onKeyDown={event => {
+            let next: number | null = null;
+            if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % uses.length;
+            if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index + uses.length - 1) % uses.length;
+            if (event.key === "Home") next = 0;
+            if (event.key === "End") next = uses.length - 1;
+            if (next === null) return;
+            event.preventDefault();
+            setInstant(true);
+            setActive(next);
+            buttons.current[next]?.focus();
+          }}>
+          <span>{String(index + 1).padStart(2, "0")}</span><span>{use.title}</span><ArrowUpRight size={17} />
+        </button>)}
+      </div>
+      <div id={panelId} className={styles.detail} aria-live="polite" aria-atomic="true">
+        <div className={styles.copy}>
+          <h3>{current.subtitle}</h3>
+          <p>{current.body}</p>
+          <p className={styles.aim}>{current.aim}</p>
+        </div>
+        <ol className={styles.workflow} aria-label={current.title + " workflow"}>
+          {current.steps.map((step, index) => <li key={step}>
+            <span className={styles.stepNumber}>{String(index + 1).padStart(2, "0")}</span>
+            {index === 0 ? <FileText size={19} aria-hidden="true" /> : index === 1 ? <GitBranch size={19} aria-hidden="true" /> : <UserRound size={19} aria-hidden="true" />}
+            <span>{step}</span>
+            {index === 2 && <Check size={16} className={styles.approved} aria-hidden="true" />}
+          </li>)}
+        </ol>
+      </div>
+      <div className={styles.footer}>
+        <p><Check size={16} aria-hidden="true" />Human oversight. Clear evaluation. Deliberate rollout.</p>
+        <Link href="/capabilities#ai-automation" className={styles.explore}>Explore AI & automation <ArrowUpRight size={17} /></Link>
+      </div>
+      <p className={styles.note}>Illustrative workflows, shaped to your systems and operating requirements.</p>
+    </div>
+  </section>;
 }
