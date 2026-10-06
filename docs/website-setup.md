@@ -52,3 +52,30 @@ Use the production build for speed measurements, rather than the development ser
 - node scripts/check-business-pages.mjs with Playwright installed or CLOUDFIRE_PLAYWRIGHT_MODULE pointing to its module. Set CLOUDFIRE_BASE_URL to a production preview and CLOUDFIRE_ENGINE=webkit for engine checks.
 
 For the configured form UI test, use a private local production preview with a fake API key and sender. The test intercepts /api/contact to simulate failure and success; never use these fake settings on a live deployment. A real end-to-end inbox test still requires the owner's credentials.
+
+## Diagnosing a contact 503 on Vercel
+
+A response saying the enquiry could not be sent means Brevo rejected the request or returned no valid message ID. It is distinct from the missing-settings response and the connection/timeout response. The browser headers and HTTP 503 alone do not identify the cause.
+
+After the diagnostic update is deployed, failure responses contain a controlled code and request reference. In the Vercel project runtime logs, find /api/contact and the matching [contact] delivery_failed entry. Logs contain only the reference, category, provider HTTP status and a recognized provider error code. They exclude keys, email addresses, enquiry text and raw provider/error messages.
+
+| Code | Check |
+| --- | --- |
+| EMAIL_NOT_CONFIGURED | Set BREVO_API_KEY and CONTACT_FROM_EMAIL for the Production environment, then redeploy. |
+| EMAIL_CONFIGURATION_INVALID | Use plain sender/recipient addresses. Check the key for internal line breaks. |
+| EMAIL_AUTHENTICATION_FAILED | Use an active Brevo transactional API key in Production. |
+| EMAIL_IP_BLOCKED | Review the blocked request in Brevo API security. Authorize only the trusted server address; do not use the browser remote address from DevTools as the sending-server address. |
+| EMAIL_SENDER_REJECTED | Verify the exact CONTACT_FROM_EMAIL in Brevo and its sending domain. |
+| EMAIL_ACCOUNT_INACTIVE | Review transactional-email activation or account restrictions in Brevo. |
+| EMAIL_QUOTA_EXCEEDED | Review Brevo sending credits/quota. |
+| EMAIL_PERMISSION_DENIED | Review key/account permissions and API security settings. |
+| EMAIL_CONTENT_REJECTED or EMAIL_REQUEST_REJECTED | Check the provider status/code in the matching log. The request includes both escaped HTML and plain text. |
+| EMAIL_RATE_LIMITED or EMAIL_PROVIDER_UNAVAILABLE | Retry later and review Brevo service status. |
+| EMAIL_TIMEOUT or EMAIL_CONNECTION_FAILED | Check Vercel-to-Brevo connectivity and retry; success has not been confirmed. |
+| EMAIL_RESPONSE_INVALID | Brevo returned no valid message ID, so delivery cannot be confirmed. |
+| SPAM_CHECK_NOT_CONFIGURED | Configure both Turnstile keys together, or remove both. |
+| SPAM_CHECK_UNAVAILABLE, SPAM_CHECK_TIMEOUT or SPAM_CHECK_CONNECTION_FAILED | Review Turnstile availability/configuration and retry. |
+
+Environment values are trimmed before use. Invalid sender/recipient formats fail before calling Brevo. Provider errors are categorized, not exposed verbatim. A failure never produces a visitor success message.
+
+Sources: [Brevo sending request](https://developers.brevo.com/reference/send-transac-email), [sender and domain verification](https://developers.brevo.com/docs/getting-started-with-senders-and-domains), [API security](https://help.brevo.com/hc/en-us/articles/5740111683858-Authorize-and-block-IP-addresses-for-API-and-SMTP-security).

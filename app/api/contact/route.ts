@@ -14,5 +14,6 @@ export async function POST(request: Request) {
       turnstileSiteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
     },
     capabilities, timelines,
+    onFailure: failure => console.error("[contact] delivery_failed", failure),
   });
 }
