@@ -3,7 +3,7 @@ import styles from "./Hero.module.css";
 import HeroVisual from "./HeroVisual";
 import HeroAtmosphere from "./HeroAtmosphere";
 import HeroStack, { type StackCard } from "./HeroStack";
-import { projects, publishableProjects } from "@/lib/content";
+import { liveProjectCount, projects, publishableProjects } from "@/lib/content";
 
 // The deck shows real, published projects only. Each has a 16:10 crop in public/work/hero.
 const deckSlugs = ["modulx", "death-wish-coffee", "101-blockchains", "kleenly"];
@@ -20,6 +20,8 @@ export default function Hero() {
       <HeroAtmosphere />
       <div className="hero-grid">
         <div className="hero-content">
+          {/* Phones only: a line of proof above the headline (on larger screens the deck carries it). */}
+          <p className={"eyebrow " + styles.status}><span className="orange-dot" />{liveProjectCount} PRODUCTS LIVE · INDIA · UK · US</p>
           <h1 id="hero-title">
             <span className="line-mask"><span>Products that ship.</span></span>
             <span className="line-mask muted"><span>Systems that last<span className="accent">.</span></span></span>

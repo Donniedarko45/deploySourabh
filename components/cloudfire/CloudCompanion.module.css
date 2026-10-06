@@ -6,19 +6,26 @@
 .mascot::marker { content: ""; }
 .character { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 5px 8px #0008); }
 .body { animation: companion-breathe 5.8s var(--ease-in-out) infinite paused; transform-origin: 61px 83px; }
-.flame { animation: companion-fire 2.7s var(--ease-in-out) infinite paused; transform-origin: 61px 102px; }
-.fireCore { animation: companion-core 1.7s var(--ease-in-out) infinite paused; transform-origin: 61px 103px; }
+.flame { animation: companion-fire 2.7s var(--ease-in-out) infinite paused; transform-origin: 61px 107px; }
+.flare { transform-origin: 61px 107px; transition: transform 320ms var(--ease-out); }
+.tongueOuter { animation: ember-lick 1.45s var(--ease-in-out) infinite paused; transform-origin: 61px 107px; }
+.tongueMid { animation: ember-lick 1.1s var(--ease-in-out) -.4s infinite paused; transform-origin: 61px 107px; }
+.warmth { mix-blend-mode: screen; }
+.bloom { opacity: .7; mix-blend-mode: screen; animation: companion-warmth 1.9s var(--ease-in-out) infinite paused; }
+.spark { opacity: 0; animation: ember-rise-l 2.4s var(--ease-out) infinite paused; }
+.spark:nth-of-type(2) { animation-name: ember-rise-r; animation-duration: 2.9s; animation-delay: -1.1s; }
+.spark:nth-of-type(3) { animation-name: ember-rise-c; animation-duration: 3.4s; animation-delay: -2s; }
+.details[open] .flare { transform: scale(1.16); }
+.fireCore { animation: companion-core 0.95s var(--ease-in-out) infinite paused; transform-origin: 61px 107px; }
 .firelight, .warmth { animation: companion-warmth 2.7s var(--ease-in-out) infinite paused; }
 .eyes { animation: companion-blink 9.4s linear infinite paused; transform-box: fill-box; transform-origin: center; }
 .shadow { animation: companion-shadow 5.8s var(--ease-in-out) infinite paused; transform-origin: 61px 109px; }
 .gaze { transition: transform 200ms var(--ease-out); }
-.arm { transform-origin: 95px 65px; transition: transform 200ms var(--ease-out); }
 .smile, .happy { transition: opacity 160ms ease; }
 .happy { opacity: 0; }
 .details[open] .smile { opacity: 0; }
 .details[open] .happy { opacity: 1; }
-.companion[data-playing=true] :is(.body, .flame, .fireCore, .firelight, .warmth, .eyes, .shadow) { animation-play-state: running; }
-.companion[data-playing=true] .details[open] .arm { transform: rotate(-16deg); }
+.companion[data-playing=true] :is(.body, .flame, .bloom, .tongueOuter, .tongueMid, .fireCore, .firelight, .warmth, .spark, .eyes, .shadow) { animation-play-state: running; }
 .hint { position: absolute; bottom: calc(100% + 2px); right: 0; padding: 7px 11px; border: 1px solid var(--border); border-radius: 7px; background: #111; color: #d7d6d2; white-space: nowrap; font-size: 11px; opacity: 0; pointer-events: none; transition: opacity 160ms ease; }
 .details[open] .hint { display: none; }
 .mascot:focus-visible .hint { opacity: 1; }
@@ -43,6 +50,15 @@
   40% { transform: translateY(-.6px) scale(1.04, 1.09); opacity: 1; }
   72% { transform: scale(.92, .96); opacity: .8; }
 }
+@keyframes ember-lick {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  22% { transform: scale(.96, 1.07) skewX(-3deg); }
+  48% { transform: scale(1.03, .95) skewX(2.5deg); }
+  74% { transform: scale(.98, 1.04) skewX(-1.5deg); }
+}
+@keyframes ember-rise-l { 0% { opacity: 0; transform: translate(0, 0) scale(1); } 12% { opacity: 1; } 100% { opacity: 0; transform: translate(-7px, -15px) scale(.35); } }
+@keyframes ember-rise-r { 0% { opacity: 0; transform: translate(0, 0) scale(1); } 12% { opacity: 1; } 100% { opacity: 0; transform: translate(8px, -13px) scale(.35); } }
+@keyframes ember-rise-c { 0% { opacity: 0; transform: translate(0, 0) scale(1); } 15% { opacity: .9; } 100% { opacity: 0; transform: translate(-2px, -18px) scale(.3); } }
 @keyframes companion-warmth { 0%, 100% { opacity: .65; } 35% { opacity: 1; } 70% { opacity: .75; } }
 @keyframes companion-blink {
   0%, 28%, 30%, 71%, 73%, 75%, 77%, 100% { transform: scaleY(1); }
@@ -58,9 +74,7 @@
   .links a:hover { color: var(--foreground); }
   .mascot:hover .smile { opacity: 0; }
   .mascot:hover .happy { opacity: 1; }
-}
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .companion[data-playing=true] .mascot:hover .arm { transform: rotate(-16deg); }
+  .mascot:hover .flare { transform: scale(1.08); }
 }
 @media (max-width: 599px) {
   .companion { width: 66px; right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); }
@@ -68,6 +82,7 @@
   .panel { max-width: calc(100vw - 28px); max-height: calc(100dvh - 108px); padding: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .body, .flame, .fireCore, .firelight, .warmth, .eyes, .shadow { animation: none; }
-  .gaze, .arm { transform: none !important; transition: none; }
+  .body, .flame, .bloom, .tongueOuter, .tongueMid, .fireCore, .firelight, .warmth, .eyes, .shadow { animation: none; }
+  .spark { display: none; }
+  .gaze, .flare { transform: none !important; transition: none; }
 }

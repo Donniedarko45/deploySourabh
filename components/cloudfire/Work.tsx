@@ -66,7 +66,7 @@ export default function Work({ full = false }: { full?: boolean }) {
           {clients.map(client => <li key={client.slug}>{client.title}</li>)}
         </ul>
       </div>
-      <p className={proofStyles.count}><strong>{liveProjectCount}</strong><span>products in<br />production</span></p>
+      <p className={proofStyles.count}><strong>{liveProjectCount}</strong><span>products in <br />production</span></p>
     </div>}
     {records.length ? <>
       {featured.length > 0 && <div className="project-grid">{featured.map((project, index) => <ProjectCard key={project.slug} project={project} number={String(index + 1).padStart(2, "0")} lead={index === 0} />)}</div>}
