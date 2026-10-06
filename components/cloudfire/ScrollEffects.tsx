@@ -18,7 +18,7 @@ const targets: Record<Kind, string> = {
     ".engineering-principles > div", ".architecture-top", ".architecture-step", ".architecture-bottom",
     ".industry-row", ".insight-row", ".project-more-head", ".project-index li",
   ].join(","),
-  panel: ".chapter-visual, .project, .capability-panel, .example-explorer, .ai-detail, .project-form",
+  panel: ".chapter-visual, .project, .capability-panel, .example-explorer, .ai-detail",
 };
 
 const STAGGER = 70; // ms between items that arrive together

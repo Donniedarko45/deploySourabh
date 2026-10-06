@@ -1,0 +1,48 @@
+import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
+import { handleEnquiry } from "../lib/contact-handler.ts";
+import { timelines } from "../lib/contact-options.ts";
+import { capabilities } from "../lib/content.ts";
+let sequence = 0;
+const base = { name: "Test Visitor", email: "visitor@example.com", company: "Test Company", capability: "product-engineering", timeline: timelines[0], message: "Build a website with a clear customer enquiry journey.", website: "", requestId: randomUUID(), token: "test-token" };
+const config = { apiKey: "test-only-key", from: "website@example.com", to: "inbox@example.com", siteUrl: "https://example.com" };
+const request = (payload = base, headers = {}) => new Request("https://example.com/api/contact", { method: "POST", headers: { origin: "https://example.com", "content-type": "application/json", "x-forwarded-for": "192.0.2." + (++sequence), ...headers }, body: JSON.stringify(payload) });
+const calls = [];
+const fetcher = async (url, options) => {
+  calls.push({ url, options });
+  if (url.includes("siteverify")) return Response.json({ success: true, action: "contact", hostname: "example.com" });
+  return Response.json({ messageId: "<test-message@example.com>" }, { status: 201 });
+};
+const options = { config, capabilities, timelines, fetcher };
+let response = await handleEnquiry(request(), options);
+assert.equal(response.status, 200);
+const email = JSON.parse(calls[0].options.body);
+assert.equal(calls[0].url, "https://api.brevo.com/v3/smtp/email");
+assert.deepEqual(email.to, [{ email: "inbox@example.com" }]);
+assert.equal(email.replyTo.email, "visitor@example.com");
+assert.equal(calls[0].options.headers["api-key"], "test-only-key");
+assert.ok(email.headers.idempotencyKey);
+assert.doesNotMatch(email.textContent, /budget/i);
+assert.match(email.textContent, /Test Visitor/);
+const idempotency = email.headers.idempotencyKey;
+await handleEnquiry(request(), options);
+assert.equal(JSON.parse(calls[1].options.body).headers.idempotencyKey, idempotency, "retries keep their key");
+const before = calls.length;
+for (const payload of [{...base,email:"not-an-email"}, {...base,name:"Bad\nHeader"}, {...base,message:"short"}, {...base,capability:"unsupported"}, {...base,website:"https://bot.example"}, {...base,requestId:"invalid"}]) {
+  assert.ok((await handleEnquiry(request(payload), options)).status >= 400);
+}
+assert.equal(calls.length,before,"invalid enquiries never reach Brevo");
+assert.equal((await handleEnquiry(request(base,{origin:"https://other.example"}),options)).status,403);
+assert.equal((await handleEnquiry(request(base,{"content-length":"17000"}),options)).status,413);
+assert.equal((await handleEnquiry(request(),{...options,config:{...config,apiKey:undefined}})).status,503);
+assert.equal((await handleEnquiry(request(),{...options,fetcher:async()=>Response.json({message:"Unavailable"},{status:500})})).status,503);
+assert.equal((await handleEnquiry(request(),{...options,fetcher:async()=>{throw new Error("Network failure")}})).status,503);
+const protectedOptions={...options,config:{...config,turnstileSecret:"test-secret",turnstileSiteKey:"test-site-key"}};
+assert.equal((await handleEnquiry(request(),protectedOptions)).status,200);
+assert.equal((await handleEnquiry(request({...base,token:""}),protectedOptions)).status,422);
+assert.equal((await handleEnquiry(request(),{...protectedOptions,fetcher:async()=>Response.json({success:false})})).status,422);
+assert.equal((await handleEnquiry(request(),{...protectedOptions,fetcher:async()=>Response.json({success:true,action:"contact",hostname:"other.example"})})).status,422);
+for(let i=0;i<6;i++) assert.equal((await handleEnquiry(request(base,{"x-forwarded-for":"198.51.100.1"}),options)).status,200);
+const limited=await handleEnquiry(request(base,{"x-forwarded-for":"198.51.100.1"}),options);
+assert.equal(limited.status,429); assert.ok(limited.headers.get("retry-after"));
+console.log("Enquiry checks passed: Brevo payload, retry keys, no budget, validation, spam limits, challenge checks and honest delivery failures.");

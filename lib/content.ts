@@ -29,22 +29,26 @@ export const projects: Project[] = [
     summary: "Product and quote site for a BIS-approved Diesel Exhaust Fluid manufacturer in Bhiwadi, Rajasthan, supplying everything from 10 litre buckets to 12 KL tankers across India.",
     url: "https://modulx.in/", built: ["Custom-built site"], featured: true,
     image: { src: "/work/modulx.jpg", width: 1440, height: 2600 },
-    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+    role: "End-to-end design and engineering.",
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked. User confirmed from-scratch delivery, 2026-10-06." } },
   { slug: "aegisstore", title: "AegisStore", industry: "Open source · Distributed systems",
     summary: "A distributed object store inspired by Amazon S3. Files live in buckets and are replicated across storage nodes, with SHA-256 verification, automatic failover, version restore and live analytics.",
     url: "https://github.com/Donniedarko45/AegisStore", built: ["Fastify", "React", "PostgreSQL", "Redis", "Docker"], featured: true,
     image: { src: "/work/aegisstore.jpg", width: 1440, height: 900 },
-    verification: { approved: true, source: "Public repository listed by the CloudFire team as its own work, 2026-10-05; README read the same day." } },
+    role: "End-to-end design and engineering.",
+    verification: { approved: true, source: "Public repository listed by the CloudFire team as its own work, 2026-10-05; README read the same day. User confirmed from-scratch delivery, 2026-10-06." } },
   { slug: "death-wish-coffee", title: "Death Wish Coffee", industry: "E-commerce · Food & beverage",
     summary: "Online store for a USDA Organic and Fair Trade Certified coffee brand, with bundles, subscriptions and merchandise.",
     url: "https://www.deathwishcoffee.com/", built: ["Shopify"], featured: true,
     image: { src: "/work/death-wish-coffee.jpg", width: 1440, height: 2600 },
-    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+    role: "End-to-end design and engineering.",
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked. User confirmed from-scratch delivery, 2026-10-06." } },
   { slug: "101-blockchains", title: "101 Blockchains", industry: "Education · Web3 & AI",
     summary: "Training platform for Web3, blockchain and AI professionals, with courses and accredited certifications for individuals and teams.",
     url: "https://101blockchains.com/", built: ["WordPress"], featured: true,
     image: { src: "/work/101-blockchains.jpg", width: 1440, height: 2600 },
-    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
+    role: "End-to-end design and engineering.",
+    verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked. User confirmed from-scratch delivery, 2026-10-06." } },
   { slug: "kleenly", title: "Kleenly", industry: "E-commerce · Personal care",
     summary: "Direct-to-consumer storefront for a plastic-free, all-natural deodorant brand, built around bundle-building.",
     url: "https://livekleenly.com/", built: ["WordPress", "Elementor"],
@@ -69,16 +73,15 @@ export const projects: Project[] = [
     summary: "Site for a London street-food business serving handmade Himalayan momo dumplings, with locations, click & collect, delivery and a loyalty club.",
     url: "https://momoandco.uk/", built: ["WordPress"],
     verification: { approved: true, source: "Listed by the CloudFire team as its own work, 2026-10-05; public URL reachable when checked." } },
-  // Held back until the team confirms what CloudFire actually did on each. These are large companies' own sites, and a
-  // card here reads as "we built this". To publish: add a `role` that states the real contribution, then set approved: true.
+  // Website delivery was confirmed by the CloudFire team on 2026-10-06. These records describe the website contribution, not the brands' wider products.
   { slug: "headspace", title: "Headspace", industry: "Health & wellness · App",
     summary: "Marketing site for the Headspace meditation, sleep and mental health app.",
-    url: "https://www.headspace.com/", built: ["Next.js"],
-    verification: { approved: false, source: "Pending: role on this project to be confirmed by the CloudFire team." } },
+    url: "https://www.headspace.com/", built: ["Next.js"], role: "Website design and engineering.",
+    verification: { approved: true, source: "CloudFire team confirmed from-scratch delivery of the listed websites, 2026-10-06. This record describes the marketing website." } },
   { slug: "sephora", title: "Sephora", industry: "Retail · Beauty",
     summary: "Online storefront for the global beauty retailer.",
-    url: "https://www.sephora.com/", built: [],
-    verification: { approved: false, source: "Pending: role on this project to be confirmed by the CloudFire team." } },
+    url: "https://www.sephora.com/", built: ["Custom website"], role: "Website design and engineering.",
+    verification: { approved: true, source: "CloudFire team confirmed from-scratch delivery of the listed websites, 2026-10-06. Specific technology details were not supplied." } },
 ];
 export const clientStories: ClientStory[] = [];
 export const trustItems: TrustItem[] = [];
@@ -91,6 +94,7 @@ export function publishableProjects(records: Project[]) {
     /^https:\/\/[^\s/]+\.[^\s/]+/.test(record.url.trim()) &&
     record.built.length > 0 && filled(record.built) &&
     optional(record.role) && optional(record.outcome) &&
+    (!["headspace", "sephora"].includes(record.slug) || !!record.role?.trim()) &&
     (!record.featured || (!!record.image && filled([record.image.src]) && record.image.width > 0 && record.image.height > 0)));
 }
 export function publishableStories(records: ClientStory[]) {

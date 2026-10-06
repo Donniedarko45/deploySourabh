@@ -75,7 +75,7 @@ export type AtmosphereRenderer = {
   dispose: () => void;
 };
 
-export function createAtmosphereRenderer(canvas: HTMLCanvasElement, onReady: () => void, onFailure: () => void): AtmosphereRenderer | null {
+export function createAtmosphereRenderer(canvas: HTMLCanvasElement, onReady: () => void, onFailure: () => void, source = "/brand/cloudfire-hero.webp"): AtmosphereRenderer | null {
   const gl = canvas.getContext("webgl", { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: "low-power", preserveDrawingBuffer: false });
   if (!gl) return null;
   const shaders: WebGLShader[] = [];
@@ -157,7 +157,7 @@ export function createAtmosphereRenderer(canvas: HTMLCanvasElement, onReady: () 
       } catch { onFailure(); }
     };
     image.onerror = onFailure;
-    image.src = "/brand/cloudfire-hero.webp";
+    image.src = source;
     return { draw, resize, dispose };
   } catch {
     dispose();

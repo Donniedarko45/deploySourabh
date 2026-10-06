@@ -1,51 +1,44 @@
-# CloudFire
+# CloudFire portfolio
 
-A Next.js technology consultancy website centered on product engineering, AI & automation, cloud platforms, and digital product experience.
+A Next.js technology consultancy website for product engineering, practical AI, cloud platforms and digital product experience.
 
 ## Development
 
 Use Node.js 22.18+ (Node 24 is supported).
 
-- `npm install`
-- `npm run dev` — local development preview
-- `npm run lint`
-- `npx tsc --noEmit`
-- `node scripts/check-content.mjs` — verify approval and completeness gates
-- `npm run build`
-- `npm start` — production preview
+- npm install
+- npm run dev
+- npm run lint
+- npx tsc --noEmit
+- node scripts/check-content.mjs
+- node scripts/check-enquiries.mjs
+- npm run build
+- npm start
 
-The previous site’s low-cost pricing, space theme, demo awards, fabricated outcomes, and testimonials are not served. Existing URLs redirect to the appropriate new pages. Unknown case-study and article URLs return a 404.
+## Website configuration
 
-## Publishing real evidence
+Copy .env.example to an ignored .env.local file and set the required private values. The contact form uses Brevo's transactional API. The optional booking link and Umami analytics only appear when configured. See [website setup](docs/website-setup.md) for activation and verification.
 
-The content source is `lib/content.ts`. Customer stories and trust items start empty because no approved source material was supplied. Add only real, permissioned content. Set `verification.approved` to true and identify the source in `verification.source` only after review.
+The contact form has no budget field. The site makes no starting-price claim and has no founder block, as requested by the owner.
 
-Work is a list of `projects`. Each one links to the real thing (a live site or a public repository) and states only what a visitor could verify there: a title, an industry line, a one-sentence summary, and what it is built with. A record requires a unique slug, title, industry, summary, an `https://` URL, at least one `built` entry, and approval provenance. `featured` projects (the first four lead the homepage) also need a screenshot under `public/work/`; the rest appear in the index on `/work`, so the list can grow to any length. `role` and `outcome` are optional and render when present: add them only when the team has confirmed what CloudFire actually did and can source any result. Never add a metric the source does not support.
+## Approved project evidence
 
-Records for sites that belong to large companies (currently Headspace and Sephora) are present but unapproved. To publish one, add a `role` that states the real contribution and set `approved` to true. The tests in `scripts/check-content.mjs` keep them out until then.
+lib/content.ts supplies projects, client perspectives, trust items and articles. Records require approval and provenance. Website roles were confirmed by the owner on 2026-10-06. The Headspace and Sephora records describe website delivery, not work on their broader products.
 
-A client story requires client name, title, narrative, attribution, and approval provenance. A quote is optional and must be attributable to the same approved source. Trust items require a real name and approval provenance. Empty sections do not show invented logos or claims in production.
+Four project studies live in lib/case-studies.ts, with detail pages under /work/. Their results describe observable delivered capabilities. Unknown timelines, performance metrics and client quotations are not invented. See [client proof](docs/client-proof.md) for the facts still needed and a testimonial request draft.
 
-The illustrative onboarding workflow (Capture, Review, Deliver) now sits at the bottom of `/work`, clearly labeled as an example that makes no client or performance claims. If the projects list is ever empty it becomes the work section's fallback again. Customer stories and trust sections stay hidden until approved records exist.
-
-The company page has been removed (`/company` and the old `/about`, `/how-we-work` and `/why-choose-us` routes redirect to the homepage); the founder and team photographs remain in `public/team` for reuse. The insight articles are original editorial content, with no claimed customer results or fabricated publication dates.
-
-## Project enquiries
-
-The contact tool validates the input and prepares a reviewable project brief in the browser. The visitor then opens their email application, copies the text, or downloads a text file. Nothing is sent automatically and the form does not claim successful delivery. The existing business email and LinkedIn URL are centralized in `lib/content.ts`.
-
-To enable direct website submissions later, connect a real server-side delivery service, add rate limiting and validation, and update the privacy information to describe that actual data flow. Do not replace the current behavior with a simulated success message.
+The old company's demo awards, fabricated outcomes, testimonials and low-cost pricing are not served. Company and earlier marketing URLs remain redirects. Unknown study, service and article routes return a 404.
 
 ## Design and motion
 
-The visual system uses Instrument Sans, Inter and IBM Plex Mono, served locally by Next.js font optimization. The cloud-to-ember artwork is bespoke, generated for CloudFire; its editable source is in `design/`, and optimized WebP assets are in `public/brand/`. Next.js provides responsive image variants.
+Instrument Sans, Inter and IBM Plex Mono are served through Next.js font optimization. Bespoke CloudFire artwork and optimized assets live in design/ and public/brand/.
 
-Framer Motion is loaded through LazyMotion for transitions. The desktop hero presents live projects in layered browser frames with steady placement and crossfades; it holds on hover or focus and provides numbered selectors. On phones the project deck is hidden and the cloud-and-fire artwork rises behind the copy. A lightweight WebGL treatment brings the artwork to life, with a static image fallback. The live-client proof rail sits in the work section.
+Desktop projects use steady layered browser frames with crossfades. The phone hero hides the project deck and raises the cloud artwork behind the copy. A WebGL treatment starts after the poster loads and reuses that optimized image. Phones use a light vector globe in the AI section; the 3D component is deferred on suitable desktop devices.
 
-The engineering diagram carries animated request signals through the system. The AI section combines a monochrome 3D globe with converging SVG paths, followed by selectable business workflows. Aceternity component adaptations and attribution are documented in components/ui/README.md. The footer signature has a continuous, slow orange contour animation. Ember, the cloud-and-fire companion, has subtle breathing, blinking, cursor-aware eyes and flame movement, and remains available throughout the site.
+The architecture diagram and AI paths explain connected systems. The footer signature has a slow continuous orange outline. Ember has gentle breathing, blinking, gaze and flame movement and no Hide control. The footer motion setting, reduced-motion preferences, page visibility and intersection checks control playback. Hover movement is restricted to precise pointers and touch scrolling remains native.
 
-The footer's motion setting pauses ambient animations. Motion also honors reduced-motion preferences and pauses when off screen or when the tab is hidden, where applicable. Hover movement is restricted to precise pointer devices, and touch scrolling remains native. The capabilities page uses a sticky chapter navigation, and explanatory diagrams update immediately for keyboard selections. Native document scrolling and mobile disclosure navigation preserve straightforward navigation.
+Aceternity adaptations are documented in [component attribution](components/ui/README.md).
 
 ## Verification
 
-The production build, ESLint, TypeScript, content-publishing tests, and browser checks cover desktop/mobile layout, keyboard capability selection, AI workflow switching, navigation, project-brief generation, and reduced motion. Local browser testing does not establish field Core Web Vitals or real-device touch behavior. Check the deployed site on physical iOS/Android devices before launch, and monitor real-user performance after deployment.
+Enquiry tests mock providers and send no email. Business-page browser checks cover layouts, metadata, SEO files, form failure/retry/success and lightweight rendering. Set CLOUDFIRE_BASE_URL, CLOUDFIRE_PLAYWRIGHT_MODULE and optionally CLOUDFIRE_ENGINE=webkit for the test environment. Physical Android/iPhone checks and a real inbox delivery test require the actual deployed configuration.

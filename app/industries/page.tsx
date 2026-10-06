@@ -1,11 +1,18 @@
-import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowUpRight, Blocks, BookOpen, ShoppingBag, Workflow } from "lucide-react";
 import PageIntro from "@/components/cloudfire/PageIntro";
 import FinalCta from "@/components/cloudfire/FinalCta";
-export const metadata:Metadata={title:"Industries"};
-const contexts=[
- {title:"Financial products",body:"Clarity, careful data handling, and dependable operations for products people rely on.",items:["Customer & operational interfaces","Service integrations & data workflows","Access controls & auditability"]},
- {title:"Commerce & customer platforms",body:"Connect the customer journey with the systems that make the business work.",items:["Commerce experiences & product platforms","Order & customer system integration","Customer operations automation"]},
- {title:"Learning & knowledge platforms",body:"Make knowledge easier to access, navigate, and put to use.",items:["Learning management experiences","Knowledge retrieval & content workflows","Administration & reporting tools"]},
- {title:"Enterprise operations",body:"Bring fragmented workflows into systems your teams can understand and own.",items:["Internal tools & business platforms","Document & process automation","Platform modernization & integration"]}
+import { pageMetadata } from "@/lib/site";
+import styles from "@/components/cloudfire/Editorial.module.css";
+export const metadata = pageMetadata("Industries", "Product engineering and practical automation for commerce, learning, financial products and enterprise operations.", "/industries");
+const contexts = [
+  { title: "Financial products", body: "Make complex information understandable and the systems beneath it dependable.", items: ["Customer and operational interfaces", "Service integrations and data workflows", "Access controls and auditability"], service: "product-engineering", Icon: Blocks },
+  { title: "Commerce & customer platforms", body: "Connect the customer journey with the systems that make the business work.", items: ["Storefronts and product experiences", "Order and customer system integration", "Customer operations automation"], service: "experience-growth", Icon: ShoppingBag },
+  { title: "Learning & knowledge platforms", body: "Help people find the right information, understand it and put it to work.", items: ["Learning and publishing experiences", "Knowledge retrieval and content workflows", "Administration and reporting tools"], service: "ai-automation", Icon: BookOpen },
+  { title: "Enterprise operations", body: "Turn fragmented processes into systems your teams can understand and own.", items: ["Internal tools and business platforms", "Document and process automation", "Platform modernization and integration"], service: "cloud-platform", Icon: Workflow },
 ];
-export default function Page(){return <><PageIntro label="BUSINESS CONTEXT MATTERS" title={<>Built for your<br/><span className="muted">business reality.</span></>} description="Every industry has its own constraints. We begin with yours, then connect the right product, experience, and engineering decisions."/><section className="container section"><p className="eyebrow" style={{marginBottom:24}}>WHERE OUR CAPABILITIES CAN HELP</p>{contexts.map((item,index)=><div className="industry-row" key={item.title}><span className="mono">0{index+1}</span><div><h2>{item.title}</h2><p>{item.body}</p></div><ul>{item.items.map(text=><li key={text}>{text}</li>)}</ul></div>)}</section><FinalCta/></>}
+export default function Page() { return <><PageIntro label="BUSINESS CONTEXT MATTERS" title={<>Built around your<br /><span className="muted">business reality.</span></>} description="Different contexts. Different constraints. The same attention to the people, processes and systems that matter." />
+  <section className={"container " + styles.industryGrid} aria-label="Where our capabilities can help">{contexts.map((item, i) => <article key={item.title} className={styles.industryCard}>
+    <header><span className="mono">0{i + 1} / BUSINESS CONTEXT</span><item.Icon size={26} strokeWidth={1.3} aria-hidden="true" /></header><h2>{item.title}</h2><p>{item.body}</p>
+    <ul>{item.items.map(text => <li key={text}>{text}</li>)}</ul><Link href={"/services/" + item.service} className="text-link">Explore the relevant service<ArrowUpRight size={17} aria-hidden="true" /></Link>
+  </article>)}</section><div className={"container " + styles.industryNote}><p>Your industry may be different. The starting point is still the problem, the constraints and what a useful result looks like.</p><Link href="/contact" className="text-link">Talk through your context<ArrowUpRight size={17} aria-hidden="true" /></Link></div><FinalCta /></>; }

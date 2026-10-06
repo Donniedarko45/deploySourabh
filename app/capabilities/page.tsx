@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/site";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import PageIntro from "@/components/cloudfire/PageIntro";
@@ -8,7 +8,7 @@ import { capabilities } from "@/lib/content";
 import Engineering from "@/components/cloudfire/Engineering";
 import Ai from "@/components/cloudfire/Ai";
 import FinalCta from "@/components/cloudfire/FinalCta";
-export const metadata: Metadata = { title: "Capabilities", description: "Connected product engineering, AI automation, cloud platforms and digital product experience." };
+export const metadata = pageMetadata("Capabilities", "Connected product engineering, AI automation, cloud platforms and digital product experience.", "/capabilities");
 export default function Page() {
   return <>
     <PageIntro label="OUR CAPABILITIES" title={<>Strategy meets<br /><span className="muted">shipping.</span></>} description="A product is more than an interface. Bring strategy, design and engineering together with a partner who can see the whole system." />
@@ -29,6 +29,7 @@ export default function Page() {
               <ul className="chapter-services" aria-label={`What we do in ${item.title}`}>{item.items.map((text, i) => <li key={text}><span className="mono">0{i + 1}</span>{text}</li>)}</ul>
               <div className="chapter-outcome"><span className="eyebrow">WHAT YOU LEAVE WITH</span><p>{item.deliverable}</p></div>
               <Link href={`/contact?capability=${item.id}`} className="text-link">Discuss your project<ArrowUpRight size={16} /></Link>
+              <Link href={"/services/" + item.id} className="text-link" style={{ marginTop: 20 }}>Explore the service<ArrowUpRight size={16} /></Link>
             </div>
           </section>;
         })}

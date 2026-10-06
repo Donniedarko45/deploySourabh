@@ -1,0 +1,26 @@
+.form { gap: 22px; min-width: 0; }
+.heading { margin-bottom: 4px; }
+.heading :global(.eyebrow) { color: var(--accent); margin-bottom: 12px; font-size: 11px; }
+.heading > p:last-child { font-size: 16px; color: var(--secondary); }
+.form fieldset { display: flex; flex-direction: column; gap: 24px; border: 0; padding: 0; min-width: 0; }
+.form label { color: #d1cfc7; font-size: 13px; }
+.form input, .form textarea, .form select { background: #111; border: 1px solid #343431; border-radius: 4px; min-height: 50px; font-size: 16px; transition: border-color 160ms ease; }
+.form input:focus, .form textarea:focus, .form select:focus { border-color: var(--accent); outline: 2px solid #ff5a3638; outline-offset: 2px; }
+.form :disabled { opacity: .6; cursor: not-allowed; }
+.form :global(.form-note) { font-size: 12px; line-height: 1.8; max-width: 62ch; }
+.form :global(.form-note) a { display: inline-flex; align-items: center; gap: 5px; text-decoration: underline; text-underline-offset: 4px; }
+.honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.notice { border-left: 2px solid var(--accent); padding: 14px 18px; background: #ff5a3609; font-size: 14px; line-height: 1.7; color: #cbc5b8; }
+.notice a { text-decoration: underline; overflow-wrap: anywhere; }
+.error { font-size: 14px; color: #ffc0a8; line-height: 1.7; }
+.error:empty { display: none; }
+.verificationNote { font-size: 12px; margin-top: -10px; }
+.success { padding: 42px; border: 1px solid var(--border); border-top: 2px solid var(--accent); background: #111; align-self: start; }
+.successIcon { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%; background: #ff5a3618; color: var(--accent); margin-bottom: 32px; }
+.success h2 { font-size: clamp(36px, 4vw, 52px); line-height: 1.08; margin: 18px 0 24px; }
+.success > p:not(:global(.eyebrow)) { font-size: 16px; line-height: 1.8; margin-bottom: 24px; }
+.success button { display: block; border: 0; background: transparent; color: var(--secondary); text-decoration: underline; text-underline-offset: 5px; margin-top: 22px; min-height: 44px; font-size: 13px; }
+.spinner { animation: sending 800ms linear infinite; }
+@keyframes sending { to { transform: rotate(360deg); } }
+@media (max-width: 599px) { .success { padding: 28px; } .form :global(.button) { width: 100%; justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } .form input, .form textarea, .form select { transition: none; } }

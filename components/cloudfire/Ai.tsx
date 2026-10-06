@@ -4,6 +4,7 @@ import { useId, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { ArrowUpRight, Check, FileText, GitBranch, UserRound } from "lucide-react";
 import Link from "next/link";
+import { GlobePoster } from "../ui/GlobePoster";
 import { GoogleGeminiEffect } from "../ui/GoogleGeminiEffect";
 import styles from "./Ai.module.css";
 import { useAmbientPlayback } from "./useAmbientPlayback";
@@ -20,7 +21,7 @@ export default function Ai({ numbered = true }: { numbered?: boolean }) {
   const [instant, setInstant] = useState(false);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const stage = useRef<HTMLDivElement>(null);
-  const { seen } = useAmbientPlayback(stage);
+  const { seen, enhanced } = useAmbientPlayback(stage);
   const panelId = useId();
   const current = uses[active];
   return <section id="ai" className={"ai-section " + styles.section}>
@@ -33,7 +34,7 @@ export default function Ai({ numbered = true }: { numbered?: boolean }) {
       <div ref={stage} className={styles.stage}>
         <GoogleGeminiEffect />
         <div className={styles.source}><span>CONTEXT IN</span><strong>{current.steps[0]}</strong></div>
-        <div className={styles.planet}>{seen ? <Globe3D /> : <div className={styles.globePlaceholder} />}</div>
+        <div className={styles.planet}>{seen && enhanced ? <Globe3D /> : <GlobePoster />}</div>
         <div className={styles.destination}><span>PEOPLE IN CONTROL</span><strong>{current.steps[2]}</strong></div>
       </div>
       <div className={styles.tabs} role="group" aria-label="AI use cases" data-instant={instant}>

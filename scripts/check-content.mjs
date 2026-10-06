@@ -1,3 +1,4 @@
+import { caseStudies, publishableCaseStudies } from "../lib/case-studies.ts";
 import assert from "node:assert/strict";
 import { projects, publishableProjects, publishableStories, publishableTrust } from "../lib/content.ts";
 const fixture = { slug:"test-fixture",title:"Test fixture",industry:"Test fixture",summary:"Test fixture",url:"https://example.com/",built:["Test fixture"],verification:{approved:true,source:"Test-only approval record"} };
@@ -19,7 +20,10 @@ const live=publishableProjects(projects);
 assert.ok(live.length>0,"at least one project is published");
 assert.equal(new Set(projects.map(p=>p.slug)).size,projects.length,"slugs are unique");
 for(const p of live.filter(p=>p.featured))assert.ok(p.image,p.slug+" is featured with an image");
-for(const slug of ["headspace","sephora"])assert.ok(!live.some(p=>p.slug===slug),slug+" stays unpublished until its role is confirmed");
+for(const slug of ["headspace","sephora"]){ const project=live.find(p=>p.slug===slug); assert.ok(project?.role,slug+" requires a confirmed website role"); assert.equal(publishableProjects([{...project,role:undefined}]).length,0); }
+assert.equal(publishableCaseStudies(caseStudies,live.map(p=>p.slug)).length,4);
+assert.equal(publishableCaseStudies([{...caseStudies[0],verification:{approved:false,source:"Pending"}}],live.map(p=>p.slug)).length,0);
+assert.equal(publishableCaseStudies([caseStudies[0]],[]).length,0);
 const story={client:"Test fixture",title:"Test fixture",story:"Test fixture",attribution:"Test fixture",verification:{approved:true,source:"Test-only record"}};
 assert.equal(publishableStories([story]).length,1);
 assert.equal(publishableStories([{...story,attribution:""}]).length,0);

@@ -1,3 +1,4 @@
+import { caseStudies } from "@/lib/case-studies";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -34,6 +35,7 @@ function ProjectCard({ project, number, lead }: { project: Featured; number: str
       {project.role && <p className="project-fact"><span className="eyebrow">OUR ROLE</span>{project.role}</p>}
       {project.outcome && <p className="project-fact"><span className="eyebrow">OUTCOME</span>{project.outcome}</p>}
       <ul className="built-with" aria-label="Built with">{project.built.map(item => <li key={item}>{item}</li>)}</ul>
+      {caseStudies.some(study => study.projectSlug === project.slug && study.verification.approved) && <Link className="text-link" href={"/work/" + project.slug} style={{ display: "flex", marginBottom: 16 }}>Read the project study<ArrowUpRight size={16} /></Link>}
       <a className="text-link" href={project.url} {...external} aria-label={labelFor(project)}>{actionFor(project.url)}<ArrowUpRight size={16} /></a>
     </div>
   </article>;
@@ -76,6 +78,7 @@ export default function Work({ full = false }: { full?: boolean }) {
   </section>;
 }
 export function ClientStory() {
- const story=publishableStories(clientStories)[0];if(story)return <section className="client-story container section"><p className="eyebrow">06 / CLIENT PERSPECTIVE</p><h2>{story.title}</h2>{story.image&&<Image src={story.image} alt={story.client} width={1200} height={700}/>}<p className="large-copy">{story.story}</p>{story.quote&&<blockquote>“{story.quote}”</blockquote>}<p>{story.attribution} · {story.client}</p></section>;
- return null;
+ const stories=publishableStories(clientStories).slice(0,3);
+ if(!stories.length)return null;
+ return <>{stories.map(story=><section key={story.client+story.title} className="client-story container section"><p className="eyebrow">06 / CLIENT PERSPECTIVE</p><h2>{story.title}</h2>{story.image&&<Image src={story.image} alt={story.client} width={1200} height={700}/>}<p className="large-copy">{story.story}</p>{story.quote&&<blockquote>“{story.quote}”</blockquote>}<p>{story.attribution} · {story.client}</p></section>)}</>;
 }

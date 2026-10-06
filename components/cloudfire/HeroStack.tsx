@@ -47,7 +47,7 @@ export default function HeroStack({ cards }: { cards: StackCard[] }) {
     onPointerLeave={() => setPointerHeld(false)}
     onFocusCapture={() => setFocusHeld(true)}
     onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setFocusHeld(false); }}>
-    <Link href="/work" className="stack-deck" aria-label={"Explore " + current.title + " and our selected work"}>
+    <Link href="/work" className="stack-deck" aria-label={[2, 1, 0].map(depth => cards[(front + depth) % cards.length].host).join(", ") + ". Explore " + current.title + " and our selected work"}>
       {[2, 1, 0].map(depth => {
         const projectIndex = (front + depth) % cards.length;
         return <span key={depth} className="stack-layer" data-depth={depth} aria-hidden="true">
@@ -64,7 +64,7 @@ export default function HeroStack({ cards }: { cards: StackCard[] }) {
     <div className="stack-caption">
       <span className="stack-title" aria-hidden="true"><strong>{current.title}</strong><span>{current.host}</span></span>
       <div className="stack-selectors" role="group" aria-label="Featured projects">
-        {cards.map((card, index) => <button key={card.slug} type="button" aria-label={"Show " + card.title} aria-pressed={index === front}
+        {cards.map((card, index) => <button key={card.slug} type="button" aria-label={String(index + 1).padStart(2, "0") + " Show " + card.title} aria-pressed={index === front}
           onClick={event => { setInstant(event.detail === 0); setFront(index); }}>
           {String(index + 1).padStart(2, "0")}
         </button>)}

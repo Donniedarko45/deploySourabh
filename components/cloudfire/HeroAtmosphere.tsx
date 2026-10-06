@@ -9,6 +9,7 @@ import styles from "./HeroAtmosphere.module.css";
 export default function HeroAtmosphere() {
   const backdrop = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
+  const poster = useRef<HTMLImageElement>(null);
   const { paused } = useSiteMotion();
   const pausedRef = useRef(paused);
   const updatePlayback = useRef<(() => void) | null>(null);
@@ -24,6 +25,10 @@ export default function HeroAtmosphere() {
     if (!host || !surface) return;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
+    const capable = memory >= 4 && (navigator.hardwareConcurrency || 4) >= 4;
+    let pending: number | null = null;
+    let idle = false;
     let renderer: AtmosphereRenderer | null = null;
     let ready = false;
     let visible = false;
@@ -33,7 +38,7 @@ export default function HeroAtmosphere() {
     let elapsed = 0;
     let lastClock = 0;
     let lastDraw = 0;
-    const canPlay = () => ready && visible && !document.hidden && !motion.matches && !pausedRef.current && !connection?.saveData;
+    const canPlay = () => ready && visible && !document.hidden && !motion.matches && !pausedRef.current && !connection?.saveData && capable;
     const tick = (now: number) => {
       frame = null;
       if (!canPlay()) {
@@ -52,19 +57,24 @@ export default function HeroAtmosphere() {
     };
     const sync = () => {
       if (disposed) return;
-      if (!renderer && !failed && visible && !motion.matches && !connection?.saveData) {
-        renderer = createAtmosphereRenderer(surface, () => {
-          if (disposed) return;
-          ready = true;
-          host.dataset.ready = "true";
-          sync();
-        }, () => {
-          failed = true;
-          ready = false;
-          host.dataset.ready = "false";
-          sync();
-        });
-        if (!renderer) failed = true;
+      if (!renderer && pending === null && !failed && visible && !pausedRef.current && !motion.matches && !connection?.saveData && capable && poster.current?.complete && poster.current.naturalWidth) {
+        const initialize = () => {
+          pending = null;
+          if (disposed || !visible || pausedRef.current || motion.matches || connection?.saveData) return;
+          renderer = createAtmosphereRenderer(surface, () => {
+            if (disposed) return;
+            ready = true;
+            host.dataset.ready = "true";
+            sync();
+          }, () => {
+            failed = true; ready = false;
+            host.dataset.ready = "false";
+            sync();
+          }, poster.current?.currentSrc || "/brand/cloudfire-hero.webp");
+          if (!renderer) failed = true;
+        };
+        idle = typeof window.requestIdleCallback === "function";
+        pending = idle ? window.requestIdleCallback(initialize, { timeout: 1800 }) : window.setTimeout(initialize, 400);
       }
       const playing = canPlay();
       host.dataset.playing = String(playing);
@@ -110,6 +120,7 @@ export default function HeroAtmosphere() {
       disposed = true;
       updatePlayback.current = null;
       if (frame !== null) cancelAnimationFrame(frame);
+      if (pending !== null) { if (idle) window.cancelIdleCallback(pending); else window.clearTimeout(pending); }
       observer.disconnect();
       resize.disconnect();
       document.removeEventListener("visibilitychange", sync);
@@ -122,7 +133,7 @@ export default function HeroAtmosphere() {
 
   return (
     <div ref={backdrop} className={`hero-backdrop ${styles.backdrop}`} aria-hidden="true" data-ready="false" data-playing="false">
-      <Image src="/brand/cloudfire-hero.webp" alt="" width={1200} height={800} priority sizes="(max-width: 599px) 150vw, 92vw" className={`hero-backdrop-img ${styles.poster}`} />
+      <Image ref={poster} onLoad={() => updatePlayback.current?.()} src="/brand/cloudfire-hero.webp" alt="" width={1200} height={800} priority sizes="(max-width: 599px) 150vw, 92vw" className={`hero-backdrop-img ${styles.poster}`} />
       <canvas ref={canvas} width={1200} height={800} className={`hero-backdrop-img ${styles.canvas}`} />
     </div>
   );

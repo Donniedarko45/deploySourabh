@@ -25,7 +25,7 @@ export function BrandMark({ className = "" }: { className?: string }) {
 
 export default function Brand() {
   return (
-    <Link href="/" className={`brand ${styles.brand}`} aria-label="CloudFire home">
+    <Link href="/" className={`brand ${styles.brand}`} aria-label="CloudFire IT Services home">
       <BrandMark className={styles.mark} />
       <span className={styles.lockup}>
         <span className={styles.wordmark}>cloudfire<span className={styles.dot} aria-hidden="true">.</span></span>
