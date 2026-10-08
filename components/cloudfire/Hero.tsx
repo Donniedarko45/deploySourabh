@@ -1,7 +1,6 @@
 import { ProjectLink } from "./Motion";
 import styles from "./Hero.module.css";
 import HeroVisual from "./HeroVisual";
-import HeroAtmosphere from "./HeroAtmosphere";
 import HeroStack, { type StackCard } from "./HeroStack";
 import { liveProjectCount, projects, publishableProjects } from "@/lib/content";
 
@@ -17,7 +16,6 @@ export default function Hero() {
   });
   return (
     <section className={"hero container " + styles.hero} aria-labelledby="hero-title">
-      <HeroAtmosphere />
       <div className="hero-grid">
         <div className="hero-content">
           {/* Phones only: a line of proof above the headline (on larger screens the deck carries it). */}

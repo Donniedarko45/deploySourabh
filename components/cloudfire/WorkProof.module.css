@@ -1,9 +1,9 @@
 .proof { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 40px; padding-bottom: 32px; margin-bottom: 48px; border-bottom: 1px solid var(--border); }
 .clients { min-width: 0; }
-.clients :global(.eyebrow) { font-size: 10px; margin-bottom: 14px; }
+.clients :global(.eyebrow) { font-size: 11px; margin-bottom: 14px; }
 .names { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 0; padding: 0; margin: 0; list-style: none; color: #cfcfcf; font-size: 16px; line-height: 1.6; }
 .names li:not(:last-child)::after { content: "/"; display: inline-block; margin-inline: 16px; color: #484848; }
-.count { display: flex; align-items: center; gap: 14px; font: 400 10px / 1.6 var(--font-mono), monospace; text-transform: uppercase; letter-spacing: .04em; }
+.count { display: flex; align-items: center; gap: 14px; font: 400 11px / 1.6 var(--font-mono), monospace; text-transform: uppercase; letter-spacing: .04em; }
 .count strong { font: 500 48px / 1 var(--font-display), sans-serif; letter-spacing: -.055em; color: var(--foreground); }
 @media (max-width: 1099px) {
   .proof { gap: 28px; }

@@ -11,23 +11,33 @@
 .booking { border-top: 1px solid var(--border); margin-top: 22px; padding-top: 22px; }
 .booking > p { font-size: 13px; line-height: 1.75; margin-bottom: 10px; }
 .booking a { min-height: 44px; }
-.engagements { border-top: 1px solid var(--border); }
-.offerGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 48px; }
-.offer { padding: 28px 0; border-top: 1px solid var(--accent); }
+.engagements { position: relative; isolation: isolate; border-top: 1px solid var(--border); }
+/* Long copy gets a solid reading plane above the animated world, including the page gutters. */
+.engagements::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%); background: var(--background); pointer-events: none; }
+.engagementHeading { gap: 40px; margin-bottom: 40px; }
+.engagementHeading h2 { font-size: clamp(36px, 4vw, 58px); line-height: 1.12; }
+.engagementHeading h2 :global(.muted) { color: #c1c1bb; }
+.engagementHeading > a { flex-shrink: 0; }
+.offerGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 40px; }
+.offer { display: flex; flex-direction: column; min-width: 0; padding: 28px; border: 1px solid #ffffff18; border-top-color: var(--accent); background: #111; }
 .offer > :global(.mono) { color: var(--accent); font-size: 11px; }
-.offer h3 { font-size: 27px; line-height: 1.2; margin: 20px 0 18px; }
-.offer p { font-size: 14px; line-height: 1.8; }
-.offer > .offerFor { color: var(--foreground); margin-bottom: 12px; }
-.offer > div { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--border); }
-.offer > div :global(.eyebrow) { font-size: 9px; margin-bottom: 10px; }
-.faq { display: grid; grid-template-columns: .7fr 1.3fr; gap: 64px; margin-top: 64px; }
-.faq h3 { font-size: 42px; letter-spacing: -.04em; line-height: 1.08; margin-top: 18px; }
+.offer h3 { font-size: 26px; line-height: 1.25; margin: 22px 0 18px; text-wrap: balance; }
+.offer p { font-size: 16px; line-height: 1.75; color: #c4c4be; }
+.offer > .offerFor { color: var(--foreground); margin-bottom: 12px; font-weight: 500; }
+.offerBody { padding-bottom: 26px; }
+.offerOutput { margin-top: auto; padding-top: 22px; border-top: 1px solid #ffffff20; }
+.offerOutput :global(.eyebrow) { font-size: 11px; letter-spacing: .04em; color: #b6b6b0; margin-bottom: 12px; }
+.offerOutput > p { color: var(--foreground); font-size: 15px; line-height: 1.65; }
+.faq { display: grid; grid-template-columns: .6fr 1.4fr; gap: 64px; margin-top: 72px; padding-top: 64px; border-top: 1px solid var(--border); align-items: start; }
+.faq h3 { font-size: 42px; letter-spacing: -.025em; line-height: 1.12; margin-top: 18px; }
+.faqList { min-width: 0; padding: 4px 28px; background: #111; border: 1px solid #ffffff18; }
 .faq details { border-bottom: 1px solid var(--border); }
-.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 22px; padding: 22px 0; min-height: 62px; color: var(--foreground); font-size: 16px; line-height: 1.5; }
+.faq details:last-child { border-bottom: 0; }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 22px; padding: 24px 0; min-height: 68px; color: var(--foreground); font-size: 18px; font-weight: 500; line-height: 1.5; }
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary svg { flex-shrink: 0; color: var(--accent); }
 .faq details[open] summary svg { transform: rotate(45deg); }
-.faq details > p { font-size: 14px; line-height: 1.9; padding: 0 40px 24px 0; max-width: 68ch; }
+.faq details > p { font-size: 16px; line-height: 1.75; color: #c4c4be; padding: 0 32px 26px 0; max-width: 62ch; }
 .industryGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; padding-block: 0 88px; }
 .industryCard { border: 1px solid var(--border); background: #101010; padding: 34px; display: flex; flex-direction: column; }
 .industryCard header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 34px; }
@@ -95,9 +105,12 @@
 @media (max-width: 899px) {
   .contact { gap: 40px; grid-template-columns: .8fr 1.2fr; }
   .contactAside { position: static; }
-  .offerGrid { gap: 24px; }
+  .offerGrid { grid-template-columns: 1fr; gap: 22px; }
+  .offer { padding: 22px; }
   .offer h3 { font-size: 23px; }
-  .faq { gap: 40px; grid-template-columns: .6fr 1.4fr; }
+  .faq { gap: 28px; grid-template-columns: 1fr; padding-top: 40px; }
+  .faq h3 br { display: none; }
+  .faq h3 :global(.muted)::before { content: " "; }
   .insightCard.featured { padding: 32px; gap: 30px; }
   .caseGrid { gap: 44px; grid-template-columns: .45fr 1fr; }
   .serviceGrid { gap: 40px; }
@@ -107,11 +120,14 @@
   .contactAside h2 { font-size: 38px; }
   .contactSteps { margin-bottom: 22px; }
   .offerGrid, .industryGrid, .serviceIndex, .insightsGrid { grid-template-columns: 1fr; gap: 22px; }
-  .offerGrid { margin-top: 24px; }
-  .offer { padding: 25px 0; }
-  .faq { grid-template-columns: 1fr; gap: 28px; margin-top: 38px; }
+  .engagementHeading h2 { font-size: clamp(33px, 8.2vw, 46px); }
+  .offerGrid { margin-top: 28px; }
+  .offer { padding: 25px; }
+  .offer h3 { font-size: 25px; }
+  .faq { grid-template-columns: 1fr; gap: 28px; margin-top: 44px; padding-top: 36px; }
   .faq h3 { font-size: 34px; }
-  .faq summary { font-size: 15px; }
+  .faqList { padding-inline: 20px; }
+  .faq summary { font-size: 17px; gap: 18px; padding-block: 22px; }
   .faq details > p { padding-right: 0; }
   .industryCard, .insightCard, .serviceIndex > a { padding: 26px; }
   .industryCard header { margin-bottom: 26px; }

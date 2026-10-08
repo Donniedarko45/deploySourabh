@@ -66,7 +66,7 @@ try{
  await page.getByRole("tab",{name:"02 AI & Automation"}).press("ArrowDown");assert.match(await page.getByRole("tab",{selected:true}).innerText(),/Cloud & Platform/);
  await page.locator("#capabilities").scrollIntoViewIfNeeded();await page.screenshot({path:output+"/qa-capabilities.png"});
  await page.locator("#ai").scrollIntoViewIfNeeded();await page.getByRole("button",{name:"03 Internal Operations"}).click();await page.getByRole("heading",{name:"Turn documents into decisions."}).waitFor();
- await page.getByRole("button",{name:"05 Scale",exact:false}).click();assert.match(await page.locator(".workflow-detail").innerText(),/Observe real usage/);
+ await page.getByRole("tab",{name:"05 Scale",exact:true}).click();assert.match(await page.locator(".workflow-detail").innerText(),/Observe real usage/);
  await page.locator("#engineering").scrollIntoViewIfNeeded();await page.screenshot({path:output+"/qa-engineering.png"});
  await page.goto(base+"/capabilities",{waitUntil:"networkidle"});
  assert.equal(await page.locator(".chapter").count(),4,"capabilities page has four chapters");

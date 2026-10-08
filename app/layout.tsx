@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Geist, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,7 +8,7 @@ import Analytics from "@/components/cloudfire/Analytics";
 import { siteUrl } from "@/lib/site";
 import ScrollEffects from "@/components/cloudfire/ScrollEffects";
 import CloudCompanion from "@/components/cloudfire/CloudCompanion";
-const display = Instrument_Sans({ subsets: ["latin"], variable: "--font-display", display: "swap" });
+const display = Geist({ subsets: ["latin"], variable: "--font-display", display: "swap" });
 const body = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 export const metadata: Metadata = {

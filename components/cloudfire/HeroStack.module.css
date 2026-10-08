@@ -10,7 +10,7 @@
 .showcase :global(.stack-layer)[data-depth="1"]::after { opacity: .35; }
 .showcase :global(.stack-layer)[data-depth="2"]::after { opacity: .62; }
 .showcase :global(.stack-deck) :global(.frame-bar) { height: 30px; padding-inline: 12px; }
-.showcase :global(.stack-deck) :global(.frame-url) { font-size: 10px; padding-block: 2px; }
+.showcase :global(.stack-deck) :global(.frame-url) { font-size: 11px; padding-block: 2px; }
 .showcase :global(.stack-screen) { position: relative; display: block; aspect-ratio: 8 / 5; overflow: hidden; }
 .showcase :global(.stack-card) { position: absolute; inset: 0; display: block; opacity: 0; pointer-events: none; transition: opacity 600ms var(--ease-out); }
 .showcase :global(.stack-card)[data-active=true] { opacity: 1; }
@@ -19,7 +19,7 @@
 .showcase :global(.stack-caption) { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; font: 400 11px var(--font-mono), monospace; color: var(--secondary); }
 .showcase :global(.stack-title) { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .showcase :global(.stack-title) strong { font: 500 16px / 1.25 var(--font-display), sans-serif; letter-spacing: -.01em; color: var(--foreground); }
-.showcase :global(.stack-title) > span { font-size: 10px; }
+.showcase :global(.stack-title) > span { font-size: 11px; }
 .showcase :global(.stack-selectors) { display: flex; flex-shrink: 0; gap: 2px; }
 .showcase :global(.stack-selectors) button { position: relative; min-width: 36px; min-height: 44px; padding: 10px 6px; background: transparent; border: 0; color: var(--secondary); font: inherit; transition: color 160ms ease; }
 .showcase :global(.stack-selectors) button::after { content: ""; position: absolute; bottom: 4px; left: 8px; right: 8px; height: 2px; background: var(--accent); opacity: 0; transition: opacity 160ms ease; }

@@ -1,0 +1,43 @@
+.svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.svg[data-active=false] * { animation-play-state: paused; }
+.svg[data-active=true] * { animation-play-state: running; }
+.label { font: 400 8px var(--font-mono), monospace; letter-spacing: .04em; fill: #afb2a7; }
+.orbit, .faint { fill: none; stroke: #41443d; stroke-width: .75; }
+.orbit { stroke-dasharray: 2 5; }
+.connections { fill: none; stroke: #64695e; stroke-width: .75; }
+.node { fill: var(--surface); stroke: var(--stage-ink); stroke-width: 1; }
+.echo { fill: none; stroke: var(--stage-ink); stroke-width: .75; opacity: 0; transform-box: fill-box; transform-origin: center; animation: signal-echo 4s var(--ease-out) infinite; }
+.core { fill: var(--stage-soft); stroke: var(--stage-ink); stroke-width: 1; }
+.icon { fill: none; stroke: var(--stage-ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.surface { fill: #1b1e1a; stroke: #4b5045; stroke-width: .8; }
+.line { fill: none; stroke: #929887; stroke-width: 1.4; stroke-linecap: round; }
+.accentLine { fill: none; stroke: var(--stage-ink); stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; }
+.fill { fill: var(--stage-ink); }
+.planCard { transform-box: fill-box; transform-origin: center; animation: plan-align 6s var(--ease-in-out) infinite; }
+.planDot { fill: var(--stage-ink); animation: roadmap 6s var(--ease-in-out) infinite; }
+.heroLines { fill: none; stroke: #d4d5cb; stroke-width: 2; stroke-linecap: round; }
+.assemble { animation: assemble 6s var(--ease-in-out) infinite; }
+.cursor { fill: #e0e1d8; stroke: var(--surface); stroke-width: 1; animation: cursor-preview 6s var(--ease-in-out) infinite; }
+.code { animation: code-ready 6s var(--ease-in-out) infinite; }
+.lineNumber { font: 7px var(--font-mono), monospace; fill: #8e9585; }
+.caret { fill: none; stroke: var(--stage-ink); stroke-width: 1.5; animation: blink 1.3s steps(2, end) infinite; }
+.check { fill: none; stroke: var(--stage-ink); stroke-width: 1.1; animation: check-ready 6s var(--ease-out) infinite; }
+.pipelinePacket { fill: var(--stage-ink); opacity: 0; animation: pipeline 6s linear infinite; }
+.infra { transform-box: fill-box; transform-origin: center; animation: infra-ready 6s var(--ease-in-out) infinite; }
+.growth { animation: growth 6s var(--ease-in-out) infinite; }
+@keyframes signal-echo { 0% { transform: scale(.7); opacity: .5; } 60%, 100% { transform: scale(1.8); opacity: 0; } }
+@keyframes plan-align { 0%, 100% { transform: translate(0); } 15% { transform: translate(4px, -3px); } 40%, 85% { transform: translate(0); } }
+@keyframes roadmap { 0%, 15%, 100% { transform: translateY(0); } 40% { transform: translateY(50px); } 65%, 85% { transform: translateY(100px); } }
+@keyframes assemble { 0%, 100% { opacity: .6; transform: translateY(3px); } 20%, 85% { opacity: 1; transform: translateY(0); } }
+@keyframes cursor-preview { 0%, 100% { transform: translate(0); } 35%, 50% { transform: translate(-30px, -49px); } 75% { transform: translate(-66px, -4px); } }
+@keyframes code-ready { 0%, 100% { opacity: .55; } 30%, 80% { opacity: 1; } }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes check-ready { 0%, 10%, 100% { opacity: .25; } 30%, 90% { opacity: 1; } }
+@keyframes pipeline { 0% { transform: translateX(0); opacity: 0; } 15% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translateX(143px); opacity: 0; } }
+@keyframes infra-ready { 0%, 100% { opacity: .55; transform: scale(.98); } 35%, 75% { opacity: 1; transform: scale(1); } }
+@keyframes growth { 0%, 100% { clip-path: inset(0 100% 0 0); } 55%, 90% { clip-path: inset(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .svg * { animation: none !important; }
+  .echo, .pipelinePacket, .caret { display: none; }
+  .growth { clip-path: none; }
+}

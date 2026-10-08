@@ -15,14 +15,14 @@ export const faqs = [
   { question: "Do we need AI for our project?", answer: "Only when it helps the work. We consider ordinary automation alongside AI and use human review where a decision needs oversight." },
 ];
 export default function Engagements({ compact = false }: { compact?: boolean }) {
-  return <section className={"container section " + styles.engagements} id="engagements">
-    <div className="section-heading"><div><p className="eyebrow">HOW WE CAN WORK TOGETHER</p><h2>A clear starting point.<br /><span className="muted">Room to build from there.</span></h2></div>
+  return <section className={"container section " + styles.engagements} id="engagements" aria-labelledby="engagements-heading">
+    <div className={"section-heading " + styles.engagementHeading}><div><p className="eyebrow">HOW WE CAN WORK TOGETHER</p><h2 id="engagements-heading">A clear starting point.<br /><span className="muted">Room to build from there.</span></h2></div>
       {!compact && <Link href="/contact" className="text-link">Talk through your idea<ArrowUpRight size={17} aria-hidden="true" /></Link>}</div>
     {!compact && <div className={styles.offerGrid}>{offers.map((offer, index) => <article key={offer.title} className={styles.offer}>
-      <span className="mono">0{index + 1}</span><h3>{offer.title}</h3><p className={styles.offerFor}>{offer.for}</p><p>{offer.body}</p><div><span className="eyebrow">WHAT YOU LEAVE WITH</span><p>{offer.output}</p></div>
+      <span className="mono">0{index + 1}</span><h3>{offer.title}</h3><p className={styles.offerFor}>{offer.for}</p><p className={styles.offerBody}>{offer.body}</p><div className={styles.offerOutput}><span className="eyebrow">WHAT YOU LEAVE WITH</span><p>{offer.output}</p></div>
     </article>)}</div>}
     <div className={styles.faq}><header><p className="eyebrow">A FEW GOOD QUESTIONS</p><h3>Before we<br /><span className="muted">begin.</span></h3></header>
-      <div>{faqs.map(item => <details key={item.question}><summary>{item.question}<Plus size={17} aria-hidden="true" /></summary><p>{item.answer}</p></details>)}</div>
+      <div className={styles.faqList}>{faqs.map(item => <details key={item.question}><summary>{item.question}<Plus size={17} aria-hidden="true" /></summary><p>{item.answer}</p></details>)}</div>
     </div>
   </section>;
 }
