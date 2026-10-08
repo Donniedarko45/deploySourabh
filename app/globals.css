@@ -1056,3 +1056,40 @@ body { font-size: var(--body-size); line-height: 1.65; }
 @media (max-width: 1279px) { .scroll-cue { display: none; } }
 
 .hero-visual-enter { width: 100%; animation: hero-visual-entry 1200ms var(--ease-out) both; }
+
+/* Capability chapters: the two follow-up links sit side by side when they fit and stack when they don't. */
+.chapter-actions { display: flex; flex-wrap: wrap; gap: 4px 32px; margin-top: 18px; }
+.chapter-body .chapter-actions .text-link { margin-top: 0; }
+
+/* ── Phone polish ─────────────────────────────────────────────────────────────────────────────
+   The open menu takes the whole screen below the header, and the page underneath stops scrolling. */
+@media (max-width: 1099px) {
+  .mobile-nav nav { display: flex; flex-direction: column; height: calc(100dvh - 100%); overflow-y: auto; overscroll-behavior: contain; padding-bottom: calc(25px + env(safe-area-inset-bottom, 0px)); }
+  .site-header:has(.mobile-nav[open]) { background: var(--background); border-color: var(--border); }
+  html:has(.mobile-nav[open]) { overflow: hidden; }
+}
+/* Fingers need 44px: links that read fine with a mouse get the height they need on touch. */
+@media (max-width: 599px) {
+  .text-link { min-height: 44px; }
+  .footer-links { row-gap: 0; }
+  .footer-links a { display: flex; align-items: center; min-height: 44px; }
+  .footer-contact { gap: 4px; }
+  .footer-contact a { min-height: 44px; }
+  .footer-bottom a { display: inline-flex; align-items: center; min-height: 44px; }
+  .contact-aside > a { padding-block: 12px 8px; }
+  /* Intro paragraphs are reading text, not captions. */
+  .page-intro > p:not(.eyebrow) { font-size: 15px; line-height: 1.75; }
+  /* The secondary hero action sits on the ASCII field, so it gets its own quiet surface. */
+  .hero-actions .button-secondary { padding-inline: 18px; background: var(--background); border: 1px solid var(--border); }
+}
+/* Project follow-up links read as one group: side by side when they fit, a tight stack when they don't. */
+.project-links { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.project-meta .project-links .text-link { padding-block: 6px; }
+/* Phones: the capability panel runs edge to edge like the other content bands, and its drawing still spans the full width. */
+@media (max-width: 599px) {
+  .capability-panel { margin-inline: calc(-1 * var(--page-gutter)); padding-inline: var(--page-gutter); border-inline: 0; }
+  .capability-drawing { width: calc(100% + 2 * var(--page-gutter)); margin-left: calc(-1 * var(--page-gutter)); }
+  /* Tall enough for the longest capability, so switching tabs never moves the content below. */
+  .capability-panel { min-height: 760px; }
+}
+@media (max-width: 359px) { .capability-panel { min-height: 810px; } }

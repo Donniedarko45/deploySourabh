@@ -28,8 +28,10 @@ export default function Page() {
               <p className="chapter-lede">{item.description}</p>
               <ul className="chapter-services" aria-label={`What we do in ${item.title}`}>{item.items.map((text, i) => <li key={text}><span className="mono">0{i + 1}</span>{text}</li>)}</ul>
               <div className="chapter-outcome"><span className="eyebrow">WHAT YOU LEAVE WITH</span><p>{item.deliverable}</p></div>
-              <Link href={`/contact?capability=${item.id}`} className="text-link">Discuss your project<ArrowUpRight size={16} /></Link>
-              <Link href={"/services/" + item.id} className="text-link" style={{ marginTop: 20 }}>Explore the service<ArrowUpRight size={16} /></Link>
+              <div className="chapter-actions">
+                <Link href={`/contact?capability=${item.id}`} className="text-link">Discuss your project<ArrowUpRight size={16} /></Link>
+                <Link href={"/services/" + item.id} className="text-link">Explore the service<ArrowUpRight size={16} /></Link>
+              </div>
             </div>
           </section>;
         })}

@@ -80,9 +80,13 @@
   .companion { width: 66px; right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); }
   .mascot { width: 66px; height: 66px; border-radius: 20px; }
   .panel { max-width: calc(100vw - 28px); max-height: calc(100dvh - 108px); padding: 18px; }
+  .companion { transition: opacity 180ms ease, transform 240ms var(--ease-out); }
+  .companion[data-tucked=true] { opacity: 0; transform: translateY(16px); pointer-events: none; }
+  :global(html:has(.mobile-nav[open])) .companion { opacity: 0; pointer-events: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .body, .flame, .bloom, .tongueOuter, .tongueMid, .fireCore, .firelight, .warmth, .eyes, .shadow { animation: none; }
   .spark { display: none; }
   .gaze, .flare { transform: none !important; transition: none; }
+  .companion[data-tucked=true] { transform: none; }
 }

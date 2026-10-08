@@ -16,7 +16,7 @@ function Discover() {
 
 function Define() {
   return <>
-    <path className={styles.faint} d="M110 19v18m0 156v19" />
+    <path className={styles.faint} d="M110 19v18m0 156v8" />
     {[42, 92, 142].map((y, index) => <g key={y} className={styles.planCard} style={{ animationDelay: `${index * .18}s` }}>
       <rect className={styles.surface} x="31" y={y} width="151" height="40" rx="5" /><rect className={styles.core} x="43" y={y + 12} width="15" height="15" rx="3" />
       <path className={styles.line} d={`M69 ${y + 15}h${[57, 77, 48][index]}m-${[57, 77, 48][index]} 8h${[90, 52, 87][index]}`} /><text className={styles.label} x="147" y={y + 16}>0{index + 1}</text>

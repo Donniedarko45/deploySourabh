@@ -1,8 +1,8 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useId, useRef, useState, type CSSProperties } from "react";
 import dynamic from "next/dynamic";
-import { ArrowUpRight, Check, FileText, GitBranch, UserRound } from "lucide-react";
+import { ArrowUpRight, Check, FileText, GitBranch, ShieldCheck, UserRound } from "lucide-react";
 import Link from "next/link";
 import { GlobePoster } from "../ui/GlobePoster";
 import { GoogleGeminiEffect } from "../ui/GoogleGeminiEffect";
@@ -16,12 +16,18 @@ const uses = [
   { title: "Internal Operations", subtitle: "Turn documents into decisions.", body: "Extract information from business documents, validate it against your rules, and flag uncertain results for review before updating the systems your team relies on.", steps: ["Business document", "Extraction & validation", "Approved system update"], aim: "Less repetitive re-entry. Clear ownership and a review trail." },
 ];
 
+// Who owns each step: the pitch is that AI prepares and people stay in control.
+const roles = ["CONTEXT IN", "AI PREPARES", "PEOPLE IN CONTROL"];
+const icons = [FileText, GitBranch, UserRound];
+
 export default function Ai({ numbered = true }: { numbered?: boolean }) {
   const [active, setActive] = useState(0);
   const [instant, setInstant] = useState(false);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const stage = useRef<HTMLDivElement>(null);
   const { seen, enhanced } = useAmbientPlayback(stage);
+  const flow = useRef<HTMLDivElement>(null);
+  const { running } = useAmbientPlayback(flow);
   const panelId = useId();
   const current = uses[active];
   return <section id="ai" className={"ai-section " + styles.section}>
@@ -60,22 +66,26 @@ export default function Ai({ numbered = true }: { numbered?: boolean }) {
         <div className={styles.copy}>
           <h3>{current.subtitle}</h3>
           <p>{current.body}</p>
-          <p className={styles.aim}>{current.aim}</p>
+          <div className={styles.outcome}><span>OUTCOME</span><p>{current.aim}</p></div>
         </div>
-        <ol className={styles.workflow} aria-label={current.title + " workflow"}>
-          {current.steps.map((step, index) => <li key={step}>
-            <span className={styles.stepNumber}>{String(index + 1).padStart(2, "0")}</span>
-            {index === 0 ? <FileText size={19} aria-hidden="true" /> : index === 1 ? <GitBranch size={19} aria-hidden="true" /> : <UserRound size={19} aria-hidden="true" />}
-            <span>{step}</span>
-            {index === 2 && <Check size={16} className={styles.approved} aria-hidden="true" />}
-          </li>)}
-        </ol>
+        <div ref={flow} className={styles.flow} data-running={running} data-instant={instant}>
+          <ol key={active} className={styles.workflow} aria-label={current.title + " workflow"}>
+            {current.steps.map((step, index) => {
+              const Icon = icons[index];
+              return <li key={step} style={{ "--i": index } as CSSProperties}>
+                <span className={styles.node} aria-hidden="true"><Icon size={18} />{index === 2 && <span className={styles.badge}><Check size={10} strokeWidth={3} /></span>}</span>
+                <span className={styles.stepText}><span className={styles.role}>{roles[index]}</span><span className={styles.stepName}>{step}</span></span>
+                <span className={styles.stepNumber} aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              </li>;
+            })}
+          </ol>
+          <p className={styles.guard}><ShieldCheck size={16} aria-hidden="true" />Human oversight. Clear evaluation. Deliberate rollout.</p>
+        </div>
       </div>
       <div className={styles.footer}>
-        <p><Check size={16} aria-hidden="true" />Human oversight. Clear evaluation. Deliberate rollout.</p>
         <Link href="/capabilities#ai-automation" className={styles.explore}>Explore AI & automation <ArrowUpRight size={17} /></Link>
+        <p className={styles.note}>Illustrative workflows, shaped to your systems and operating requirements.</p>
       </div>
-      <p className={styles.note}>Illustrative workflows, shaped to your systems and operating requirements.</p>
     </div>
   </section>;
 }

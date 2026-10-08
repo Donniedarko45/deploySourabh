@@ -56,6 +56,20 @@ export default function CloudCompanion() {
     };
   }, [paused, editing]);
 
+  // On phones Ember sits over the reading column, so it steps aside while the reader scrolls down and returns on the way back up.
+  const [tucked, setTucked] = useState(false);
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (Math.abs(y - last) < 12) return;
+      setTucked(y > last && y > 240 && !details.current?.open);
+      last = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     const update = () => setEditing(document.activeElement instanceof Element && document.activeElement.matches("input,textarea,select,[contenteditable=true]"));
     document.addEventListener("focusin", update);
@@ -67,7 +81,7 @@ export default function CloudCompanion() {
   }, []);
 
   return (
-    <aside className={styles.companion} aria-label="CloudFire companion" data-playing={playing && !editing} data-editing={editing}>
+    <aside className={styles.companion} aria-label="CloudFire companion" data-playing={playing && !editing} data-editing={editing} data-tucked={tucked}>
       <details ref={details} className={styles.details} onKeyDown={event => {
         if (event.key === "Escape" && details.current?.open) {
           event.preventDefault();

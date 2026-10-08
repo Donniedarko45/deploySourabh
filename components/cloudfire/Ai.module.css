@@ -22,18 +22,43 @@
 .detail { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; padding-block: 42px 36px; min-height: 282px; }
 .copy h3 { font-size: clamp(27px, 2.5vw, 35px); line-height: 1.14; letter-spacing: -.035em; max-width: 23ch; margin-bottom: 18px; }
 .copy > p { font-size: 15px; line-height: 1.75; color: var(--secondary); max-width: 62ch; }
-.copy > .aim { color: #dbd7cc; font-size: 13px; margin-top: 16px; }
-.workflow { margin: 0; padding: 0; list-style: none; align-self: start; }
-.workflow li { position: relative; display: flex; align-items: center; gap: 16px; min-height: 58px; border-bottom: 1px solid var(--border); font-size: 14px; color: #d6d2c9; }
-.workflow li > svg { flex-shrink: 0; color: var(--accent); }
-.stepNumber { color: #85817a; font: 400 10px var(--font-mono), monospace; }
-.workflow li > .approved { margin-left: auto; color: #bcb9ad; }
-.footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 24px; border-top: 1px solid var(--border); }
-.footer > p { display: flex; align-items: center; gap: 10px; color: #a8a59d; font: 400 11px / 1.6 var(--font-mono), monospace; }
-.footer > p > svg { flex-shrink: 0; color: var(--accent); }
+.outcome { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--border); max-width: 62ch; }
+.outcome > span { font: 400 11px / 1 var(--font-mono), monospace; letter-spacing: .07em; color: var(--accent); }
+.outcome > p { margin-top: 10px; color: var(--foreground); font-size: 16px; line-height: 1.55; }
+
+/* The workflow is a pipeline, so it is drawn as one: nodes joined by a line, a signal travelling from context to the
+   person who decides, and the final step marked as approved. Steps rise in when the use case changes. */
+.flow { align-self: start; border: 1px solid #ffffff17; background: linear-gradient(180deg, #151515, #101010 70%); box-shadow: inset 0 1px 0 #ffffff0a; }
+.workflow { --node: 42px; --pad: 22px; --row: 72px; position: relative; margin: 0; padding: 10px var(--pad); list-style: none; }
+.workflow::before { content: ""; position: absolute; left: calc(var(--pad) + var(--node) / 2); top: calc(10px + var(--row) / 2); bottom: calc(10px + var(--row) / 2); width: 1px; background: repeating-linear-gradient(to bottom, #4a4844 0 4px, transparent 4px 8px); transform-origin: top; animation: flow-draw 640ms var(--ease-out) 120ms both; }
+.workflow::after { content: ""; position: absolute; left: calc(var(--pad) + var(--node) / 2 - 3px); top: calc(10px + var(--row) / 2); width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px #ff5a3622, 0 0 12px #ff5a36; opacity: 0; animation: flow-signal 3.4s var(--ease-in-out) 900ms infinite; animation-play-state: paused; }
+.flow[data-running=true] .workflow::after { animation-play-state: running; }
+.workflow li { position: relative; display: grid; grid-template-columns: var(--node) minmax(0, 1fr) auto; align-items: center; column-gap: 16px; min-height: var(--row); animation: flow-step 520ms var(--ease-out) calc(var(--i) * 90ms + 60ms) both; }
+.node { position: relative; z-index: 1; display: grid; place-items: center; width: var(--node); height: var(--node); border: 1px solid #ffffff1f; border-radius: 10px; background: #181818; color: var(--accent); }
+.workflow li:last-child .node { border-color: #ff5a3670; background: #ff5a3614; box-shadow: 0 0 22px -6px #ff5a3680; }
+.badge { position: absolute; top: -6px; right: -6px; display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: var(--accent); color: #0d0d0d; box-shadow: 0 0 0 3px #131313; animation: flow-approve 420ms var(--ease-out) 520ms both; }
+.stepText { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.role { font: 400 11px / 1 var(--font-mono), monospace; letter-spacing: .07em; color: #8f8b84; }
+.workflow li:last-child .role { color: var(--accent); }
+.stepName { font: 500 16px / 1.3 var(--font-display), sans-serif; letter-spacing: -.01em; color: var(--foreground); }
+.stepNumber { color: #66635e; font: 400 11px var(--font-mono), monospace; }
+.guard { display: flex; align-items: flex-start; gap: 10px; margin: 0; padding: 15px var(--pad, 22px); border-top: 1px solid #ffffff12; color: #a8a59d; font: 400 12px / 1.6 var(--font-mono), monospace; }
+.guard > svg { flex-shrink: 0; margin-top: 1px; color: var(--accent); }
+.flow[data-instant=true] .workflow::before, .flow[data-instant=true] .workflow li, .flow[data-instant=true] .badge { animation: none; }
+@keyframes flow-draw { from { transform: scaleY(0); } }
+@keyframes flow-step { from { opacity: 0; transform: translateY(8px); } }
+@keyframes flow-approve { from { opacity: 0; transform: scale(.4); } }
+@keyframes flow-signal {
+  0% { top: calc(10px + var(--row) / 2); opacity: 0; }
+  10% { opacity: 1; }
+  70% { top: calc(100% - 10px - var(--row) / 2); opacity: 1; }
+  82%, 100% { top: calc(100% - 10px - var(--row) / 2); opacity: 0; }
+}
+
+.footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 22px; border-top: 1px solid var(--border); }
 .explore { display: inline-flex; align-items: center; gap: 14px; min-height: 44px; font-size: 14px; font-weight: 500; flex-shrink: 0; }
 .explore svg { color: var(--accent); }
-.note { margin-top: 18px; color: #96928a; font-size: 12px; line-height: 1.6; }
+.note { color: #96928a; font-size: 12px; line-height: 1.6; text-align: right; }
 @media (hover: hover) and (pointer: fine) {
   .tabs button:hover { color: var(--foreground); }
   .explore:hover { color: var(--accent); }
@@ -50,35 +75,46 @@
   .stage { height: 290px; }
   .planet { width: 330px; height: 330px; }
   .source, .destination { max-width: 135px; gap: 9px; }
-  .source > span, .destination > span { font-size: 8px; }
+  .source > span, .destination > span { font-size: 10px; }
   .source strong, .destination strong { font-size: 13px; }
   .tabs button { font-size: 14px; gap: 9px; }
   .tabs button > svg { display: none; }
   .detail { gap: 30px; grid-template-columns: 1fr 1fr; }
   .footer { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .note { text-align: left; }
 }
 @media (max-width: 599px) {
   .section:global(.ai-section) { padding-block: 62px 48px; }
-  .heading :global(.eyebrow) { font-size: 9px; margin-bottom: 21px; }
+  .heading :global(.eyebrow) { font-size: 11px; margin-bottom: 21px; }
   .heading h2 { font-size: clamp(30px, 8.25vw, 46px); line-height: 1.08; }
   .intro { font-size: 14px; margin-top: 18px; }
   .stage { height: 258px; margin: 16px -20px 18px; }
   .planet { width: 270px; height: 270px; }
   .source, .destination { top: auto; bottom: 0; translate: none; max-width: 46%; padding: 7px 20px; gap: 6px; background: transparent; }
-  .source > span, .destination > span { font-size: 8px; }
+  .source > span, .destination > span { font-size: 10px; }
   .source strong, .destination strong { font-size: 11px; }
   .tabs { grid-template-columns: 1fr; gap: 0; border-bottom: 0; }
   .tabs button { min-height: 54px; font-size: 15px; gap: 14px; border-bottom: 1px solid var(--border); }
-  .tabs button > svg { display: block; }
+  .tabs button > svg { display: none; }
   .tabs button::after { right: auto; width: 42px; }
   .detail { grid-template-columns: 1fr; gap: 24px; padding-block: 32px; min-height: 0; }
   .copy h3 { font-size: 27px; margin-bottom: 17px; }
   .copy > p { font-size: 14px; }
-  .copy > .aim { font-size: 12px; }
-  .workflow li { min-height: 54px; font-size: 13px; }
-  .footer { gap: 14px; padding-top: 22px; }
-  .footer > p { font-size: 10px; }
-  .note { margin-top: 14px; font-size: 11px; }
+  .outcome { margin-top: 22px; padding-top: 16px; }
+  .outcome > p { font-size: 15px; }
+  /* The flow card runs edge to edge, like the other content bands on phones. */
+  .flow { margin-inline: -20px; border-inline: 0; }
+  .workflow { --pad: 20px; --row: 68px; }
+  .workflow li { grid-template-columns: var(--node) minmax(0, 1fr); }
+  .stepNumber { display: none; }
+  .stepName { font-size: 15px; }
+  .guard { padding-inline: 20px; }
+  .footer { gap: 6px; padding-top: 14px; border-top: 0; }
+  .note { font-size: 12px; text-align: left; }
 }
-@media (prefers-reduced-motion: reduce) { .tabs button, .tabs button::after { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .tabs button, .tabs button::after { transition: none; }
+  .workflow::before, .workflow li, .badge { animation: none; }
+  .workflow::after { display: none; }
+}
 .globePlaceholder { position: absolute; inset: 12%; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #393632, #121212 70%); border: 1px solid #695849; }

@@ -117,11 +117,11 @@
   .principles { gap: 24px 16px; }
   .principles h3 { font-size: 14px; }
   .principles p { font-size: 13px; }
-  .diagramHeading { font-size: 9px; gap: 8px; margin-bottom: 18px; }
+  .diagramHeading { font-size: 11px; gap: 8px; margin-bottom: 18px; }
   .nodeLabel { font-size: 23px; }
   .cloudLabel { font-size: 21px; }
-  .diagramFooter { font-size: 10px; gap: 10px; margin-top: 18px; }
-  .footnote:global(.engineering-footnote) { font-size: 9px; }
+  .diagramFooter { font-size: 11px; gap: 10px; margin-top: 18px; }
+  .footnote:global(.engineering-footnote) { font-size: 11px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .packet { display: none; animation: none; }

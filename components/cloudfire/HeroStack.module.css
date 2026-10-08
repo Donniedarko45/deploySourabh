@@ -26,7 +26,7 @@
 .showcase :global(.stack-selectors) button[aria-pressed=true] { color: var(--foreground); }
 .showcase :global(.stack-selectors) button[aria-pressed=true]::after { opacity: 1; }
 @media (hover: hover) and (pointer: fine) { .showcase :global(.stack-selectors) button:hover { color: var(--foreground); } }
-@media (max-width: 599px) { .showcase :global(.stack-selectors) button { min-width: 32px; } .showcase :global(.stack-title) strong { font-size: 14px; } }
+@media (max-width: 599px) { .showcase :global(.stack-selectors) button { min-width: 44px; } .showcase :global(.stack-title) strong { font-size: 14px; } }
 @media (prefers-reduced-motion: reduce) { .showcase :global(.stack-card) { transition: none; } }
 
 :global(.hero-art) > :global(.hero-visual-enter) { width: 100%; }

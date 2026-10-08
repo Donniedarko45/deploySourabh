@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useInView, useReducedMotion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 import { useSiteMotion } from "./SiteMotion";
 import styles from "./HeroStack.module.css";
 
@@ -15,7 +16,7 @@ const DWELL = 6500;
 export default function HeroStack({ cards }: { cards: StackCard[] }) {
   const deck = useRef<HTMLDivElement>(null);
   const onScreen = useInView(deck, { amount: 0.3 });
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const { paused } = useSiteMotion();
   const [front, setFront] = useState(0);
   const [pointerHeld, setPointerHeld] = useState(false);

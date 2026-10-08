@@ -150,3 +150,7 @@
   .serviceOutcome { padding: 25px; }
   .serviceOutcome p:last-child { font-size: 18px; }
 }
+/* Phones: boxed panels become edge-to-edge bands, so their text gets the full reading column instead of a card inset. */
+@media (max-width: 599px) {
+  .offer, .faqList, .industryCard, .insightCard, .insightCard.featured { margin-inline: calc(-1 * var(--page-gutter)); padding-inline: var(--page-gutter); border-inline: 0; }
+}
