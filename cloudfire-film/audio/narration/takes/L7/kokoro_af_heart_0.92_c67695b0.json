@@ -1,0 +1,27 @@
+{
+ "asr": "When a storage node goes doc in e.g. sta, the files keep coming back verified.",
+ "wer": 0.286,
+ "issues": [
+  {
+   "type": "substitution",
+   "expected": "dark",
+   "heard": "doc"
+  },
+  {
+   "type": "substitution",
+   "expected": "aegisstore",
+   "heard": "e g sta"
+  }
+ ],
+ "duration_s": 4.732,
+ "words_per_s": 2.96,
+ "f0_median_hz": 202.5,
+ "pitch_range_st": 9.96,
+ "end_drop_st": 0.0,
+ "peak_dbfs": -3.55,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "af_heart",
+ "speed": 0.92,
+ "line": "L7"
+}

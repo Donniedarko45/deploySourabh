@@ -1,0 +1,17 @@
+{
+ "asr": "Good engineering rarely asks to be noticed. It simply holds.",
+ "wer": 0.0,
+ "issues": [],
+ "duration_s": 5.208,
+ "words_per_s": 1.92,
+ "f0_median_hz": 153.8,
+ "pitch_range_st": 9.45,
+ "end_drop_st": -3.09,
+ "peak_dbfs": -4.85,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "bm_george",
+ "speed": 0.9,
+ "line": "L8",
+ "metric_version": 2
+}

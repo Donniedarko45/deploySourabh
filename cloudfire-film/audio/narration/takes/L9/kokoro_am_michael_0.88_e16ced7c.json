@@ -1,0 +1,17 @@
+{
+ "asr": "cloud fire.",
+ "wer": 0.0,
+ "issues": [],
+ "duration_s": 1.003,
+ "words_per_s": 1.0,
+ "f0_median_hz": 146.8,
+ "pitch_range_st": 5.45,
+ "end_drop_st": -3.8,
+ "peak_dbfs": -3.22,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "am_michael",
+ "speed": 0.88,
+ "line": "L9",
+ "metric_version": 2
+}

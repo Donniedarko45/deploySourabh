@@ -1,0 +1,22 @@
+{
+ "asr": "When a storage node goes dark in EG Store, the files keep coming back verified.",
+ "wer": 0.143,
+ "issues": [
+  {
+   "type": "substitution",
+   "expected": "aegisstore",
+   "heard": "eg store"
+  }
+ ],
+ "duration_s": 5.104,
+ "words_per_s": 2.74,
+ "f0_median_hz": 177.8,
+ "pitch_range_st": 6.61,
+ "end_drop_st": 2.25,
+ "peak_dbfs": -4.79,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "bf_emma",
+ "speed": 0.92,
+ "line": "L7"
+}

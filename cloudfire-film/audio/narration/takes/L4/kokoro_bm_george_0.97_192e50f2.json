@@ -1,0 +1,17 @@
+{
+ "asr": "Automation carries the busy work, and a person still approves what matters.",
+ "wer": 0.0,
+ "issues": [],
+ "duration_s": 4.823,
+ "words_per_s": 2.28,
+ "f0_median_hz": 145.5,
+ "pitch_range_st": 8.04,
+ "end_drop_st": -0.81,
+ "peak_dbfs": -4.25,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "bm_george",
+ "speed": 0.97,
+ "line": "L4",
+ "metric_version": 2
+}

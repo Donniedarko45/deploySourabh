@@ -1,0 +1,115 @@
+{
+  "title": "Beneath the Surface",
+  "version": 4,
+  "status": "approved for production",
+  "word_target": "85-105",
+  "voice_brief": "Sophisticated, grounded, mature narrator. Restrained British or neutral international English. Measured authority, understated warmth, precise articulation. Never an announcer; never whispering; no forced drop at sentence ends.",
+  "pronunciations": {
+    "AegisStore": {
+      "respell": "Eejis Store",
+      "ipa": "ˈiːdʒɪs stɔː",
+      "note": "EE-jis store, two words, equal weight"
+    },
+    "CloudFire": {
+      "respell": "Cloud Fire",
+      "ipa": "ˈklaʊd faɪə",
+      "note": "two clear syllables, stress on CLOUD"
+    }
+  },
+  "lines": [
+    {
+      "id": "L1",
+      "act": "II",
+      "shot": "S04",
+      "cue_s": 5.6,
+      "text": "Just after someone presses a button, a product keeps its promise, [pause 0.3] or quietly breaks it.",
+      "emotion": "curiosity, intimacy",
+      "direction": "As if noticing something for the first time and sharing it with one person. Unhurried. A small breath before 'or quietly breaks it', which lands softly, almost privately, not ominously.",
+      "speed": 0.9
+    },
+    {
+      "id": "L2",
+      "act": "II",
+      "shot": "S05",
+      "cue_s": 12.2,
+      "text": "What decides it is rarely on the screen.",
+      "emotion": "curiosity turning to fascination",
+      "direction": "A gentle reveal. Slight lift on 'rarely'. Let 'screen' resolve without dropping away.",
+      "speed": 0.9
+    },
+    {
+      "id": "L3",
+      "act": "III",
+      "shot": "S07",
+      "cue_s": 18.0,
+      "text": "We build both sides of that moment.",
+      "emotion": "technical confidence",
+      "direction": "Settled, matter-of-fact confidence. Warmth on 'both sides'. No sales emphasis.",
+      "speed": 0.92
+    },
+    {
+      "id": "L4",
+      "act": "III",
+      "shot": "S08",
+      "cue_s": 22.3,
+      "text": "Automation carries the busywork, and a person still approves what matters.",
+      "emotion": "fascination, reassurance",
+      "direction": "Light and clear on the first clause; the second clause is the point. Slight weight on 'a person'.",
+      "speed": 0.93
+    },
+    {
+      "id": "L5",
+      "act": "III",
+      "shot": "S09",
+      "cue_s": 27.9,
+      "text": "Releases go out on an ordinary afternoon, and nobody holds their breath.",
+      "emotion": "dry warmth",
+      "direction": "A hint of a smile on 'ordinary afternoon' and 'nobody holds their breath'. Understatement, not a joke.",
+      "speed": 0.93
+    },
+    {
+      "id": "L7",
+      "act": "IV",
+      "shot": "S11",
+      "cue_s": 38.5,
+      "text": "When a storage node goes dark in AegisStore, [pause 0.2] the files keep coming back, verified.",
+      "emotion": "pride, clarity",
+      "direction": "Proud but factual, like showing a colleague something that works. A beat before 'verified', which is said with quiet certainty.",
+      "speed": 0.92
+    },
+    {
+      "id": "L8",
+      "act": "V",
+      "shot": "S13",
+      "cue_s": 50.6,
+      "text": "Good engineering rarely asks to be noticed. [pause 0.45] It simply holds.",
+      "emotion": "quiet conviction",
+      "direction": "Slower. Reflective. 'It simply holds' is the thesis of the film: grounded, warm, final without being dramatic.",
+      "speed": 0.86
+    },
+    {
+      "id": "L9",
+      "act": "V",
+      "shot": "S15",
+      "cue_s": 58.1,
+      "text": "CloudFire.",
+      "emotion": "quiet conviction",
+      "direction": "Said simply, as a signature. Not announced. Falling but warm.",
+      "speed": 0.88
+    }
+  ],
+  "alternates": [
+    {
+      "id": "L6",
+      "act": "III",
+      "shot": "S10",
+      "cue_s": 32.8,
+      "text": "The hardest journey is redesigned until it feels obvious.",
+      "emotion": "clarity",
+      "direction": "Clean and even. A small, satisfied resolution on 'obvious'.",
+      "speed": 0.92,
+      "reason": "Cut after timing the selected voice: Act III ran at 82% speech density. The Experience & Growth visual (tangled journey resolving to one screen) carries the idea without words and gives the score room to build into Act IV."
+    }
+  ],
+  "word_count": 78
+}

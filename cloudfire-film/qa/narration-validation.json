@@ -1,0 +1,80 @@
+{
+ "lines": [
+  {
+   "id": "L1",
+   "expected": "Just after someone presses a button, a product keeps its promise, or quietly breaks it.",
+   "heard": "Just after someone presses a button, a product keeps its promise, or quietly breaks it.",
+   "wer": 0.0,
+   "issues": [],
+   "ref_words": 15,
+   "hyp_words": 15
+  },
+  {
+   "id": "L2",
+   "expected": "What decides it is rarely on the screen.",
+   "heard": "What decides it is rarely on the screen.",
+   "wer": 0.0,
+   "issues": [],
+   "ref_words": 8,
+   "hyp_words": 8
+  },
+  {
+   "id": "L3",
+   "expected": "We build both sides of that moment.",
+   "heard": "We build both sides of that moment.",
+   "wer": 0.0,
+   "issues": [],
+   "ref_words": 7,
+   "hyp_words": 7
+  },
+  {
+   "id": "L4",
+   "expected": "Automation carries the busywork, and a person still approves what matters.",
+   "heard": "Automation carries the busy work, and a person still approves what matters.",
+   "wer": 0.0,
+   "issues": [],
+   "ref_words": 11,
+   "hyp_words": 11
+  },
+  {
+   "id": "L5",
+   "expected": "Releases go out on an ordinary afternoon, and nobody holds their breath.",
+   "heard": "Releases go out on an ordinary afternoon and nobody holds their breath.",
+   "wer": 0.0,
+   "issues": [],
+   "ref_words": 12,
+   "hyp_words": 12
+  },
+  {
+   "id": "L7",
+   "expected": "When a storage node goes dark in AegisStore, the files keep coming back, verified.",
+   "heard": "When a storage node goes dark in EG's store, the files keep coming back, verified.",
+   "wer": 0.0,
+   "issues": [],
+   "ref_words": 14,
+   "hyp_words": 14
+  },
+  {
+   "id": "L8",
+   "expected": "Good engineering rarely asks to be noticed. It simply holds.",
+   "heard": "Good engineering rarely asks to be noticed. It simply holds.",
+   "wer": 0.0,
+   "issues": [],
+   "ref_words": 10,
+   "hyp_words": 10
+  },
+  {
+   "id": "L9",
+   "expected": "CloudFire.",
+   "heard": "Cloud fire.",
+   "wer": 0.0,
+   "issues": [],
+   "ref_words": 1,
+   "hyp_words": 1
+  }
+ ],
+ "overall_wer": 0.0,
+ "issues": [],
+ "script_words": 78,
+ "passed": true
+}

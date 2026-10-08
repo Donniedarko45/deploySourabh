@@ -1,0 +1,17 @@
+{
+ "asr": "We build both sides of that moment.",
+ "wer": 0.0,
+ "issues": [],
+ "duration_s": 2.043,
+ "words_per_s": 3.43,
+ "f0_median_hz": 219.2,
+ "pitch_range_st": 7.05,
+ "end_drop_st": 3.43,
+ "peak_dbfs": -4.97,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "bf_isabella",
+ "speed": 0.92,
+ "line": "L3",
+ "metric_version": 2
+}

@@ -1,0 +1,17 @@
+{
+ "asr": "Just after someone presses a button, a product keeps its promise. Or quietly breaks it.",
+ "wer": 0.0,
+ "issues": [],
+ "duration_s": 6.108,
+ "words_per_s": 2.46,
+ "f0_median_hz": 98.5,
+ "pitch_range_st": 8.59,
+ "end_drop_st": 0.0,
+ "peak_dbfs": -2.57,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "bm_fable:0.6+bm_george:0.4",
+ "speed": 0.9,
+ "line": "L1",
+ "metric_version": 2
+}

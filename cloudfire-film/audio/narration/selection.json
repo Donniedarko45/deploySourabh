@@ -1,0 +1,178 @@
+{
+ "L1": {
+  "path": "audio/narration/takes/L1/kokoro_bm_george_0.90_3ced8f81.wav",
+  "score": 0.0,
+  "voice": "bm_george",
+  "speed": 0.9,
+  "duration_s": 6.119,
+  "wer": 0.0,
+  "pitch_range_st": 9.56,
+  "end_drop_st": -2.56,
+  "words_per_s": 2.45,
+  "asr": "Just after someone presses a button, a product keeps its promise, or quietly breaks it.",
+  "alternatives": [
+   {
+    "path": "audio/narration/takes/L1/kokoro_bm_george_0.94_c5f0c87f.wav",
+    "score": 0.0
+   },
+   {
+    "path": "audio/narration/takes/L1/kokoro_bm_george_0.86_99c16e5d.wav",
+    "score": 0.68
+   }
+  ]
+ },
+ "L2": {
+  "path": "audio/narration/takes/L2/kokoro_bm_george_0.90_dbe243cf.wav",
+  "score": 0.0,
+  "voice": "bm_george",
+  "speed": 0.9,
+  "duration_s": 3.014,
+  "wer": 0.0,
+  "pitch_range_st": 7.38,
+  "end_drop_st": -0.32,
+  "words_per_s": 2.65,
+  "asr": "What decides it is rarely on the screen.",
+  "alternatives": [
+   {
+    "path": "audio/narration/takes/L2/kokoro_bm_george_0.94_7f7064c6.wav",
+    "score": 0.0
+   },
+   {
+    "path": "audio/narration/takes/L2/kokoro_bm_george_0.86_e13d6512.wav",
+    "score": 0.0
+   }
+  ]
+ },
+ "L3": {
+  "path": "audio/narration/takes/L3/kokoro_bm_george_0.88_0f96d1e7.wav",
+  "score": 0.0,
+  "voice": "bm_george",
+  "speed": 0.88,
+  "duration_s": 2.426,
+  "wer": 0.0,
+  "pitch_range_st": 9.03,
+  "end_drop_st": 0.4,
+  "words_per_s": 2.89,
+  "asr": "We build both sides of that moment.",
+  "alternatives": [
+   {
+    "path": "audio/narration/takes/L3/kokoro_bm_george_0.92_120b3dc7.wav",
+    "score": 0.84
+   },
+   {
+    "path": "audio/narration/takes/L3/kokoro_bm_george_0.96_4b83637b.wav",
+    "score": 1.68
+   }
+  ]
+ },
+ "L4": {
+  "path": "audio/narration/takes/L4/kokoro_bm_george_0.93_1c6b0cee.wav",
+  "score": 0.0,
+  "voice": "bm_george",
+  "speed": 0.93,
+  "duration_s": 4.847,
+  "wer": 0.0,
+  "pitch_range_st": 8.04,
+  "end_drop_st": -0.97,
+  "words_per_s": 2.27,
+  "asr": "Automation carries the busy work, and a person still approves what matters.",
+  "alternatives": [
+   {
+    "path": "audio/narration/takes/L4/kokoro_bm_george_0.97_192e50f2.wav",
+    "score": 0.0
+   },
+   {
+    "path": "audio/narration/takes/L4/kokoro_bm_george_0.89_5f9e87e1.wav",
+    "score": 0.0
+   }
+  ]
+ },
+ "L5": {
+  "path": "audio/narration/takes/L5/kokoro_bm_george_0.93_6a0c6302.wav",
+  "score": 0.0,
+  "voice": "bm_george",
+  "speed": 0.93,
+  "duration_s": 4.867,
+  "wer": 0.0,
+  "pitch_range_st": 6.52,
+  "end_drop_st": 1.79,
+  "words_per_s": 2.47,
+  "asr": "Releases go out on an ordinary afternoon, and nobody holds their breath.",
+  "alternatives": [
+   {
+    "path": "audio/narration/takes/L5/kokoro_bm_george_0.97_0116e497.wav",
+    "score": 0.0
+   },
+   {
+    "path": "audio/narration/takes/L5/kokoro_bm_george_0.89_d701835e.wav",
+    "score": 0.0
+   }
+  ]
+ },
+ "L7": {
+  "path": "audio/narration/takes/L7/kokoro_bm_george_0.92_01e151ea.wav",
+  "score": 0.0,
+  "voice": "bm_george",
+  "speed": 0.92,
+  "duration_s": 6.241,
+  "wer": 0.0,
+  "pitch_range_st": 8.53,
+  "end_drop_st": -1.97,
+  "words_per_s": 2.24,
+  "asr": "When a storage node goes dark in EG's store, the files keep coming back, verified.",
+  "alternatives": [
+   {
+    "path": "audio/narration/takes/L7/kokoro_bm_george_0.96_1dd4fb7e.wav",
+    "score": 0.0
+   },
+   {
+    "path": "audio/narration/takes/L7/kokoro_bm_george_0.88_d4d75be7.wav",
+    "score": 0.0
+   }
+  ]
+ },
+ "L8": {
+  "path": "audio/narration/takes/L8/kokoro_bm_george_0.90_c1397488.wav",
+  "score": 0.0,
+  "voice": "bm_george",
+  "speed": 0.9,
+  "duration_s": 5.208,
+  "wer": 0.0,
+  "pitch_range_st": 9.45,
+  "end_drop_st": -3.09,
+  "words_per_s": 1.92,
+  "asr": "Good engineering rarely asks to be noticed. It simply holds.",
+  "alternatives": [
+   {
+    "path": "audio/narration/takes/L8/kokoro_bm_george_0.86_c2a49774.wav",
+    "score": 0.48
+   },
+   {
+    "path": "audio/narration/takes/L8/kokoro_bm_george_0.82_5f54a988.wav",
+    "score": 0.9
+   }
+  ]
+ },
+ "L9": {
+  "path": "audio/narration/takes/L9/kokoro_bm_george_0.92_662255ff.wav",
+  "score": 6.06,
+  "voice": "bm_george",
+  "speed": 0.92,
+  "duration_s": 1.122,
+  "wer": 0.0,
+  "pitch_range_st": 7.97,
+  "end_drop_st": -0.15,
+  "words_per_s": 0.89,
+  "asr": "Cloud Fire",
+  "alternatives": [
+   {
+    "path": "audio/narration/takes/L9/kokoro_bm_george_0.88_c6e7aaee.wav",
+    "score": 6.42
+   },
+   {
+    "path": "audio/narration/takes/L9/kokoro_bm_george_0.84_5c498036.wav",
+    "score": 6.66
+   }
+  ]
+ }
+}

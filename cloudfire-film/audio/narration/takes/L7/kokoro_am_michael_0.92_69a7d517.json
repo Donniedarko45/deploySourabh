@@ -1,0 +1,28 @@
+{
+ "asr": "When a storage node goes dock in eg stall, the files keep coming back verified.",
+ "wer": 0.214,
+ "issues": [
+  {
+   "type": "substitution",
+   "expected": "dark",
+   "heard": "dock"
+  },
+  {
+   "type": "substitution",
+   "expected": "aegisstore",
+   "heard": "eg stall"
+  }
+ ],
+ "duration_s": 5.362,
+ "words_per_s": 2.61,
+ "f0_median_hz": 108.8,
+ "pitch_range_st": 11.02,
+ "end_drop_st": 0.0,
+ "peak_dbfs": 0.0,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "am_michael",
+ "speed": 0.92,
+ "line": "L7",
+ "metric_version": 2
+}

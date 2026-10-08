@@ -1,0 +1,16 @@
+{
+ "asr": "What decides it is rarely on the screen.",
+ "wer": 0.0,
+ "issues": [],
+ "duration_s": 2.154,
+ "words_per_s": 3.71,
+ "f0_median_hz": 210.5,
+ "pitch_range_st": 7.29,
+ "end_drop_st": -2.18,
+ "peak_dbfs": -5.09,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "af_heart",
+ "speed": 0.9,
+ "line": "L2"
+}

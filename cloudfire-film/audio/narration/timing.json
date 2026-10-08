@@ -1,0 +1,50 @@
+[
+ {
+  "id": "L1",
+  "start_s": 5.6,
+  "end_s": 11.719,
+  "text": "Just after someone presses a button, a product keeps its promise, or quietly breaks it."
+ },
+ {
+  "id": "L2",
+  "start_s": 12.2,
+  "end_s": 15.214,
+  "text": "What decides it is rarely on the screen."
+ },
+ {
+  "id": "L3",
+  "start_s": 18.0,
+  "end_s": 20.426,
+  "text": "We build both sides of that moment."
+ },
+ {
+  "id": "L4",
+  "start_s": 22.3,
+  "end_s": 27.147,
+  "text": "Automation carries the busywork, and a person still approves what matters."
+ },
+ {
+  "id": "L5",
+  "start_s": 27.9,
+  "end_s": 32.767,
+  "text": "Releases go out on an ordinary afternoon, and nobody holds their breath."
+ },
+ {
+  "id": "L7",
+  "start_s": 38.5,
+  "end_s": 44.741,
+  "text": "When a storage node goes dark in AegisStore, the files keep coming back, verified."
+ },
+ {
+  "id": "L8",
+  "start_s": 50.6,
+  "end_s": 55.808,
+  "text": "Good engineering rarely asks to be noticed. It simply holds."
+ },
+ {
+  "id": "L9",
+  "start_s": 58.1,
+  "end_s": 59.222,
+  "text": "CloudFire."
+ }
+]

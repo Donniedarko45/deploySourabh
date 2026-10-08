@@ -1,0 +1,16 @@
+{
+ "asr": "The hardest journey is redesigned until it feels obvious.",
+ "wer": 0.0,
+ "issues": [],
+ "duration_s": 3.281,
+ "words_per_s": 2.74,
+ "f0_median_hz": 188.2,
+ "pitch_range_st": 6.9,
+ "end_drop_st": 3.66,
+ "peak_dbfs": -3.46,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "bf_emma",
+ "speed": 0.92,
+ "line": "L6"
+}

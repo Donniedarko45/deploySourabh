@@ -1,0 +1,27 @@
+{
+ "asr": "A cloud fire he.",
+ "wer": 2.0,
+ "issues": [
+  {
+   "type": "insertion",
+   "expected": "",
+   "heard": "a"
+  },
+  {
+   "type": "insertion",
+   "expected": "",
+   "heard": "he"
+  }
+ ],
+ "duration_s": 1.083,
+ "words_per_s": 0.92,
+ "f0_median_hz": 173.9,
+ "pitch_range_st": 5.59,
+ "end_drop_st": 1.96,
+ "peak_dbfs": -5.66,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "bf_emma",
+ "speed": 0.88,
+ "line": "L9"
+}

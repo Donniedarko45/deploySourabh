@@ -1,0 +1,10 @@
+/node_modules/
+/renders/previews/
+/renders/**/frames/
+/motion/out/
+/assets/ui-captures/raw/
+*.log
+/audio/narration/takes/**/*.wav
+/renders/final/*.mov
+__pycache__/
+/audio/stems/*.wav

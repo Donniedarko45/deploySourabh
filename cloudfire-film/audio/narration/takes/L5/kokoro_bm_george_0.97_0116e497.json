@@ -1,0 +1,17 @@
+{
+ "asr": "Releases go out on an ordinary afternoon, and nobody holds their breath.",
+ "wer": 0.0,
+ "issues": [],
+ "duration_s": 4.79,
+ "words_per_s": 2.51,
+ "f0_median_hz": 144.1,
+ "pitch_range_st": 6.78,
+ "end_drop_st": 1.64,
+ "peak_dbfs": -4.37,
+ "lufs": -20.0,
+ "backend": "kokoro",
+ "voice": "bm_george",
+ "speed": 0.97,
+ "line": "L5",
+ "metric_version": 2
+}
