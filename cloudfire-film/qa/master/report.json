@@ -1,0 +1,85 @@
+{
+ "file": "renders/final/cloudfire-master-16x9.mp4",
+ "technical": {
+  "container": "mov,mp4,m4a,3gp,3g2,mj2",
+  "duration_s": 65.0,
+  "size_mb": 53.6,
+  "video": {
+   "codec": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 3840,
+   "height": 2160,
+   "fps": "24/1",
+   "frames": 1560,
+   "bitrate_mbps": 6.28
+  },
+  "audio": [
+   {
+    "codec": "aac",
+    "sample_rate": "48000",
+    "channels": 2
+   }
+  ],
+  "decode_errors": []
+ },
+ "picture": {
+  "black_segments_s": [
+   [
+    0.0,
+    0.333333
+   ],
+   [
+    2.66667,
+    3.25
+   ],
+   [
+    4.54167,
+    4.66667
+   ],
+   [
+    17.5,
+    21.875
+   ],
+   [
+    38.0833,
+    39.625
+   ],
+   [
+    51.9583,
+    54.8333
+   ],
+   [
+    59.9583,
+    60.2083
+   ],
+   [
+    64.5417,
+    64.9583
+   ]
+  ],
+  "freeze_events": [
+   "54.0833",
+   "54.625",
+   "57.0833",
+   "57.9583"
+  ],
+  "luma_mean": NaN,
+  "flicker_frames_not_on_edits": []
+ },
+ "sound": {
+  "integrated_lufs": -14.01,
+  "true_peak_dbtp": -1.08,
+  "clipped_samples": 0,
+  "silences_over_1_2s": [],
+  "asr_mix": {
+   "wer": 0.0,
+   "issues": [],
+   "heard": "Just after someone presses a button, a product keeps its promise, or quietly breaks it. What decides it is rarely on the screen. We build both sides of that moment. Automation carries the busy work, and a person still approves what matters. Releases go out on an ordinary afternoon, and nobody holds their breath. When a storage node goes dark in EG's store, the files keep coming back, verified. Good engineering rarely asks to be noticed. It simply holds. Cloud fire."
+  },
+  "asr_dry_wer": 0.0,
+  "masking": false,
+  "asr_phone_speaker_wer": 0.0,
+  "sfx_sync_max_offset_frames": 2.0
+ }
+}

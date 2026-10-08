@@ -1,0 +1,209 @@
+{
+ "all_pass": true,
+ "files": [
+  {
+   "file": "cloudfire-master-16x9.mp4",
+   "exists": true,
+   "size_mb": 53.6,
+   "codec": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 3840,
+   "height": 2160,
+   "fps": "24/1",
+   "duration_s": 65.0,
+   "frames": 1560,
+   "video_mbps": 6.28,
+   "audio": [
+    "aac 48000 Hz 2ch"
+   ],
+   "decode_errors": "",
+   "lufs": -14.01,
+   "true_peak_dbtp": -1.08,
+   "pass": true
+  },
+  {
+   "file": "cloudfire-master-high-quality.mov",
+   "exists": true,
+   "size_mb": 6029.5,
+   "codec": "prores",
+   "profile": "HQ",
+   "pix_fmt": "yuv422p10le",
+   "width": 3840,
+   "height": 2160,
+   "fps": "24/1",
+   "duration_s": 65.0,
+   "frames": 1560,
+   "video_mbps": 739.78,
+   "audio": [
+    "pcm_s24le 48000 Hz 2ch"
+   ],
+   "decode_errors": "",
+   "lufs": -14.0,
+   "true_peak_dbtp": -1.13,
+   "pass": true
+  },
+  {
+   "file": "cloudfire-vertical-9x16.mp4",
+   "exists": true,
+   "size_mb": 48.6,
+   "codec": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 1080,
+   "height": 1920,
+   "fps": "24/1",
+   "duration_s": 65.0,
+   "frames": 1560,
+   "video_mbps": 5.67,
+   "audio": [
+    "aac 48000 Hz 2ch"
+   ],
+   "decode_errors": "",
+   "lufs": -14.01,
+   "true_peak_dbtp": -1.08,
+   "pass": true
+  },
+  {
+   "file": "cloudfire-vertical-9x16-captioned.mp4",
+   "exists": true,
+   "size_mb": 46.8,
+   "codec": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 1080,
+   "height": 1920,
+   "fps": "24/1",
+   "duration_s": 65.0,
+   "frames": 1560,
+   "video_mbps": 5.45,
+   "audio": [
+    "aac 48000 Hz 2ch"
+   ],
+   "decode_errors": "",
+   "lufs": -14.01,
+   "true_peak_dbtp": -1.08,
+   "pass": true
+  },
+  {
+   "file": "cloudfire-teaser-15s.mp4",
+   "exists": true,
+   "size_mb": 13.4,
+   "codec": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 3840,
+   "height": 2160,
+   "fps": "24/1",
+   "duration_s": 15.0,
+   "frames": 360,
+   "video_mbps": 6.83,
+   "audio": [
+    "aac 48000 Hz 2ch"
+   ],
+   "decode_errors": "",
+   "lufs": -14.01,
+   "true_peak_dbtp": -1.12,
+   "pass": true
+  },
+  {
+   "file": "cloudfire-bumper-6s.mp4",
+   "exists": true,
+   "size_mb": 3.2,
+   "codec": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 3840,
+   "height": 2160,
+   "fps": "24/1",
+   "duration_s": 6.0,
+   "frames": 144,
+   "video_mbps": 3.99,
+   "audio": [
+    "aac 48000 Hz 2ch"
+   ],
+   "decode_errors": "",
+   "lufs": -14.03,
+   "true_peak_dbtp": -1.13,
+   "pass": true
+  },
+  {
+   "file": "cloudfire-no-voice.mp4",
+   "exists": true,
+   "size_mb": 53.6,
+   "codec": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 3840,
+   "height": 2160,
+   "fps": "24/1",
+   "duration_s": 65.0,
+   "frames": 1560,
+   "video_mbps": 6.28,
+   "audio": [
+    "aac 48000 Hz 2ch"
+   ],
+   "decode_errors": "",
+   "lufs": -14.08,
+   "true_peak_dbtp": -1.5,
+   "pass": true
+  },
+  {
+   "file": "cloudfire-captioned-1080p.mp4",
+   "exists": true,
+   "size_mb": 30.0,
+   "codec": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 1920,
+   "height": 1080,
+   "fps": "24/1",
+   "duration_s": 65.0,
+   "frames": 1560,
+   "video_mbps": 3.38,
+   "audio": [
+    "aac 48000 Hz 2ch"
+   ],
+   "decode_errors": "",
+   "lufs": -14.01,
+   "true_peak_dbtp": -1.08,
+   "pass": true
+  },
+  {
+   "file": "cloudfire-animatic.mp4",
+   "exists": true,
+   "size_mb": 29.0,
+   "codec": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 1920,
+   "height": 1080,
+   "fps": "24/1",
+   "duration_s": 65.0,
+   "frames": 1560,
+   "video_mbps": 3.3,
+   "audio": [
+    "aac 48000 Hz 2ch"
+   ],
+   "decode_errors": "",
+   "lufs": -14.02,
+   "true_peak_dbtp": -1.11,
+   "pass": true
+  },
+  {
+   "file": "cloudfire-subtitles.srt",
+   "exists": true,
+   "captions": 13,
+   "pass": true
+  },
+  {
+   "file": "cloudfire-poster.png",
+   "exists": true,
+   "size": [
+    3840,
+    2160
+   ],
+   "pass": true
+  }
+ ]
+}

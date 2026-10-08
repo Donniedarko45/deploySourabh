@@ -27,8 +27,8 @@
    "What decides it is rarely on the screen."
   ],
   "start": 12.166666666666666,
-  "end": 16.833333333333332,
-  "cps": 8.6
+  "end": 15.833333333333334,
+  "cps": 10.9
  },
  {
   "line": "L3",
@@ -36,9 +36,9 @@
   "lines": [
    "We build both sides of that moment."
   ],
-  "start": 17.916666666666668,
-  "end": 22.083333333333332,
-  "cps": 8.4
+  "start": 17.875,
+  "end": 21.041666666666668,
+  "cps": 11.1
  },
  {
   "line": "L4",
@@ -47,8 +47,8 @@
    "Automation carries the busywork,"
   ],
   "start": 22.166666666666668,
-  "end": 24.541666666666668,
-  "cps": 13.5
+  "end": 24.583333333333332,
+  "cps": 13.2
  },
  {
   "line": "L4",
@@ -56,8 +56,8 @@
   "lines": [
    "and a person still approves what matters."
   ],
-  "start": 24.625,
-  "end": 27.666666666666668,
+  "start": 24.666666666666668,
+  "end": 27.708333333333332,
   "cps": 13.5
  },
  {
@@ -66,8 +66,8 @@
   "lines": [
    "Releases go out on an ordinary afternoon,"
   ],
-  "start": 27.75,
-  "end": 30.791666666666668,
+  "start": 27.791666666666668,
+  "end": 30.833333333333332,
   "cps": 13.5
  },
  {
@@ -76,9 +76,9 @@
   "lines": [
    "and nobody holds their breath."
   ],
-  "start": 30.875,
-  "end": 33.791666666666664,
-  "cps": 10.3
+  "start": 30.916666666666668,
+  "end": 33.375,
+  "cps": 12.2
  },
  {
   "line": "L7",
@@ -87,9 +87,9 @@
    "When a storage node",
    "goes dark in AegisStore,"
   ],
-  "start": 38.25,
-  "end": 41.833333333333336,
-  "cps": 12.3
+  "start": 38.208333333333336,
+  "end": 41.875,
+  "cps": 12.0
  },
  {
   "line": "L7",
@@ -97,9 +97,9 @@
   "lines": [
    "the files keep coming back, verified."
   ],
-  "start": 41.916666666666664,
-  "end": 46.375,
-  "cps": 8.3
+  "start": 41.958333333333336,
+  "end": 45.333333333333336,
+  "cps": 11.0
  },
  {
   "line": "L8",
@@ -108,9 +108,9 @@
    "Good engineering rarely",
    "asks to be noticed."
   ],
-  "start": 50.5,
-  "end": 54.291666666666664,
-  "cps": 11.3
+  "start": 50.583333333333336,
+  "end": 54.25,
+  "cps": 11.7
  },
  {
   "line": "L8",
@@ -118,9 +118,9 @@
   "lines": [
    "It simply holds."
   ],
-  "start": 54.375,
-  "end": 56.791666666666664,
-  "cps": 6.6
+  "start": 54.333333333333336,
+  "end": 56.416666666666664,
+  "cps": 7.7
  },
  {
   "line": "L9",

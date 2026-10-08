@@ -1,5 +1,5 @@
 // S13–S15 (frames 1200–1560): everything resolves into one line; the dot returns; it becomes the period of the wordmark.
-import { THREE, C, HEX, E, key, range, clamp, lerp, rng, el, lineMat, segments, roundRect, glowSprite, STAGE_W, STAGE_H } from '../core.js';
+import { THREE, C, HEX, E, key, range, clamp, lerp, rng, el, lineMat, segments, roundRect, glowSprite, STAGE_W, STAGE_H, V, vfov } from '../core.js';
 
 const seq = { start: 1200, end: 1560 };
 let S, cam, bg, fg, W = {};
@@ -39,7 +39,8 @@ function buildPlane(scene) {
 function lockupDOM() {
   const root = el('div', { position: 'absolute', left: 0, top: 0, width: STAGE_W + 'px', height: STAGE_H + 'px', transformOrigin: '0 0' });
   const FS = 256, MARK = 384;
-  const lock = el('div', { position: 'absolute', top: '560px', left: '0', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '84px' });
+  const lock = el('div', { position: 'absolute', top: V.vertical ? '980px' : '560px', left: '0', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center',
+    gap: V.vertical ? '70px' : '84px', flexDirection: V.vertical ? 'column' : 'row' });
   lock.innerHTML = `
     <svg class="mark" width="${MARK}" height="${MARK}" viewBox="0 0 64 64" fill="none" style="overflow:visible">
       <defs><mask id="cut" x="0" y="0" width="64" height="64" maskUnits="userSpaceOnUse"><rect width="64" height="64" fill="white"/>
@@ -55,11 +56,11 @@ function lockupDOM() {
       <div class="desc" style="display:flex;align-items:center;gap:30px;margin-left:10px;font:400 44px/1 'IBM Plex Mono';letter-spacing:.24em;color:#b8b7b3">
         <span class="rule" style="display:block;height:3px;width:0;background:${HEX.accent}"></span><span class="dtext">IT SERVICES</span></div>
     </div>`;
-  const tag = el('div', { position: 'absolute', top: '1230px', left: 0, width: '100%', textAlign: 'center',
+  const tag = el('div', { position: 'absolute', top: V.vertical ? '2330px' : '1230px', left: 0, width: '100%', textAlign: 'center',
     font: "500 124px/1.1 'Instrument Sans'", letterSpacing: '-.045em' });
   tag.innerHTML = `<div class="tl" style="overflow:hidden;padding-bottom:.08em"><div class="ti" style="color:${HEX.fg}">Products that ship.</div></div>
     <div class="tl" style="overflow:hidden;padding-bottom:.08em"><div class="ti" style="color:${HEX.muted}">Systems that last<span style="color:${HEX.accent}">.</span></div></div>`;
-  const url = el('div', { position: 'absolute', top: '1745px', left: 0, width: '100%', textAlign: 'center', font: "400 46px/1 'IBM Plex Mono'",
+  const url = el('div', { position: 'absolute', top: V.vertical ? '3050px' : '1745px', left: 0, width: '100%', textAlign: 'center', font: "400 46px/1 'IBM Plex Mono'",
     letterSpacing: '.16em', color: HEX.muted, opacity: 0 }, 'cloudfireitservices.com');
   root.append(lock, tag, url);
   // the travelling dot (S14 → period) and the surface line
@@ -110,7 +111,7 @@ seq.render = (f) => {
   const t = E.soft(range(f, 1200, 1306));
   const camY = lerp(3400, 0.6, t), camZ = lerp(5600, 7200, t);
   cam.position.set(lerp(-500, 0, t), camY, camZ); cam.up.set(0, 1, 0);
-  cam.lookAt(lerp(200, 0, t), lerp(-900, 0, t), lerp(-3000, -6000, t)); cam.fov = lerp(36, 30, t); cam.updateProjectionMatrix();
+  cam.lookAt(lerp(200, 0, t), lerp(-900, 0, t), lerp(-3000, -6000, t)); cam.fov = vfov(lerp(36, 30, t), .62); cam.updateProjectionMatrix();
   const retract = E.inOut(range(f, 1210, 1290));
   W.threads.geometry.setPositions(W.threadData.flatMap(([x, z, h]) => [x, 0, z, x, h * (1 - retract), z]));
   W.threads.material.opacity = .16 * (1 - retract);
@@ -127,7 +128,7 @@ seq.render = (f) => {
   const pc = [P.x + P.w / 2, P.top + P.h / 2];       // period centre in lockup space
   const zoomOut = E.inOut(range(f, 1384, 1452));
   const Z0 = 150 / P.w;                              // dot ≈ 150 px on screen at the start, as in S01
-  const Z = lerp(Z0, 1, zoomOut);
+  const Z = lerp(Z0 * (1 + .08 * E.soft(range(f, 1300, 1386))), 1, zoomOut);   // a slow living push on the dot before the pull-back
   const ax = lerp(STAGE_W / 2, pc[0], zoomOut), ay = lerp(STAGE_H / 2, pc[1], zoomOut);
   const k = lerp(1, 1.018, E.soft(range(f, 1452, 1560)));            // slow push about frame centre during the hold
   const tx = (STAGE_W / 2) * (1 - k) + k * (ax - pc[0] * Z), ty = (STAGE_H / 2) * (1 - k) + k * (ay - pc[1] * Z);
@@ -145,7 +146,7 @@ seq.render = (f) => {
   L.glow.style.top = `${pc[1] - 1300}px`; L.glow.style.left = `${pc[0] - 7000}px`;
   L.glow.style.clipPath = `inset(0 0 50% 0)`; L.glow.style.opacity = (1 - E.inOut(range(f, 1390, 1430))) * .9;
   // the faint memory of "Order placed" beside the dot
-  const pfs = 300 / Z0;  // ≈ the S01 type size on screen
+  const pfs = (V.vertical ? 150 : 300) / Z0;  // ≈ the S01 type size on screen (smaller in 9:16 so it stays in frame)
   Object.assign(L.placed.style, { left: `${pc[0] + 120 / Z0}px`, top: `${pc[1] - pfs * .53}px`, fontSize: `${pfs}px`,
     opacity: E.out(range(f, 1326, 1342)) * (1 - E.inOut(range(f, 1352, 1374))) * .42 });
   // wordmark letters rise right-to-left from the dot

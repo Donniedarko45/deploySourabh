@@ -1,7 +1,7 @@
 {
  "file": "audio/stems/mix-novoice.wav",
- "integrated_lufs": -14.02,
- "true_peak_dbtp": -1.13,
- "lra_lu": 11.9,
+ "integrated_lufs": -14.06,
+ "true_peak_dbtp": -1.73,
+ "lra_lu": 11.6,
  "duration_s": 65.0
 }

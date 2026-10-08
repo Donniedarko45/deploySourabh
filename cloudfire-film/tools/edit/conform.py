@@ -22,8 +22,9 @@ GRAIN = "noise=c0s={s}:c0f=t+u:c1s={c}:c1f=t+u:c2s={c}:c2f=t+u"
 
 PROFILES = {
     "animatic":   {"size": (1920, 1080), "vcodec": ["-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p", "-profile:v", "high"], "acodec": ["-c:a", "aac", "-b:a", "256k"], "grade": True, "grain": (3, 1)},
-    "master-mp4": {"size": (3840, 2160), "vcodec": ["-c:v", "libx264", "-preset", "slow", "-crf", "17", "-maxrate", "40M", "-bufsize", "80M", "-pix_fmt", "yuv420p", "-profile:v", "high", "-level", "5.1", "-tune", "film"], "acodec": ["-c:a", "aac", "-b:a", "320k"], "grade": True, "grain": (3, 1)},
+    "master-mp4": {"size": (3840, 2160), "vcodec": ["-c:v", "libx264", "-preset", "slow", "-crf", "18", "-maxrate", "10.5M", "-bufsize", "21M", "-pix_fmt", "yuv420p", "-profile:v", "high", "-level", "5.1", "-tune", "film"], "acodec": ["-c:a", "aac", "-b:a", "320k"], "grade": True, "grain": (3, 1)},
     "master-mov": {"size": (3840, 2160), "vcodec": ["-c:v", "prores_ks", "-profile:v", "3", "-vendor", "apl0", "-pix_fmt", "yuv422p10le"], "acodec": ["-c:a", "pcm_s24le"], "grade": True, "grain": (3, 1)},
+    "vertical":   {"size": (1080, 1920), "vcodec": ["-c:v", "libx264", "-preset", "slow", "-crf", "17", "-pix_fmt", "yuv420p", "-profile:v", "high", "-tune", "film"], "acodec": ["-c:a", "aac", "-b:a", "320k"], "grade": True, "grain": (3, 1)},
     "web-1080":   {"size": (1920, 1080), "vcodec": ["-c:v", "libx264", "-preset", "slow", "-crf", "17", "-pix_fmt", "yuv420p", "-profile:v", "high", "-tune", "film"], "acodec": ["-c:a", "aac", "-b:a", "320k"], "grade": True, "grain": (3, 1)},
 }
 
@@ -55,28 +56,43 @@ def validate(files, size):
     return problems
 
 
-def encode(files, audio, profile, out, fps=24, start=None, end=None, extra_vf=None):
+def encode(files, audio, profile, out, fps=24, start=None, end=None, captions=None, fade_in=0, fade_out=0):
     pr = PROFILES[profile]
     sel = [(f, p) for f, p, _ in files if (start is None or f >= start) and (end is None or f < end)]
     with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False) as lst:
         for _, p in sel:
             lst.write(f"file '{p}'\nduration {1 / fps:.10f}\n")
         lst.write(f"file '{sel[-1][1]}'\n")
+    dur = len(sel) / fps
     vf = []
-    if extra_vf:
-        vf.append(extra_vf)
     if pr["grade"]:
         vf.append(GRADE)
     if pr["grain"]:
         vf.append(GRAIN.format(s=pr["grain"][0], c=pr["grain"][1]))
-    vf.append(f"scale={pr['size'][0]}:{pr['size'][1]}:flags=lanczos,setsar=1,format={'yuv422p10le' if 'prores' in pr['vcodec'][1] else 'yuv420p'}")
+    vf.append(f"scale={pr['size'][0]}:{pr['size'][1]}:flags=lanczos,setsar=1")
+    if fade_in:
+        vf.append(f"fade=t=in:st=0:d={fade_in / fps:.4f}")
+    if fade_out:
+        vf.append(f"fade=t=out:st={dur - fade_out / fps:.4f}:d={fade_out / fps:.4f}")
+    fmt = "yuv422p10le" if "prores" in pr["vcodec"][1] else "yuv420p"
     cmd = ["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst.name]
+    cap_inputs = []
+    if captions:
+        cap_inputs = json.load(open(os.path.join(captions, "inputs.json")))
+        for c in cap_inputs:
+            cmd += ["-loop", "1", "-t", f"{dur:.4f}", "-i", c]
+    graph = f"[0:v]{','.join(vf)}[b0]"
+    if captions:
+        overlay = open(os.path.join(captions, "filter.txt")).read().replace("[0:v]", "[b0]", 1)
+        graph += ";" + overlay + f";[vout]format={fmt}[v]"
+    else:
+        graph += f";[b0]format={fmt}[v]"
     if audio:
         a0 = (start or 0) / fps
-        cmd += ["-ss", f"{a0:.6f}", "-t", f"{len(sel) / fps:.6f}", "-i", audio]
-    cmd += ["-vf", ",".join(vf), "-r", str(fps), "-fps_mode", "cfr", *pr["vcodec"]]
+        cmd += ["-ss", f"{a0:.6f}", "-t", f"{dur:.6f}", "-i", audio]
+    cmd += ["-filter_complex", graph, "-map", "[v]", "-r", str(fps), "-fps_mode", "cfr", *pr["vcodec"]]
     if audio:
-        cmd += [*pr["acodec"], "-ar", "48000", "-ac", "2", "-map", "0:v", "-map", "1:a", "-shortest"]
+        cmd += [*pr["acodec"], "-ar", "48000", "-ac", "2", "-map", f"{1 + len(cap_inputs)}:a", "-t", f"{dur:.6f}"]
     cmd += ["-movflags", "+faststart", "-metadata", "title=Beneath the Surface — CloudFire", "-metadata", "comment=cloudfireitservices.com", out]
     os.makedirs(os.path.dirname(out), exist_ok=True)
     subprocess.run(cmd, check=True)
@@ -93,6 +109,10 @@ if __name__ == "__main__":
     ap.add_argument("--start", type=int)
     ap.add_argument("--end", type=int)
     ap.add_argument("--src-size", help="WxH of the frames referenced by the timeline (default: profile size)")
+    ap.add_argument("--captions", help="directory from tools/captions/burn.mjs")
+    ap.add_argument("--fade-in", type=int, default=0)
+    ap.add_argument("--fade-out", type=int, default=0)
+    ap.add_argument("--no-validate-blank", action="store_true")
     a = ap.parse_args()
     tl, files = frames_from_otio(os.path.join(ROOT, a.otio))
     size = tuple(map(int, a.src_size.split("x"))) if a.src_size else PROFILES[a.profile]["size"]
@@ -100,5 +120,6 @@ if __name__ == "__main__":
     if probs:
         print("VALIDATION FAILED:\n  " + "\n  ".join(probs[:30]), file=sys.stderr)
         sys.exit(2)
-    out = encode(files, a.audio and os.path.join(ROOT, a.audio), a.profile, os.path.join(ROOT, a.out), start=a.start, end=a.end)
+    out = encode(files, a.audio and os.path.join(ROOT, a.audio), a.profile, os.path.join(ROOT, a.out), start=a.start, end=a.end,
+                 captions=a.captions and os.path.join(ROOT, a.captions), fade_in=a.fade_in, fade_out=a.fade_out)
     print("encoded", os.path.relpath(out, ROOT))

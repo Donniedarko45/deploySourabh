@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face { font-family: "Inter"; font-weight: 500; src: url(../node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2) format("woff2"); }
+html, body { margin: 0; background: transparent; overflow: hidden; -webkit-font-smoothing: antialiased; }
+#c { position: absolute; left: 0; right: 0; text-align: center; font: 500 var(--fs)/1.28 Inter; color: #f4f3ef; letter-spacing: -.005em;
+  text-shadow: 0 2px 3px rgba(0,0,0,.55), 0 0 22px rgba(0,0,0,.6); }
+</style></head><body><div id="c"></div>
+<script>
+// Caption typesetting (caption-engine skill): Inter 500, 46 px per 1080 lines, baseline ~88 % (16:9) or ~70 % (9:16), no box.
+window.setCaption = async (lines, w, h) => {
+  const c = document.getElementById('c'), vertical = h > w, fs = Math.round((vertical ? 58 : 46) * (vertical ? w / 1080 : h / 1080));
+  c.style.setProperty('--fs', fs + 'px');
+  c.style.padding = `0 ${Math.round(w * .08)}px`;
+  c.innerHTML = lines.map(l => `<div>${l.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</div>`).join('');
+  await document.fonts.load(`500 ${fs}px Inter`);
+  const bottom = vertical ? h * .30 : h * .12;
+  c.style.top = ''; c.style.bottom = bottom + 'px';
+};
+</script></body></html>

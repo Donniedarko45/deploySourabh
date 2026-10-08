@@ -1,11 +1,11 @@
 // S07–S10 (frames 420–900): both sides of the moment; a person approves; an ordinary afternoon; obvious.
 import { THREE, C, HEX, E, key, range, clamp, lerp, rng, drift, el, css3d, eyebrow, lineMat, segments, polySegments,
-  pointAlong, roundRect, glowSprite, STAGE_W, STAGE_H } from '../core.js';
+  pointAlong, roundRect, glowSprite, lightPool, STAGE_W, STAGE_H, V, vfov } from '../core.js';
 
 const seq = { start: 420, end: 900 };
 let S, cam, cap = {};
 const X = {}; // per-shot handles
-const HORIZON_Y = 1250; // screen px of the surface line (matches S06's last frame)
+const HORIZON = 1250 / 2160; // screen fraction of the surface line (matches S06's last frame)
 
 const card = (w, h, html, style = {}) => el('div', { width: w + 'px', height: h + 'px', background: '#131313', border: '2px solid rgba(255,255,255,.12)',
   borderRadius: '14px', color: HEX.fg, font: "400 34px/1.35 Inter", padding: '34px 38px', overflow: 'hidden', position: 'relative', ...style }, html);
@@ -17,8 +17,9 @@ const cursorSVG = `<svg width="56" height="56" viewBox="0 0 24 24" style="filter
 function shot() { return { bg: new THREE.Scene(), css: new THREE.Scene(), fg: new THREE.Scene() }; }
 // Camera at distance D looking horizontally at height h so that world y=0 lands on screen row HORIZON_Y.
 function horizonCam(x, D, fov = 30) {
+  fov = vfov(fov, .62);
   const focal = (STAGE_H / 2) / Math.tan(THREE.MathUtils.degToRad(fov / 2));
-  const h = (HORIZON_Y - STAGE_H / 2) * D / focal;
+  const h = (HORIZON * STAGE_H - STAGE_H / 2) * D / focal;
   cam.fov = fov; cam.position.set(x, h, D); cam.up.set(0, 1, 0); cam.lookAt(x, h, 0); cam.updateProjectionMatrix();
 }
 
@@ -68,6 +69,7 @@ seq.init = async (stage, params) => {
   const Y = 260;
   b.flow = [[-2900, Y, 0], [3000, Y, 0]];
   b.flowLine = segments([0, 0, 0, 0, 0, 0], lineMat(S, { width: 2.2, opacity: .3 })); b.bg.add(b.flowLine);
+  b.pool = lightPool(5200, 3200, 0, Y, -700, .6); b.bg.add(b.pool);
   b.doc = css3d(card(600, 760, `${mono('INCOMING · INVOICE.PDF')}<div style="margin-top:34px;font:500 46px/1.15 'Instrument Sans';letter-spacing:-.02em">Northwind Supplies</div>
     <div style="margin-top:10px;font:400 30px/1.3 Inter;color:${HEX.muted}">Invoice for PO 1182 · Net 30</div>${bars(8, 3)}
     <div class="scan" style="position:absolute;left:0;right:0;height:3px;background:${HEX.accent};box-shadow:0 0 24px 6px rgba(255,90,54,.5);top:0;opacity:0"></div>`), { x: -2200, y: Y, z: -120 });
@@ -106,6 +108,7 @@ seq.init = async (stage, params) => {
   const c = X.s09 = shot();
   c.R = 720;
   c.ring = segments(circlePts(0, 0, c.R, 160), lineMat(S, { width: 2.4, opacity: .4 })); c.bg.add(c.ring);
+  c.bg.add(lightPool(3600, 3600, 0, 0, -500, .55)); const cp = lightPool(5200, 3000, 0, -1980, -700, .5); cp.rotation.x = -Math.PI / 2; c.bg.add(cp);
   c.ringLit = segments([0, 0, 0, 0, 0, 0], lineMat(S, { color: C.accent, width: 4 })); c.bg.add(c.ringLit);
   c.stages = ['COMMIT', 'BUILD', 'TEST', 'DEPLOY', 'OBSERVE'].map((t, i) => {
     const a = -Math.PI / 2 + i * Math.PI * 2 / 5;
@@ -135,12 +138,16 @@ seq.init = async (stage, params) => {
   const d = X.s10 = shot();
   const rr = rng(44);
   d.screens = Array.from({ length: 8 }, (_, i) => {
-    const e = card(380, 250, `<div style="height:22px;width:40%;border-radius:4px;background:rgba(255,255,255,.18)"></div>${bars(3, 50 + i)}
-      <div style="position:absolute;right:26px;bottom:24px;width:110px;height:38px;border-radius:4px;background:rgba(255,255,255,${i % 3 ? .12 : .3})"></div>`, { padding: '28px 30px' });
+    const e = card(560, 360, `<div style="height:30px;width:42%;border-radius:4px;background:rgba(255,255,255,.2)"></div>${bars(4, 50 + i)}
+      <div style="position:absolute;right:34px;bottom:30px;width:150px;height:52px;border-radius:4px;background:rgba(255,255,255,${i % 3 ? .12 : .3})"></div>
+      <div style="position:absolute;left:34px;bottom:34px;font:400 26px/1 'IBM Plex Mono';letter-spacing:.12em;color:${HEX.dim}">STEP ${[1, 5, 3, 6, 2, 8, 4, 7][i]}</div>`, { padding: '34px 38px' });
     const o = css3d(e, { x: 0, y: 0, z: 0 }); d.css.add(o);
-    return { o, sx: (rr() - .5) * 4200, sy: 300 + (rr() - .5) * 1300, sz: (rr() - .5) * 600, order: [0, 5, 2, 6, 1, 7, 3, 4][i] };
+    const grid = V.vertical ? [[-650, 3400], [650, 2600], [-700, 1700], [600, 900], [-600, 100], [700, -700], [-650, -1500], [600, -2300]][i]
+      : [[-2300, 1050], [-700, 1250], [900, 1000], [2400, 1200], [-1900, -250], [-300, -450], [1300, -200], [2700, -400]][i];
+    return { o, sx: grid[0] + (rr() - .5) * 300, sy: grid[1] + (rr() - .5) * 200, sz: (rr() - .5) * 500, order: [0, 5, 2, 6, 1, 7, 3, 4][i] };
   });
-  d.path = segments([0, 0, 0, 0, 0, 0], lineMat(S, { width: 2.6, opacity: .5 })); d.bg.add(d.path);
+  d.path = segments([0, 0, 0, 0, 0, 0], lineMat(S, { width: 5, opacity: .7 })); d.bg.add(d.path);
+  d.bg.add(lightPool(6400, 3800, 0, 300, -700, .55));
   d.pathOrange = segments([0, 0, 0, 0, 0, 0], lineMat(S, { color: C.accent, width: 4, opacity: 0 })); d.bg.add(d.pathOrange);
   d.finalEl = el('div', { width: '1600px', height: '940px', background: '#131313', border: '2px solid rgba(255,255,255,.14)', borderRadius: '18px', padding: '90px 110px', color: HEX.fg, overflow: 'hidden' },
     `${mono('DELIVERY')}<div style="margin-top:36px;font:500 84px/1.05 'Instrument Sans';letter-spacing:-.04em">Choose a delivery time</div>
@@ -149,10 +156,21 @@ seq.init = async (stage, params) => {
   d.final = css3d(d.finalEl, { x: 0, y: 300, z: 0 }); d.css.add(d.final);
   d.eyebrow = eyebrow('04 · EXPERIENCE & GROWTH'); Object.assign(d.eyebrow.style, { left: '192px', top: '1960px' });
 
-  for (const s of [a, b, c, d]) { s.hud = el('div', { position: 'absolute', inset: 0 }); seq.layer.overlay.appendChild(s.hud); s.hud.appendChild(s.eyebrow); }
+  for (const s of [a, b, c, d]) { s.hud = el('div', { position: 'absolute', inset: 0 }); seq.layer.overlay.appendChild(s.hud); s.hud.appendChild(s.eyebrow);
+    if (V.vertical) Object.assign(s.eyebrow.style, { left: '150px', top: '300px' }); }  // top: social platforms cover the bottom fifth
+  if (V.vertical) { Object.assign(c.traceLabel.style, { left: '150px', top: '400px' }); Object.assign(c.log.style, { left: '150px', top: '480px' }); }
   c.hud.append(c.traceLabel, c.log);
 };
 
+function catmull(pts, steps) {
+  const out = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
+    for (let k = 0; k < steps; k++) { const t = k / steps, t2 = t * t, t3 = t2 * t;
+      out.push([0, 1, 2].map(j => .5 * ((2 * p1[j]) + (-p0[j] + p2[j]) * t + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t2 + (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * t3))); }
+  }
+  out.push(pts[pts.length - 1]); return out;
+}
 function circlePts(cx, cy, r, n) { const p = []; for (let i = 0; i < n; i++) { const a = i / n * Math.PI * 2, b = (i + 1) / n * Math.PI * 2;
   p.push(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 0, cx + Math.cos(b) * r, cy + Math.sin(b) * r, 0); } return p; }
 function arcPts(r, a0, a1, n = 96) { const p = []; for (let i = 0; i < n; i++) { const a = a0 + (a1 - a0) * i / n, b = a0 + (a1 - a0) * (i + 1) / n;
@@ -172,7 +190,8 @@ seq.render = (f) => {
 
 function s07(f) {
   const a = X.s07; showHud(a); eyebrowFade(a, f, 420, 525);
-  horizonCam(drift(f, 7, .02) * 40 + key(f, [[420, -120], [525, 120, E.linear]]), key(f, [[420, 5600], [525, 5050, E.soft]]));
+  horizonCam(drift(f, 7, .02) * 40 + key(f, [[420, -120], [525, 120, E.linear]]) + (V.vertical ? key(f, [[420, 0], [500, 560, E.soft]]) : 0),
+    key(f, [[420, 5950], [525, 5380, E.soft]]) * (V.vertical ? 1.12 : 1));
   // the product rises out of the surface line
   const rise = E.inOut(range(f, 420, 446));
   a.frameEl.style.clipPath = `inset(${(1 - rise) * 100}% 0 0 0 round 18px)`;
@@ -205,8 +224,8 @@ function s07(f) {
 function s08(f) {
   const b = X.s08; showHud(b); eyebrowFade(b, f, 525, 660);
   const cx = key(f, [[525, -1500], [600, 200, E.soft], [646, 2150, E.soft]]);
-  const D = key(f, [[525, 3900], [640, 4100], [660, 2200, E.in]]);
-  cam.fov = 30; cam.position.set(cx, 260 + drift(f, 3, .02) * 30, D); cam.up.set(0, 1, 0); cam.lookAt(cx, 260, 0); cam.updateProjectionMatrix();
+  const D = key(f, [[525, 3300], [640, 3500], [660, 2000, E.in]]);
+  cam.fov = vfov(30, .62); cam.position.set(cx, 260 + drift(f, 3, .02) * 30, D * (V.vertical ? 1.15 : 1)); cam.up.set(0, 1, 0); cam.lookAt(cx, 260, 0); cam.updateProjectionMatrix();
   b.flowLine.geometry.setPositions(polySegments(b.flow, E.inOut(range(f, 525, 640))));
   // document: read
   b.scan.style.opacity = range(f, 530, 533) * (1 - range(f, 556, 560));
@@ -240,7 +259,7 @@ function s08(f) {
   // the approval ring grows into the delivery loop (match cut)
   const g = E.in(range(f, 642, 660));
   b.ring.position.set(2400 - 280 + 48 + 36 - 200 + 52, 260, 10);
-  const r0 = 44, r1 = 720 * (2200 / 4100);
+  const r0 = 44, r1 = 720 * (2000 / 3500);
   b.ring.scale.setScalar(lerp(r0, r1, g)); b.ring.material.opacity = g > 0 ? 1 : 0;
   return { bg: b.bg, css: b.css, fg: b.fg, camera: cam };
 }
@@ -249,7 +268,7 @@ function s09(f) {
   const c = X.s09; showHud(c); eyebrowFade(c, f, 660, 795);
   const tilt = E.inOut(range(f, 724, 760));
   const camY = lerp(0, -1250, tilt), lookY = lerp(0, -1900, tilt), D = lerp(2600, 3400, E.out(range(f, 660, 700))) + tilt * 900;
-  cam.fov = 30; cam.position.set(drift(f, 9, .02) * 40, camY + tilt * 900, D); cam.up.set(0, 1, 0); cam.lookAt(0, lookY, -400 * tilt); cam.updateProjectionMatrix();
+  cam.fov = vfov(30, .62); cam.position.set(drift(f, 9, .02) * 40, camY + tilt * 900, D * (V.vertical ? 1.2 : 1)); cam.up.set(0, 1, 0); cam.lookAt(0, lookY, -400 * tilt); cam.updateProjectionMatrix();
   // packet travels the loop; each stage it passes is checked
   const lt = E.inOut(range(f, 664, 728));
   const ang = Math.PI / 2 - lt * Math.PI * 2;
@@ -279,15 +298,15 @@ function s09(f) {
 
 function s10(f) {
   const d = X.s10; showHud(d); eyebrowFade(d, f, 795, 900);
-  const D = key(f, [[795, 6200], [870, 5900], [900, 2555, E.inOut]]);  // final screen matches the S11 browser frame on screen
-  cam.fov = 30; cam.position.set(0, 300, D); cam.up.set(0, 1, 0); cam.lookAt(0, 300, 0); cam.updateProjectionMatrix();
+  const D = key(f, [[795, 6300], [870, 6000], [900, 2555, E.inOut]]);  // final screen matches the S11 browser frame on screen
+  cam.fov = vfov(30, .62); cam.position.set(0, 300, D * (V.vertical ? 1.25 : 1)); cam.up.set(0, 1, 0); cam.lookAt(0, 300, 0); cam.updateProjectionMatrix();
   const untangle = E.inOut(range(f, 826, 856)), merge = E.inOut(range(f, 856, 880));
   const keep = new Set([0, 3, 7]);
-  const row = (i) => { const k = d.screens[i].order; return [-2400 + k * 686, 300, 0]; };
+  const row = (i) => { const k = d.screens[i].order; return V.vertical ? [0, 3450 - k * 900, 0] : [-3150 + k * 900, 300, 0]; };
   const kept = [...keep].sort((a, b) => d.screens[a].order - d.screens[b].order);
   const pos = d.screens.map((s, i) => {
-    let p = [lerp(s.sx, row(i)[0], untangle), lerp(s.sy, 300, untangle), lerp(s.sz, 0, untangle)];
-    if (keep.has(i)) { const k = kept.indexOf(i); p[0] = lerp(p[0], lerp(-900 + k * 900, 0, merge), untangle > .99 ? 1 : untangle); }
+    let p = [lerp(s.sx, row(i)[0], untangle), lerp(s.sy, row(i)[1], untangle), lerp(s.sz, 0, untangle)];
+    if (keep.has(i)) { const k = kept.indexOf(i), ax = V.vertical ? 1 : 0; p[ax] = lerp(p[ax], lerp(V.vertical ? 1700 - k * 1400 : -1400 + k * 1400, 300 * ax, merge), untangle > .99 ? 1 : untangle); }
     return p;
   });
   d.screens.forEach((s, i) => {
@@ -297,13 +316,17 @@ function s10(f) {
   });
   // the journey path through the screens, in their tangled order with back-tracks, then straight
   const order = d.screens.map((s, i) => [s.order, i]).sort((a, b) => a[0] - b[0]).map(([, i]) => i);
-  const tangled = [[-2800, -560, 0]];
+  const ctrl = [[-3600, -900, 0]];
   const jr = rng(8);
-  order.forEach((i, k) => { tangled.push(pos[i]); if (k % 3 === 1) tangled.push([pos[i][0] + (jr() - .5) * 1600, pos[i][1] - 700 + jr() * 1400, 0], pos[order[Math.max(0, k - 1)]]); });
-  const t = E.inOut(range(f, 797, 830));
-  d.path.geometry.setPositions(polySegments(tangled, t)); d.path.material.opacity = .5 * (1 - E.inOut(range(f, 840, 856)));
+  order.forEach((i, k) => { ctrl.push(pos[i]); if (k % 3 === 1) ctrl.push([pos[i][0] + (jr() - .5) * 2200, pos[i][1] + (jr() - .5) * 1600, 0], pos[order[Math.max(0, k - 1)]]); });
+  ctrl.push([3800, -1100, 0]);
+  const tangled = catmull(ctrl, 14).map((p, j, arr) => V.vertical
+    ? [lerp(p[0], 0, untangle), lerp(p[1], lerp(4200, -3400, j / (arr.length - 1)), untangle), 0]
+    : [lerp(p[0], lerp(-3600, 3800, j / (arr.length - 1)), untangle), lerp(p[1], 300, untangle), 0]);
+  const t = E.inOut(range(f, 797, 834));
+  d.path.geometry.setPositions(polySegments(tangled, t)); d.path.material.opacity = .7 * (1 - E.inOut(range(f, 840, 856)));
   const straight = kept.map(i => pos[i]);
-  d.pathOrange.geometry.setPositions(polySegments([[-2800, 300, 0], ...straight, [2800, 300, 0]], 1));
+  d.pathOrange.geometry.setPositions(polySegments(V.vertical ? [[0, 4200, 0], ...straight, [0, -3400, 0]] : [[-2800, 300, 0], ...straight, [2800, 300, 0]], 1));
   d.pathOrange.material.opacity = E.out(range(f, 846, 858)) * (1 - E.inOut(range(f, 870, 882)));
   const fin = E.out(range(f, 872, 892));
   d.final.element.style.opacity = fin; d.final.scale.setScalar(lerp(.6, 1, fin));

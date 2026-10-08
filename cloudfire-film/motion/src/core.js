@@ -196,3 +196,17 @@ export function eyebrow(text, accentIndex = true) {
 export function setOpacity(objOrEl, o) {
   const e = objOrEl.element || objOrEl; if (e.style) e.style.opacity = o; else if (objOrEl.material) objOrEl.material.opacity = o;
 }
+
+// A soft warm light pool (additive radial gradient) placed behind a subject to lift the charcoal without a hard edge.
+let _poolTex;
+export function lightPool(w, h, x, y, z, opacity = .5, color = 0xffe9d6) {
+  if (!_poolTex) {
+    const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
+    const r = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+    r.addColorStop(0, 'rgba(255,255,255,.22)'); r.addColorStop(.45, 'rgba(255,255,255,.07)'); r.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = r; g.fillRect(0, 0, 256, 256); _poolTex = new THREE.CanvasTexture(c);
+  }
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: _poolTex, color, transparent: true, opacity,
+    blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, fog: false }));
+  m.position.set(x, y, z); return m;
+}

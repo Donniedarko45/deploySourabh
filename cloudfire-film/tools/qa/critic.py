@@ -38,7 +38,7 @@ def extract(path, frames, outdir, width=640):
     out = []
     for f in frames:
         p = os.path.join(outdir, f"f{f:05d}.png")
-        run(["ffmpeg", "-v", "error", "-y", "-ss", f"{f / FPS + 0.001:.4f}", "-i", path, "-frames:v", "1", "-vf", f"scale={width}:-2", p])
+        run(["ffmpeg", "-v", "error", "-y", "-ss", f"{max(0, (f - 0.5) / FPS):.4f}", "-i", path, "-frames:v", "1", "-vf", f"scale={width}:-2", p])
         if os.path.exists(p):
             out.append(p)
     return out

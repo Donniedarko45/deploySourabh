@@ -1,0 +1,24 @@
+{
+  "film": "Beneath the Surface — CloudFire",
+  "generated": "2026-10-08",
+  "policy": "Every asset in the picture or soundtrack is listed with its origin and licence. No third-party footage, music or sound effects were downloaded; no stock media is used.",
+  "assets": [
+    {"id": "brand-mark", "kind": "logo (vector)", "source": "components/cloudfire/Brand.tsx in Donniedarko45/deploySourabh", "owner": "CloudFire IT Services", "licence": "owner's trademark; used for the owner's film", "used_in": ["S15", "poster"], "modified": "animated draw-on only; geometry and colours unchanged"},
+    {"id": "font-instrument-sans", "kind": "typeface", "source": "@fontsource/instrument-sans 5.3.0 (npm)", "licence": "SIL OFL 1.1", "used_in": ["all display type"]},
+    {"id": "font-inter", "kind": "typeface", "source": "@fontsource/inter 5.3.0 (npm)", "licence": "SIL OFL 1.1", "used_in": ["UI copy", "captions"]},
+    {"id": "font-ibm-plex-mono", "kind": "typeface", "source": "@fontsource/ibm-plex-mono 5.3.0 (npm)", "licence": "SIL OFL 1.1", "used_in": ["eyebrows", "labels"]},
+    {"id": "aegisstore-captures", "kind": "authentic UI footage (6 sequences, 480 frames, 3840x2160)", "source": "local build of github.com/Donniedarko45/aegisstore @ d03248b, captured by tools/capture/aegis.mjs on 2026-10-08", "owner": "Kartikey Pandey / CloudFire (same GitHub owner and commit author as the CloudFire website)", "licence": "no licence file in the repository (all rights reserved by the owner); used by the owner", "demo_data": "repository's own scripts/seed-demo.mjs (fictional file names) plus one uploaded test file 'launch-plan-q4.pdf' (random bytes)", "used_in": ["S07", "S11"], "evidence": "qa/aegisstore-failover-evidence.json, assets/ui-captures/raw/captures.json"},
+    {"id": "modulx-page", "kind": "page capture (still)", "source": "public/work/modulx.jpg in the CloudFire website repository (capture of https://modulx.in/)", "native_resolution": [1440, 2600], "owner": "MODULX Composites & Casting Pvt. Ltd. (site); capture by CloudFire", "licence": "approved for the CloudFire website (lib/content.ts record, 2026-10-05/06); promotional-film use needs the client's confirmation", "used_in": ["S12"], "modified": "cropped to the hero; scaled ≤1.4× on screen"},
+    {"id": "illustrative-ui", "kind": "original interface designs", "source": "motion/src/seq/*.js (order card, invoice workflow, delivery-time screen, pipeline, mesh)", "owner": "this production", "licence": "original", "note": "fictional illustrative content ('Linen notebook', 'Northwind Supplies', 'PO 1182', 'a3f9c1e'); no real customer data"},
+    {"id": "three-js", "kind": "rendering library", "source": "three 0.182.0 (npm)", "licence": "MIT"},
+    {"id": "narration", "kind": "synthetic voice (temporary for this cut)", "source": "Kokoro v1.0 ONNX (kokoro-onnx 0.6.1, model files from github.com/thewh1teagle/kokoro-onnx releases), voice bm_george", "licence": "Kokoro-82M weights Apache-2.0 and kokoro-onnx MIT, per the projects' documentation (re-verify before paid distribution)", "used_in": ["all narrated versions"]},
+    {"id": "score", "kind": "original music", "source": "tools/audio/score.py (procedural composition and synthesis, no samples)", "owner": "this production", "licence": "original"},
+    {"id": "sound-design", "kind": "original sound effects", "source": "tools/audio/sfx.py (synthesis, no samples)", "owner": "this production", "licence": "original"},
+    {"id": "asr", "kind": "QA tool only (not in output)", "source": "NVIDIA Parakeet TDT 0.6B v2 int8 via sherpa-onnx 1.13.8 (github.com/k2-fsa/sherpa-onnx releases)", "licence": "model CC-BY-4.0; sherpa-onnx Apache-2.0"}
+  ],
+  "excluded": [
+    {"item": "Headspace, Sephora, Death Wish Coffee, 101 Blockchains and other listed projects", "reason": "recognizable brands or owner-attested only; avoid implied endorsement (research/verified-claims.md)"},
+    {"item": "public/brand/earth-*, Ember mascot, legacy cloudfirelogo.png", "reason": "off-tone or low resolution"},
+    {"item": "design/cloudfire-source.png hero sculpture (1536x1024)", "reason": "too small for 4K; its idea (surface → structure) was rebuilt procedurally"}
+  ]
+}

@@ -73,9 +73,16 @@ def transcribe_file(path: str, chunk_s: float = 20.0) -> tuple[str, list[Word]]:
     texts, words, start = [], [], 0
     while start < len(x):
         end = min(len(x), start + int(chunk_s * 16000))
-        if end < len(x):  # back off to the quietest point in the last 4 s
-            lo = end - 4 * 16000
-            end = lo + int(np.argmin(energy[lo:end]))
+        if end < len(x):  # split inside the longest real pause (>= 250 ms) of the last 6 s, never mid-word
+            lo = end - 6 * 16000
+            win = energy[lo:end]
+            quiet = win < max(np.percentile(win, 20) * 1.5, 1e-4)
+            best, run, best_mid = 0, 0, None
+            for i, q in enumerate(quiet):
+                run = run + 1 if q else 0
+                if run > best:
+                    best, best_mid = run, i - run // 2
+            end = lo + (best_mid if best_mid is not None and best >= 4000 else int(np.argmin(win)))
         t, w = transcribe_array(x[start:end], offset=start / 16000)
         if t:
             texts.append(t)

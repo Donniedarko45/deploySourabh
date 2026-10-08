@@ -1,5 +1,5 @@
 // S11–S12 (frames 900–1200): proof, not promises. Real AegisStore footage survives a crashed node; the MODULX site.
-import { THREE, C, HEX, E, key, range, clamp, lerp, drift, el, css3d, eyebrow, lineMat, segments, roundRect, glowSprite, STAGE_H } from '../core.js';
+import { THREE, C, HEX, E, key, range, clamp, lerp, drift, el, css3d, eyebrow, lineMat, segments, roundRect, glowSprite, STAGE_H, V, vfov } from '../core.js';
 
 const seq = { start: 900, end: 1200 };
 let S, cam, cap = {};
@@ -45,11 +45,11 @@ seq.init = async (stage) => {
   [a.imgA, a.imgB] = [a.frameEl.querySelector('img.a'), a.frameEl.querySelector('img.b')];
   a.camEl = a.frameEl.querySelector('.cam'); a.spot = a.frameEl.querySelector('.spot'); a.cursor = a.frameEl.querySelector('.cursor');
   // behind the frame: the cluster as a ring of three storage nodes and their placement arcs
-  const RX = 2600, RY = 1450, ringZ = -1900;
+  const RX = V.vertical ? 1250 : 2600, RY = V.vertical ? 2700 : 1450, ringZ = -1900;
   const ring = []; for (let i = 0; i < 200; i++) { const t0 = i / 200 * Math.PI * 2, t1 = (i + 1) / 200 * Math.PI * 2; ring.push(Math.cos(t0) * RX, Math.sin(t0) * RY, ringZ, Math.cos(t1) * RX, Math.sin(t1) * RY, ringZ); }
   for (let i = 0; i < 128; i++) { const t = i / 128 * Math.PI * 2; ring.push(Math.cos(t) * (RX - 26), Math.sin(t) * (RY - 26), ringZ, Math.cos(t) * (RX + 26), Math.sin(t) * (RY + 26), ringZ); }
   a.ring = segments(ring, lineMat(S, { width: 1.8, opacity: .24 })); a.bg.add(a.ring);
-  a.nodes = [200, 342, 92].map((deg, i) => {
+  a.nodes = (V.vertical ? [262, 62, 118] : [200, 342, 92]).map((deg, i) => {
     const t = THREE.MathUtils.degToRad(deg), x = Math.cos(t) * RX, y = Math.sin(t) * RY;
     const outline = segments(roundRect(x, y, ringZ, 640, 180, 18, 'xy'), lineMat(S, { width: 2.6, opacity: .55 }));
     const dash = segments(roundRect(x, y, ringZ, 640, 180, 18, 'xy', 8), lineMat(S, { width: 2.6, opacity: 0, dashed: true, dash: 18, gap: 14 }));
@@ -68,7 +68,8 @@ seq.init = async (stage) => {
   Object.assign(b.img.style, { height: 'auto', width: MW + 'px' }); b.img.src = '../assets/footage/modulx-page.jpg';
   b.camEl = b.frameEl.querySelector('.cam'); b.MW = MW; b.MH = MH;
   b.label = eyebrow('MODULX · PRODUCT & QUOTE SITE', false); Object.assign(b.label.style, { left: '192px', top: '1960px' });
-  for (const s of [a, b]) { s.hud = el('div', { position: 'absolute', inset: 0 }); s.hud.appendChild(s.label); seq.layer.overlay.appendChild(s.hud); }
+  for (const s of [a, b]) { s.hud = el('div', { position: 'absolute', inset: 0 }); s.hud.appendChild(s.label); seq.layer.overlay.appendChild(s.hud);
+    if (V.vertical) Object.assign(s.label.style, { left: '150px', top: '300px', whiteSpace: 'normal', width: '1700px' }); }
   await b.img.decode().catch(() => {});
 };
 
@@ -96,7 +97,8 @@ function s11(f) {
   const D = key(f, [[900, 4600], [930, 4950, E.out], [1080, 4450, E.soft]]);
   const yaw = key(f, [[900, 0], [940, 5, E.soft], [1080, -3, E.soft]]);
   const y = THREE.MathUtils.degToRad(yaw);
-  cam.fov = 30; cam.position.set(Math.sin(y) * D, 40 + drift(f, 2, .02) * 25, Math.cos(y) * D); cam.up.set(0, 1, 0); cam.lookAt(0, 0, 0); cam.updateProjectionMatrix();
+  const Dv = D * (V.vertical ? 1.25 : 1);
+  cam.fov = vfov(30, .62); cam.position.set(Math.sin(y) * Dv, 40 + drift(f, 2, .02) * 25, Math.cos(y) * Dv); cam.up.set(0, 1, 0); cam.lookAt(0, 0, 0); cam.updateProjectionMatrix();
   const cut = CUTS.find(c => f >= c.from && f < c.to) || CUTS[CUTS.length - 1];
   const i = cut.offset + (f - cut.from);
   setImg(a.imgA, capSrc(cut.cap, i));
@@ -140,7 +142,8 @@ function s12(f) {
   // on-screen width of the 1440 px source is kept near 1.3–1.4× (disclosed in the production report)
   const D = key(f, [[1080, 5600], [1200, 5050, E.soft]]);
   const yaw = THREE.MathUtils.degToRad(key(f, [[1080, -6], [1200, 2, E.soft]]));
-  cam.fov = 30; cam.position.set(Math.sin(yaw) * D, -40, Math.cos(yaw) * D); cam.up.set(0, 1, 0); cam.lookAt(0, 0, 0); cam.updateProjectionMatrix();
+  const Dv = D * (V.vertical ? 1.3 : 1);
+  cam.fov = vfov(30, .62); cam.position.set(Math.sin(yaw) * Dv, -40, Math.cos(yaw) * Dv); cam.up.set(0, 1, 0); cam.lookAt(0, 0, 0); cam.updateProjectionMatrix();
   // inner move: from the headline toward the pack-size selector and "Ask for a price"
   const t = E.soft(range(f, 1080, 1200));
   const s = lerp(1, 1.035, t), pageScale = b.MW / 1440;

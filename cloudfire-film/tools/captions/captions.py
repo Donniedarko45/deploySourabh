@@ -73,7 +73,7 @@ def wrap(text):
     return best[1] if best else [text[:MAX_LINE], text[MAX_LINE:]]
 
 
-def build_captions(aligned):
+def build_captions(aligned, line_ends=None):
     caps = []
     by_line = {}
     for w in aligned:
@@ -94,6 +94,8 @@ def build_captions(aligned):
         nxt = caps[i + 1]["start"] if i + 1 < len(caps) else c["end"] + 2
         need = max(MIN_DUR, len(c["text"]) / MAX_CPS)
         end = max(c["end"] + .25, c["start"] + need)
+        if line_ends and c["line"] in line_ends:  # never linger long after the spoken line ends
+            end = min(end, max(line_ends[c["line"]] + .6, c["start"] + need))
         c["start"], c["end"] = snap(c["start"]), snap(min(end, nxt - GAP, c["start"] + MAX_DUR))
         c["cps"] = round(len(c["text"]) / max(.01, c["end"] - c["start"]), 1)
     return caps
@@ -109,7 +111,8 @@ def main():
     ref = " ".join(spoken(l["text"]) for l in script["lines"])
     cmp = compare(ref, text, ALIASES)
     aligned, missing = align(script["lines"], words)
-    caps = build_captions(aligned)
+    timing = json.load(open(os.path.join(ROOT, "audio", "narration", "timing.json")))
+    caps = build_captions(aligned, {t["id"]: t["end_s"] for t in timing})
     os.makedirs(os.path.dirname(os.path.join(ROOT, a.srt)), exist_ok=True)
     with open(os.path.join(ROOT, a.srt), "w") as f:
         for i, c in enumerate(caps, 1):

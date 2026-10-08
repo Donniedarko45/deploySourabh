@@ -83,6 +83,7 @@ def main():
     ap.add_argument("--no-voice", action="store_true")
     ap.add_argument("--out")
     ap.add_argument("--target", type=float, default=-14.0)
+    ap.add_argument("--ceiling", type=float, default=-1.0, help="limiter ceiling in dBTP; leave headroom for lossy codecs")
     a = ap.parse_args()
     music = load("music.wav")
     n = len(music)
@@ -114,7 +115,7 @@ def main():
     for _ in range(3):
         L = meter.integrated_loudness(mix)
         mix = mix * 10 ** ((a.target - L) / 20)
-        mix = limiter(mix, -1.0)
+        mix = limiter(mix, a.ceiling)
     L, tp = meter.integrated_loudness(mix), true_peak_db(mix)
     out = a.out or os.path.join(STEMS, "mix-novoice.wav" if a.no_voice else "mix.wav")
     sf.write(out, mix.astype(np.float32), SR, subtype="PCM_24")

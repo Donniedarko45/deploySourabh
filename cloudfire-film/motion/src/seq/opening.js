@@ -1,6 +1,19 @@
 // S01–S06 (frames 0–420): the press, the layers part, the dive, the world beneath, the pipeline, the worst day.
 import { THREE, C, HEX, E, key, range, clamp, lerp, rng, drift, el, css3d, dofBlur, lineMat, segments, polySegments,
-  pointAlong, roundRect, glowSprite, STAGE_H } from '../core.js';
+  pointAlong, roundRect, glowSprite, lightPool, STAGE_H, V, vfov } from '../core.js';
+import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
+import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
+
+let _shaft;
+function shaftTexture() {
+  if (_shaft) return _shaft;
+  const c = document.createElement('canvas'); c.width = 64; c.height = 512; const g = c.getContext('2d');
+  const v = g.createLinearGradient(0, 0, 0, 512); v.addColorStop(0, 'rgba(255,255,255,1)'); v.addColorStop(.5, 'rgba(255,255,255,.35)'); v.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = v; g.fillRect(0, 0, 64, 512);
+  const h = g.createLinearGradient(0, 0, 64, 0); h.addColorStop(0, 'rgba(0,0,0,1)'); h.addColorStop(.5, 'rgba(0,0,0,0)'); h.addColorStop(1, 'rgba(0,0,0,1)');
+  g.globalCompositeOperation = 'destination-out'; g.fillStyle = h; g.fillRect(0, 0, 64, 512);
+  _shaft = new THREE.CanvasTexture(c); return _shaft;
+}
 
 const DOT = [-250, 0, 170];          // the status dot on the card (world)
 const LAYER_GAP = 330;
@@ -88,10 +101,10 @@ function ceilingMaterial() {
       void main(){
         vec2 p = vW.xz - vec2(0.,0.);
         float r = length(p);
-        float glow = exp(-r/9000.)*0.32 + exp(-r/2600.)*0.34;
-        float card = exp(-max(box(p, vec2(780.,480.), 30.),0.)/260.)*0.55;
-        vec2 g = abs(fract(vW.xz/800.)-.5);
-        float grid = (1.-smoothstep(0.0,0.012,min(g.x,g.y))) * 0.05;
+        float glow = exp(-r/12000.)*0.42 + exp(-r/3200.)*0.5;
+        float card = exp(-max(box(p, vec2(780.,480.), 30.),0.)/320.)*0.95;
+        vec2 g = abs(fract(vW.xz/800.)-.5), g2 = abs(fract(vW.xz/160.)-.5);
+        float grid = (1.-smoothstep(0.0,0.010,min(g.x,g.y))) * 0.10 + (1.-smoothstep(0.0,0.02,min(g2.x,g2.y))) * 0.025 * exp(-r/6000.);
         float fog = smoothstep(3000., 42000., vD);
         vec3 warm = vec3(1.0,0.93,0.84);
         vec3 col = warm*(glow+grid) + vec3(1.0,0.62,0.38)*card*0.5 + warm*card*0.5;
@@ -119,14 +132,27 @@ function buildField(scene) {
   // threads from the ceiling to the field, with ticks of traffic
   const th = [], ticks = [];
   const r2 = rng(11);
+  const cols = [];
+  const thread = (x, z) => { th.push(x, CEIL_Y, z, x, FIELD_Y, z); cols.push(1, .96, .9, .18, .17, .16); };
   for (let i = 0; i < 190; i++) {
     const n = nodes[Math.floor(r2() * nodes.length)];
     const x = n[0] + (r2() - .5) * 200, z = n[1] + (r2() - .5) * 60;
-    th.push(x, CEIL_Y, z, x, FIELD_Y, z);
-    const t = glowSprite(C.fg, 70, .55); scene.add(t);
+    thread(x, z);
+    const t = glowSprite(C.fg, 90, .55); scene.add(t);
     ticks.push({ s: t, x, z, phase: r2(), speed: 0.006 + r2() * 0.01 });
   }
-  add(segments(th, lineMat(S, { width: 1.6, opacity: .13 })), .13);
+  for (let i = 0; i < 26; i++) thread(-3200 + r2() * 7200, 3600 + r2() * 4200);  // near the camera path: parallax depth
+  const tg = new LineSegmentsGeometry(); tg.setPositions(th); tg.setColors(cols);
+  const tm = lineMat(S, { width: 1, opacity: .26 }); tm.vertexColors = true; tm.worldUnits = true; tm.linewidth = 7;
+  add(new LineSegments2(tg, tm), .26);
+  // soft shafts of light falling from the surface
+  const shaft = shaftTexture();
+  for (let i = 0; i < 9; i++) {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(900 + r2() * 1400, 4200), new THREE.MeshBasicMaterial({ map: shaft, transparent: true, opacity: .05 + r2() * .05,
+      blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, color: 0xfff1e0 }));
+    m.position.set(-2600 + r2() * 5200, CEIL_Y - 2100, -2600 + r2() * 4400); m.rotation.y = r2() * Math.PI;
+    scene.add(m); mats.push([m.material, m.material.opacity]);
+  }
   return { nodes, ticks, mats };
 }
 
@@ -160,8 +186,8 @@ function rigB(f) { const t = [0, -860, 40]; return { pos: orbit(t, key(f, [[48, 
 function rigC(f) { const p = packetAt(f); const h = key(f, [[84, 1100], [104, 380, E.in]]);
   return { pos: [p[0] + 40, p[1] + h, p[2] + 260], target: [p[0], p[1] - 600, p[2] - 60], fov: 36 }; }
 function rigD(f) {
-  return { pos: key(f, [[110, [-250, CEIL_Y - 520, 520]], [124, [-200, -2600, 1300], E.out], [205, [2600, -3650, 9200], E.soft], [270, [-900, -4100, 7400], E.soft]]),
-    target: key(f, [[110, [-250, FIELD_Y, -900]], [124, [-200, FIELD_Y, -1600], E.out], [205, [300, -4500, 0], E.soft], [270, [200, -5200, -900], E.soft]]),
+  return { pos: key(f, [[110, [-250, CEIL_Y - 520, 520]], [124, [-150, -2500, 1700], E.out], [205, [2600, -3850, 9400], E.soft], [270, [-900, -4250, 7300], E.soft]]),
+    target: key(f, [[110, [-250, FIELD_Y, -900]], [124, [-200, -4300, -4600], E.out], [205, [300, -3950, 0], E.soft], [270, [200, -4700, -900], E.soft]]),
     fov: key(f, [[110, 36], [205, 31], [270, 30]]) };
 }
 function blend(a, b, t) { return { pos: a.pos.map((x, i) => lerp(x, b.pos[i], t)), target: a.target.map((x, i) => lerp(x, b.target[i], t)), fov: lerp(a.fov, b.fov, t) }; }
@@ -213,10 +239,10 @@ seq.init = async (stage) => {
   A.ceiling = new THREE.Mesh(new THREE.PlaneGeometry(140000, 140000), ceilingMaterial());
   A.ceiling.rotation.x = Math.PI / 2; A.ceiling.position.y = CEIL_Y; bgA.add(A.ceiling);
   A.field = buildField(bgA);
-  A.route = segments([0, 0, 0, 0, 0, 0], lineMat(stage, { color: C.accent, width: 4, opacity: 1 })); bgA.add(A.route);
-  A.routeGlow = segments([0, 0, 0, 0, 0, 0], lineMat(stage, { color: C.accent, width: 16, opacity: .18 })); bgA.add(A.routeGlow);
+  A.route = segments([0, 0, 0, 0, 0, 0], lineMat(stage, { color: C.accent, width: 6, opacity: 1 })); bgA.add(A.route);
+  A.routeGlow = segments([0, 0, 0, 0, 0, 0], lineMat(stage, { color: C.accent, width: 30, opacity: .24 })); bgA.add(A.routeGlow);
   A.fieldLabels = ROUTE_LABELS.map(([t, i]) => {
-    const e = el('div', { font: "500 110px/1 'IBM Plex Mono'", letterSpacing: '.08em', color: HEX.fg, whiteSpace: 'nowrap' }, t);
+    const e = el('div', { font: "500 150px/1 'IBM Plex Mono'", letterSpacing: '.08em', color: HEX.fg, whiteSpace: 'nowrap', textShadow: '0 0 40px rgba(255,90,54,.35)' }, t);
     const o = css3d(e, { flat: true, x: ROUTE[i][0] + 330, y: FIELD_Y + 4, z: ROUTE[i][1] - 120 }); o.userData.stack = false; cssA.add(o); return o;
   });
   A.fieldMarks = ROUTE.map(([x, z]) => { const s = segments(roundRect(x, FIELD_Y + 2, z, 560, 220, 22, 'xz'), lineMat(stage, { color: C.accent, width: 3, opacity: 0 })); bgA.add(s); return s; });
@@ -227,7 +253,8 @@ seq.init = async (stage) => {
   const rails = [];
   for (const z of [-110, 110]) rails.push(-6000, -60, z, 6000, -60, z);
   for (let x = -6000; x <= 6000; x += 300) rails.push(x, -60, -110, x, -60, 110);
-  bgB.add(segments(rails, lineMat(stage, { width: 1.6, opacity: .16 })));
+  bgB.add(segments(rails, lineMat(stage, { width: 2.4, opacity: .3 })));
+  bgB.add(lightPool(9000, 2600, 0, 120, -900, .55));
   B.gates = GATES.map((gx, i) => {
     const pts = []; const hw = 260, hh = 230;
     for (const [a, b] of [[[-hw, -hh], [hw, -hh]], [[hw, -hh], [hw, hh]], [[hw, hh], [-hw, hh]], [[-hw, hh], [-hw, -hh]]]) pts.push(gx, a[1] + 120, a[0], gx, b[1] + 120, b[0]);
@@ -248,6 +275,7 @@ seq.init = async (stage) => {
 
   // ----- set C: mesh -----
   bgC = new THREE.Scene(); fgC = new THREE.Scene(); cssC = new THREE.Scene();
+  const pool = lightPool(9000, 6000, 0, -2, 0, .6); pool.rotation.x = -Math.PI / 2; bgC.add(pool);
   const nodes = [], wires = [];
   for (let c = 0; c < MESH.cols; c++) for (let r = 0; r < MESH.rows; r++) {
     const [x, , z] = meshPos(c, r); if (c === 3 && r === 2) continue;
@@ -264,7 +292,7 @@ seq.init = async (stage) => {
   C3.r2 = segments([0, 0, 0, 0, 0, 0], lineMat(stage, { color: C.accent, width: 4.5 })); bgC.add(C3.r2);
   C3.glow = segments([0, 0, 0, 0, 0, 0], lineMat(stage, { color: C.accent, width: 18, opacity: .16 })); bgC.add(C3.glow);
   C3.packet = glowSprite(C.accent, 240, 1); fgC.add(C3.packet);
-  C3.offline = el('div', { font: "500 40px/1 'IBM Plex Mono'", letterSpacing: '.14em', color: HEX.muted, opacity: 0, whiteSpace: 'nowrap' }, 'OFFLINE');
+  C3.offline = el('div', { font: "500 64px/1 'IBM Plex Mono'", letterSpacing: '.14em', color: HEX.muted, opacity: 0, whiteSpace: 'nowrap' }, 'OFFLINE');
   const off = css3d(C3.offline, { flat: true, x: fx, y: 2, z: fz + 2 }); cssC.add(off);
 };
 const B = {}, C3 = {};
@@ -277,12 +305,12 @@ seq.render = (f) => {
   return renderC(f);
 };
 
-function applyCam(r) {
-  cam.fov = r.fov; cam.position.set(...r.pos); cam.up.set(0, 1, 0); cam.lookAt(...r.target); cam.updateProjectionMatrix();
+function applyCam(r, f) {
+  cam.fov = vfov(r.fov, f < 48 ? .95 : f < 120 ? .72 : .62); cam.position.set(...r.pos); cam.up.set(0, 1, 0); cam.lookAt(...r.target); cam.updateProjectionMatrix();
 }
 
 function renderA(f) {
-  const r = cameraA(f); applyCam(r);
+  const r = cameraA(f); applyCam(r, f);
   // --- button micro-interaction (S01) ---
   const press = f < 8 ? 1 : f < 12 ? lerp(1, .97, E.out(range(f, 8, 12))) : lerp(.97, 1, E.out(range(f, 12, 18)));
   A.btn.scale.set(press, press, press);
@@ -354,7 +382,7 @@ function renderA(f) {
 function renderB(f) {
   const ours = packX(OURS, f);
   const xc = key(f, [[270, -1500], [345, 900, E.linear]]);
-  cam.fov = 21; cam.position.set(xc + 900, 380, 2500); cam.up.set(0, 1, 0); cam.lookAt(xc, 60, 0); cam.updateProjectionMatrix();
+  cam.fov = vfov(21, .7); cam.position.set(xc + 900, 380, 2500 * (V.vertical ? 1.45 : 1)); cam.up.set(0, 1, 0); cam.lookAt(xc, 60, 0); cam.updateProjectionMatrix();
   const rec = [], recO = [];
   for (const pt of B.points) {
     const x = packX(pt.i, f);
@@ -389,13 +417,21 @@ function renderB(f) {
 }
 
 function renderC(f) {
-  // top-down; up = -z so +x reads left→right; slow rise
-  const h = key(f, [[345, 5200], [400, 5600], [420, 7800, E.in]]);
-  const lineScreenOffset = (1250 - 1080) * (2 * h * Math.tan(THREE.MathUtils.degToRad(15))) / STAGE_H;
+  // perspective over the mesh (55°); at the end the straight route must land exactly on S07's horizon row
+  const h = key(f, [[345, 5600], [400, 6000], [420, 8200, E.in]]);
   const [, , zLine] = meshPos(0, 2);
   const settle = E.inOut(range(f, 392, 420));
-  const tz = lerp(drift(f, 3, .02) * 40 + 120, zLine - lineScreenOffset, settle);
-  cam.fov = 30; cam.position.set(drift(f, 5, .02) * 60, h, tz + 0.001); cam.up.set(0, 0, -1); cam.lookAt(0, 0, tz); cam.updateProjectionMatrix();
+  const el55 = THREE.MathUtils.degToRad(lerp(55, 62, settle));
+  const place = (tz) => { cam.fov = vfov(30, .62); cam.position.set(drift(f, 5, .02) * 60, h * Math.sin(el55), tz + h * Math.cos(el55)); cam.up.set(0, 1, 0); cam.lookAt(0, 0, tz); cam.updateProjectionMatrix(); };
+  let tz = drift(f, 3, .02) * 40 + 120;
+  if (settle > 0) {  // solve for the target z that puts the line at screen row 1250 (secant iterations)
+    const want = 1 - 2 * (1250 / 2160), ndc = (z) => { place(z); return new THREE.Vector3(0, 0, zLine).project(cam).y; };
+    let z0 = zLine - 800, z1 = zLine + 800, y0 = ndc(z0) - want, y1 = ndc(z1) - want;
+    for (let i = 0; i < 12 && Math.abs(y1) > 1e-5; i++) { const z2 = z1 - y1 * (z1 - z0) / (y1 - y0 || 1e-9); z0 = z1; y0 = y1; z1 = z2; y1 = ndc(z1) - want; }
+    tz = lerp(tz, z1, settle);
+  }
+  place(tz);
+  bgC.fog = new THREE.Fog(0x000000, h * .9, h * 2.6);
   const meshFade = 1 - E.inOut(range(f, 390, 410));
   C3.nodes.material.opacity = .38 * meshFade; C3.wires.material.opacity = .2 * meshFade;
   const down = E.out(range(f, 360, 368));
