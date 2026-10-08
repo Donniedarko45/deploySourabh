@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8">
+<script type="importmap">{"imports":{"three":"../node_modules/three/build/three.module.js","three/addons/":"../node_modules/three/examples/jsm/"}}</script>
+<style>html,body{margin:0;background:#0a0a0a;overflow:hidden}#stage{position:absolute;inset:0}
+.panel{width:1400px;height:800px;background:#111;border:2px solid rgba(255,255,255,.1);color:#f4f3ef;font:500 120px/1.1 sans-serif;padding:60px;box-sizing:border-box}</style></head>
+<body><div id="stage"></div><script type="module">
+import * as THREE from 'three';
+import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
+import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
+import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+const W=innerWidth,H=innerHeight;
+const gl=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true}); gl.setSize(W,H); stage.appendChild(gl.domElement);
+const css=new CSS3DRenderer(); css.setSize(W,H); css.domElement.style.position='absolute'; css.domElement.style.top=0; stage.appendChild(css.domElement);
+const scene=new THREE.Scene(), cssScene=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(30,W/H,1,100000);
+const pos=[]; for(let i=0;i<4000;i++){const x=(Math.random()-.5)*20000,z=(Math.random()-.5)*20000;pos.push(x,0,z,x+400,0,z, x,0,z,x,0,z+400);}
+const g=new LineSegmentsGeometry(); g.setPositions(pos);
+const m=new LineMaterial({color:0xffffff,linewidth:2*W/3840,transparent:true,opacity:.3}); m.resolution.set(W,H);
+scene.add(new LineSegments2(g,m));
+const el=document.createElement('div'); el.className='panel'; el.textContent='Place order'; const o=new CSS3DObject(el); o.position.set(0,600,0); cssScene.add(o);
+window.__seek=f=>{const t=f/24; cam.position.set(Math.sin(t*.3)*6000,3000,Math.cos(t*.3)*6000); cam.lookAt(0,0,0); gl.render(scene,cam); css.render(cssScene,cam);
+ return gl.getContext().getParameter(gl.getContext().RENDERER);};
+console.log('[film] renderer', gl.getContext().getParameter(gl.getContext().VERSION));
+window.__filmReady=true;
+</script></body></html>

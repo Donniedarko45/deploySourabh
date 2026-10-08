@@ -1,0 +1,26 @@
+{
+ "capturedAt": "2026-10-08T06:32:02.693Z",
+ "node_down": "storage-node-2",
+ "node_status": "OFFLINE",
+ "bucket": "research-data",
+ "key": "README.md",
+ "http_status": 200,
+ "bytes": 50,
+ "sha256_downloaded": "8b4c455c72e1451a215f7eb51f85d85d608f5656ec2814ed230eb1da2c51e0dc",
+ "sha256_recorded": "8b4c455c72e1451a215f7eb51f85d85d608f5656ec2814ed230eb1da2c51e0dc",
+ "replicas": [
+  {
+   "node": "storage-node-2",
+   "state": "HEALTHY",
+   "nodeStatus": "OFFLINE",
+   "checksumMatch": true
+  },
+  {
+   "node": "storage-node-3",
+   "state": "HEALTHY",
+   "nodeStatus": "HEALTHY",
+   "checksumMatch": true
+  }
+ ],
+ "match": true
+}

@@ -1,0 +1,44 @@
+{
+ "rows": [
+  [
+   "S04",
+   "6 s video \u00d73 attempts",
+   2.6999999999999997,
+   7.200000000000001
+  ],
+  [
+   "S13",
+   "5 s video \u00d73 attempts",
+   2.25,
+   6.0
+  ],
+  [
+   "refs",
+   "6 images \u00d72",
+   0.96,
+   0.96
+  ],
+  [
+   "narration",
+   "Gemini TTS 497 chars \u00d7 4 voices \u00d7 3 takes",
+   0.11928,
+   0.11928
+  ],
+  [
+   "score",
+   "ElevenLabs 65 s \u00d7 3 versions",
+   2.6,
+   2.6
+  ]
+ ],
+ "upper_bound_usd": 16.88,
+ "prices": {
+  "image": 0.08,
+  "veo_per_s": 0.4,
+  "veo_fast_per_s": 0.15,
+  "seedance_per_s": 0.25,
+  "music_per_min": 0.8,
+  "tts_per_1k_chars": 0.02
+ },
+ "note": "planning prices; confirm live before spend"
+}

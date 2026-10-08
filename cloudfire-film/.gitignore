@@ -8,3 +8,5 @@
 /renders/final/*.mov
 __pycache__/
 /audio/stems/*.wav
+/qa/*/frames/
+/qa/*/edits/

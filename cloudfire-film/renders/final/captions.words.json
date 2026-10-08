@@ -1,0 +1,548 @@
+[
+ {
+  "line": "L1",
+  "word": "Just",
+  "start": 5.36,
+  "end": 6.0,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "after",
+  "start": 6.0,
+  "end": 6.32,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "someone",
+  "start": 6.32,
+  "end": 6.72,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "presses",
+  "start": 6.72,
+  "end": 7.12,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "a",
+  "start": 7.12,
+  "end": 7.28,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "button,",
+  "start": 7.28,
+  "end": 8.0,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "a",
+  "start": 8.0,
+  "end": 8.16,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "product",
+  "start": 8.16,
+  "end": 8.64,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "keeps",
+  "start": 8.64,
+  "end": 9.04,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "its",
+  "start": 9.04,
+  "end": 9.28,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "promise,",
+  "start": 9.28,
+  "end": 10.08,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "or",
+  "start": 10.08,
+  "end": 10.32,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "quietly",
+  "start": 10.32,
+  "end": 10.96,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "breaks",
+  "start": 10.96,
+  "end": 11.6,
+  "interpolated": false
+ },
+ {
+  "line": "L1",
+  "word": "it.",
+  "start": 11.6,
+  "end": 12.16,
+  "interpolated": false
+ },
+ {
+  "line": "L2",
+  "word": "What",
+  "start": 12.16,
+  "end": 12.4,
+  "interpolated": false
+ },
+ {
+  "line": "L2",
+  "word": "decides",
+  "start": 12.4,
+  "end": 13.04,
+  "interpolated": false
+ },
+ {
+  "line": "L2",
+  "word": "it",
+  "start": 13.04,
+  "end": 13.36,
+  "interpolated": false
+ },
+ {
+  "line": "L2",
+  "word": "is",
+  "start": 13.36,
+  "end": 13.6,
+  "interpolated": false
+ },
+ {
+  "line": "L2",
+  "word": "rarely",
+  "start": 13.6,
+  "end": 14.16,
+  "interpolated": false
+ },
+ {
+  "line": "L2",
+  "word": "on",
+  "start": 14.16,
+  "end": 14.4,
+  "interpolated": false
+ },
+ {
+  "line": "L2",
+  "word": "the",
+  "start": 14.4,
+  "end": 14.72,
+  "interpolated": false
+ },
+ {
+  "line": "L2",
+  "word": "screen.",
+  "start": 14.72,
+  "end": 16.58,
+  "interpolated": false
+ },
+ {
+  "line": "L3",
+  "word": "We",
+  "start": 17.92,
+  "end": 18.16,
+  "interpolated": false
+ },
+ {
+  "line": "L3",
+  "word": "build",
+  "start": 18.16,
+  "end": 18.56,
+  "interpolated": false
+ },
+ {
+  "line": "L3",
+  "word": "both",
+  "start": 18.56,
+  "end": 18.88,
+  "interpolated": false
+ },
+ {
+  "line": "L3",
+  "word": "sides",
+  "start": 18.88,
+  "end": 19.28,
+  "interpolated": false
+ },
+ {
+  "line": "L3",
+  "word": "of",
+  "start": 19.28,
+  "end": 19.36,
+  "interpolated": false
+ },
+ {
+  "line": "L3",
+  "word": "that",
+  "start": 19.36,
+  "end": 19.87,
+  "interpolated": false
+ },
+ {
+  "line": "L3",
+  "word": "moment.",
+  "start": 20.08,
+  "end": 22.16,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "Automation",
+  "start": 22.16,
+  "end": 23.04,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "carries",
+  "start": 23.04,
+  "end": 23.52,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "the",
+  "start": 23.52,
+  "end": 23.68,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "busywork,",
+  "start": 23.68,
+  "end": 24.64,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "and",
+  "start": 24.64,
+  "end": 24.8,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "a",
+  "start": 24.8,
+  "end": 25.04,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "person",
+  "start": 25.04,
+  "end": 25.36,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "still",
+  "start": 25.36,
+  "end": 25.6,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "approves",
+  "start": 25.6,
+  "end": 26.32,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "what",
+  "start": 26.32,
+  "end": 26.64,
+  "interpolated": false
+ },
+ {
+  "line": "L4",
+  "word": "matters.",
+  "start": 26.64,
+  "end": 27.76,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "Releases",
+  "start": 27.76,
+  "end": 28.48,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "go",
+  "start": 28.48,
+  "end": 28.72,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "out",
+  "start": 28.72,
+  "end": 28.96,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "on",
+  "start": 28.96,
+  "end": 29.2,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "an",
+  "start": 29.2,
+  "end": 29.36,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "ordinary",
+  "start": 29.36,
+  "end": 30.0,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "afternoon,",
+  "start": 30.0,
+  "end": 30.88,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "and",
+  "start": 30.88,
+  "end": 31.12,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "nobody",
+  "start": 31.12,
+  "end": 31.6,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "holds",
+  "start": 31.6,
+  "end": 32.16,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "their",
+  "start": 32.16,
+  "end": 32.48,
+  "interpolated": false
+ },
+ {
+  "line": "L5",
+  "word": "breath.",
+  "start": 32.48,
+  "end": 33.55,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "When",
+  "start": 38.245,
+  "end": 38.645,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "a",
+  "start": 38.645,
+  "end": 38.805,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "storage",
+  "start": 38.805,
+  "end": 39.205,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "node",
+  "start": 39.205,
+  "end": 39.685,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "goes",
+  "start": 39.685,
+  "end": 40.005,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "dark",
+  "start": 40.005,
+  "end": 40.405,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "in",
+  "start": 40.405,
+  "end": 40.645,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "AegisStore,",
+  "start": 40.645,
+  "end": 41.925,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "the",
+  "start": 41.925,
+  "end": 42.085,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "files",
+  "start": 42.085,
+  "end": 42.645,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "keep",
+  "start": 42.645,
+  "end": 42.965,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "coming",
+  "start": 42.965,
+  "end": 43.365,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "back,",
+  "start": 43.365,
+  "end": 43.845,
+  "interpolated": false
+ },
+ {
+  "line": "L7",
+  "word": "verified.",
+  "start": 43.845,
+  "end": 46.105,
+  "interpolated": false
+ },
+ {
+  "line": "L8",
+  "word": "Good",
+  "start": 50.485,
+  "end": 50.885,
+  "interpolated": false
+ },
+ {
+  "line": "L8",
+  "word": "engineering",
+  "start": 50.885,
+  "end": 51.925,
+  "interpolated": false
+ },
+ {
+  "line": "L8",
+  "word": "rarely",
+  "start": 51.925,
+  "end": 52.245,
+  "interpolated": false
+ },
+ {
+  "line": "L8",
+  "word": "asks",
+  "start": 52.245,
+  "end": 52.835,
+  "interpolated": false
+ },
+ {
+  "line": "L8",
+  "word": "to",
+  "start": 53.078,
+  "end": 53.158,
+  "interpolated": false
+ },
+ {
+  "line": "L8",
+  "word": "be",
+  "start": 53.158,
+  "end": 53.319,
+  "interpolated": false
+ },
+ {
+  "line": "L8",
+  "word": "noticed.",
+  "start": 53.319,
+  "end": 54.358,
+  "interpolated": false
+ },
+ {
+  "line": "L8",
+  "word": "It",
+  "start": 54.358,
+  "end": 54.518,
+  "interpolated": false
+ },
+ {
+  "line": "L8",
+  "word": "simply",
+  "start": 54.518,
+  "end": 55.158,
+  "interpolated": false
+ },
+ {
+  "line": "L8",
+  "word": "holds.",
+  "start": 55.158,
+  "end": 56.538,
+  "interpolated": false
+ },
+ {
+  "line": "L9",
+  "word": "CloudFire.",
+  "start": 58.038,
+  "end": 59.589,
+  "interpolated": false
+ }
+]

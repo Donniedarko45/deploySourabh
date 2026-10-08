@@ -1,0 +1,87 @@
+{
+ "file": "renders/animatic/cloudfire-animatic.mp4",
+ "technical": {
+  "container": "mov,mp4,m4a,3gp,3g2,mj2",
+  "duration_s": 65.0,
+  "size_mb": 29.0,
+  "video": {
+   "codec": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 1920,
+   "height": 1080,
+   "fps": "24/1",
+   "frames": 1560,
+   "bitrate_mbps": 3.3
+  },
+  "audio": [
+   {
+    "codec": "aac",
+    "sample_rate": "48000",
+    "channels": 2
+   }
+  ],
+  "decode_errors": []
+ },
+ "picture": {
+  "black_segments_s": [
+   [
+    0.0,
+    0.333333
+   ],
+   [
+    2.70833,
+    3.16667
+   ],
+   [
+    4.5,
+    6.16667
+   ],
+   [
+    12.875,
+    25.0833
+   ],
+   [
+    25.4583,
+    36.7083
+   ],
+   [
+    38.1667,
+    39.5417
+   ],
+   [
+    52.0417,
+    54.8333
+   ],
+   [
+    60.0,
+    60.2083
+   ],
+   [
+    64.5417,
+    64.9583
+   ]
+  ],
+  "freeze_events": [
+   "16.9167",
+   "17.5"
+  ],
+  "luma_mean": NaN,
+  "flicker_frames_not_on_edits": []
+ },
+ "sound": {
+  "integrated_lufs": -14.02,
+  "true_peak_dbtp": -1.11,
+  "clipped_samples": 0,
+  "silences_over_1_2s": [],
+  "asr_mix": {
+   "wer": 0.0,
+   "issues": [],
+   "heard": "Just after someone presses a button, a product keeps its promise or quietly breaks it. What decides it is rarely on the screen. We build both sides of that. Moment. Automation carries the busy work, and a person still approves what matters. Releases go out on an ordinary afternoon, and nobody holds their breath. When a storage node goes dark in EG's store, the files keep coming back, verified. Good engineering rarely asks. To be noticed, it simply holds cloud fire."
+  },
+  "asr_dry_wer": 0.0,
+  "masking": false,
+  "asr_phone_speaker_wer": 0.0,
+  "sfx_sync_max_offset_frames": 2.0
+ }
+}

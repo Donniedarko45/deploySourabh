@@ -1,0 +1,64 @@
+{
+ "tempo_bpm": 96,
+ "bar_s": 2.5,
+ "key": "D minor \u2192 F major",
+ "chords": {
+  "2": "D3 A3 E4 F4",
+  "3": "D3 A3 E4 F4",
+  "4": "Bb2 F3 A3 D4",
+  "5": "G2 D3 F3 A3 Bb3",
+  "6": "A2 E3 A3 D4",
+  "7": "D3 A3 C4 E4 F4",
+  "8": "Bb2 F3 A3 C4 D4",
+  "9": "A2 F3 A3 C4 F4",
+  "10": "G2 D3 F3 Bb3",
+  "11": "D3 A3 C4 E4 F4",
+  "12": "Bb2 F3 A3 C4 D4",
+  "13": "C3 F3 A3 E4",
+  "14": "C3 G3 D4 E4",
+  "15": "Bb2 F3 A3 D4 F4",
+  "16": "A2 F3 C4 F4 A4",
+  "17": "G2 D3 F3 A3 Bb3 D4",
+  "18": "F2 D3 A3 E4 F4",
+  "19": "A2 E3 A3 D4 E4",
+  "20": "Bb2 F3 A3 D4",
+  "21": "G2 D3 F3 A3 Bb3",
+  "22": "C3 F3 G3 C4 D4",
+  "23": "F2 C3 A3 E4 G4",
+  "24": "F2 C3 A3 E4 G4",
+  "25": "F2 C3 A3 E4 G4"
+ },
+ "sections": [
+  [
+   "tactile",
+   0,
+   3.75
+  ],
+  [
+   "reveal",
+   3.75,
+   5
+  ],
+  [
+   "motion",
+   5,
+   17.5
+  ],
+  [
+   "momentum",
+   17.5,
+   37.5
+  ],
+  [
+   "expansion",
+   37.5,
+   50
+  ],
+  [
+   "resolution",
+   50,
+   65
+  ]
+ ],
+ "motif": "A\u2013D\u2013E\u2013F | E\u2013C\u2013D (felt keys)"
+}

@@ -1,0 +1,55 @@
+1
+00:00:05,375 --> 00:00:07,917
+Just after someone presses a button,
+
+2
+00:00:08,000 --> 00:00:12,083
+a product keeps its promise,
+or quietly breaks it.
+
+3
+00:00:12,167 --> 00:00:16,833
+What decides it is rarely on the screen.
+
+4
+00:00:17,917 --> 00:00:22,083
+We build both sides of that moment.
+
+5
+00:00:22,167 --> 00:00:24,542
+Automation carries the busywork,
+
+6
+00:00:24,625 --> 00:00:27,667
+and a person still approves what matters.
+
+7
+00:00:27,750 --> 00:00:30,792
+Releases go out on an ordinary afternoon,
+
+8
+00:00:30,875 --> 00:00:33,792
+and nobody holds their breath.
+
+9
+00:00:38,250 --> 00:00:41,833
+When a storage node
+goes dark in AegisStore,
+
+10
+00:00:41,917 --> 00:00:46,375
+the files keep coming back, verified.
+
+11
+00:00:50,500 --> 00:00:54,292
+Good engineering rarely
+asks to be noticed.
+
+12
+00:00:54,375 --> 00:00:56,792
+It simply holds.
+
+13
+00:00:58,042 --> 00:00:59,833
+CloudFire.
+

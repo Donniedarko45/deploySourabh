@@ -1,0 +1,36 @@
+{
+ "viewport": [
+  1920,
+  1080
+ ],
+ "overview_healthy_nodes": [
+  1270,
+  215,
+  1556,
+  449
+ ],
+ "lab_storage_node_2": [
+  767,
+  295,
+  1153,
+  681
+ ],
+ "nodes_storage_node_2": [
+  767,
+  235,
+  1153,
+  594
+ ],
+ "object_sheet": [
+  1280,
+  0,
+  1920,
+  1080
+ ],
+ "object_replicas": [
+  1280,
+  124,
+  1920,
+  472
+ ]
+}

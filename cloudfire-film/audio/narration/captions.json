@@ -1,0 +1,135 @@
+[
+ {
+  "line": "L1",
+  "text": "Just after someone presses a button,",
+  "lines": [
+   "Just after someone presses a button,"
+  ],
+  "start": 5.375,
+  "end": 7.916666666666667,
+  "cps": 14.2
+ },
+ {
+  "line": "L1",
+  "text": "a product keeps its promise, or quietly breaks it.",
+  "lines": [
+   "a product keeps its promise,",
+   "or quietly breaks it."
+  ],
+  "start": 8.0,
+  "end": 12.083333333333334,
+  "cps": 12.2
+ },
+ {
+  "line": "L2",
+  "text": "What decides it is rarely on the screen.",
+  "lines": [
+   "What decides it is rarely on the screen."
+  ],
+  "start": 12.166666666666666,
+  "end": 16.833333333333332,
+  "cps": 8.6
+ },
+ {
+  "line": "L3",
+  "text": "We build both sides of that moment.",
+  "lines": [
+   "We build both sides of that moment."
+  ],
+  "start": 17.916666666666668,
+  "end": 22.083333333333332,
+  "cps": 8.4
+ },
+ {
+  "line": "L4",
+  "text": "Automation carries the busywork,",
+  "lines": [
+   "Automation carries the busywork,"
+  ],
+  "start": 22.166666666666668,
+  "end": 24.541666666666668,
+  "cps": 13.5
+ },
+ {
+  "line": "L4",
+  "text": "and a person still approves what matters.",
+  "lines": [
+   "and a person still approves what matters."
+  ],
+  "start": 24.625,
+  "end": 27.666666666666668,
+  "cps": 13.5
+ },
+ {
+  "line": "L5",
+  "text": "Releases go out on an ordinary afternoon,",
+  "lines": [
+   "Releases go out on an ordinary afternoon,"
+  ],
+  "start": 27.75,
+  "end": 30.791666666666668,
+  "cps": 13.5
+ },
+ {
+  "line": "L5",
+  "text": "and nobody holds their breath.",
+  "lines": [
+   "and nobody holds their breath."
+  ],
+  "start": 30.875,
+  "end": 33.791666666666664,
+  "cps": 10.3
+ },
+ {
+  "line": "L7",
+  "text": "When a storage node goes dark in AegisStore,",
+  "lines": [
+   "When a storage node",
+   "goes dark in AegisStore,"
+  ],
+  "start": 38.25,
+  "end": 41.833333333333336,
+  "cps": 12.3
+ },
+ {
+  "line": "L7",
+  "text": "the files keep coming back, verified.",
+  "lines": [
+   "the files keep coming back, verified."
+  ],
+  "start": 41.916666666666664,
+  "end": 46.375,
+  "cps": 8.3
+ },
+ {
+  "line": "L8",
+  "text": "Good engineering rarely asks to be noticed.",
+  "lines": [
+   "Good engineering rarely",
+   "asks to be noticed."
+  ],
+  "start": 50.5,
+  "end": 54.291666666666664,
+  "cps": 11.3
+ },
+ {
+  "line": "L8",
+  "text": "It simply holds.",
+  "lines": [
+   "It simply holds."
+  ],
+  "start": 54.375,
+  "end": 56.791666666666664,
+  "cps": 6.6
+ },
+ {
+  "line": "L9",
+  "text": "CloudFire.",
+  "lines": [
+   "CloudFire."
+  ],
+  "start": 58.041666666666664,
+  "end": 59.833333333333336,
+  "cps": 5.6
+ }
+]
