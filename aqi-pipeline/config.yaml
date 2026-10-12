@@ -1,0 +1,78 @@
+# Automated Air Quality Index (AQI) prediction pipeline: configuration.
+# Paths are relative to this file.
+
+city: delhi                 # a key under `cities`, or "all"
+source: open_meteo          # open_meteo (live data, no API key) | synthetic (offline demo and tests)
+storage_root: store         # bronze/silver/gold data, models, reports and forecasts
+keep_runs: 5                # silver/gold copies kept per city (bronze, reports and models are kept)
+history_days: 730           # history fetched on the first run and used for training (2 years,
+                            # so the chronological test period is a season the model has seen)
+overlap_hours: 48           # re-fetched on each incremental run to pick up late revisions
+horizons_hours: [6, 12, 24] # how far ahead to forecast
+
+cities:
+  delhi:     {name: Delhi,     latitude: 28.6139, longitude: 77.2090, timezone: Asia/Kolkata}
+  mumbai:    {name: Mumbai,    latitude: 19.0760, longitude: 72.8777, timezone: Asia/Kolkata}
+  kolkata:   {name: Kolkata,   latitude: 22.5726, longitude: 88.3639, timezone: Asia/Kolkata}
+  chennai:   {name: Chennai,   latitude: 13.0827, longitude: 80.2707, timezone: Asia/Kolkata}
+  bengaluru: {name: Bengaluru, latitude: 12.9716, longitude: 77.5946, timezone: Asia/Kolkata}
+  lucknow:   {name: Lucknow,   latitude: 26.8467, longitude: 80.9462, timezone: Asia/Kolkata}
+
+quality:
+  # Physically plausible bounds in the standard units (µg/m³, CO in mg/m³, °C, %, m/s, mm, hPa).
+  ranges:
+    pm25: [0, 1000]
+    pm10: [0, 2000]
+    no2: [0, 1000]
+    so2: [0, 2000]
+    co: [0, 50]
+    o3: [0, 1000]
+    temp_c: [-30, 55]
+    rh_pct: [0, 100]
+    wind_ms: [0, 60]
+    wind_dir_deg: [0, 360]
+    precip_mm: [0, 300]
+    pressure_hpa: [500, 1100]
+  # Source health: checked on every new batch, before cleaning (warnings).
+  max_duplicate_fraction: 0.01
+  max_out_of_range_fraction: 0.01
+  max_pm_inconsistency_fraction: 0.01
+  max_flatline_fraction: 0.02
+  max_spike_fraction: 0.01
+  max_missing_fraction: 0.10
+  max_gap_hours: 48
+  co_median_range_mg: [0.02, 20]   # CO outside this is almost certainly a unit error
+  # Cleaning rules.
+  flatline_hours: 8                # identical pollutant readings for this long = stuck sensor
+  spike_threshold: 6.0             # robust z-score for a single-hour spike
+  spike_neighbour_ratio: 3.0       # ...that is also this many times both neighbours
+  max_interpolate_hours: 3         # only gaps this short are filled
+  # Fitness-for-use gate: checked on the cleaned history, failures stop the run.
+  max_missing_fraction_clean: 0.15
+  min_aqi_coverage: 0.85
+  max_staleness_hours: 3           # newest PM2.5 reading and computable AQI must be this recent
+  min_history_days: 365            # a model must have seen every season at least once
+
+model:
+  test_fraction: 0.2
+  min_skill_vs_persistence: 0.05   # must beat "tomorrow = today" by at least 5% MAE
+  retrain_every_days: 7
+  max_iter: 300
+  learning_rate: 0.05
+  max_leaf_nodes: 31
+
+monitoring:
+  drift_window_days: 7             # recent inputs...
+  reference_days: 28               # ...compared with these weeks around the same date last year
+  psi_threshold: 0.25              # features above this are flagged in the report
+  live_window_days: 14
+  min_live_samples: 12
+  min_live_skill: 0.0              # retrain when the live model does worse than persistence
+
+alerts:
+  aqi_threshold: 301               # Very Poor and above
+  webhook_env: AQI_ALERT_WEBHOOK_URL
+
+synthetic:
+  seed: 7
+  fault_rate: 1.0                  # multiplier for injected sensor faults (0 = perfect data)
