@@ -2,7 +2,7 @@
 
 **Aim:** Integrate Snyk with Jenkins so that each build of this repository (the CloudFire Next.js website) scans its npm dependencies for known vulnerabilities. The build fails when a finding at or above a chosen severity is reported.
 
-> **Status, 16 October 2026.** The diagrams, `Jenkinsfile`, Jenkins image and output script are finished. The outputs in [7.1](#71-verified-in-the-build-sandbox) and [7.2](#72-cross-check-with-npm-audit-not-snyk) are real. The Snyk scan output in [7.3](#73-snyk-scan-output-to-capture) has not been captured yet. The sandbox used to prepare this record blocks `updates.jenkins.io` and every `*.snyk.io` host, and the scan needs your own Snyk API token. Nothing in this record is a simulated result.
+> **Status, 16 October 2026.** The diagrams, `Jenkinsfile`, Jenkins image and output script are finished. The outputs in [7.1](#71-verified-in-the-build-sandbox) and [7.2](#72-cross-check-with-npm-audit-not-snyk) are real. The Snyk scan output in [7.3](#73-snyk-scan-output-to-capture) has not been captured yet. The sandbox used to prepare this record blocks `updates.jenkins.io` and every `*.snyk.io` host, and the scan needs your own Snyk API token. Nothing in this record is a simulated result. The printable lab record with real screenshots is [Experiment-6-Snyk-in-Jenkins.pdf](experiment-6/Experiment-6-Snyk-in-Jenkins.pdf).
 
 ## 1. Tools and versions
 
@@ -269,6 +269,22 @@ cloudfireiitservice@0.1.0 /home/user/deploySourabh
   ```
 
   With normal internet access, this step downloads the four plugins.
+
+### 7.1a Lab run with the Snyk CLI method
+
+On 16 October 2026 Jenkins 2.580.1 was started in the sandbox with Snyk CLI 1.1308.1 copied into the image and the repository mounted read-only at `/src`. A Freestyle job, `deploysourabh-snyk`, ran both stages in an *Execute shell* step. Build #1 ended in **FAILURE**: `snyk test` could not resolve `api.snyk.io` and exited with code 2. The pipeline fails closed when the scan cannot run.
+
+| File | Shows |
+| --- | --- |
+| [01-unlock-jenkins.png](experiment-6/outputs/01-unlock-jenkins.png) | Unlock Jenkins |
+| [02-offline-skip-plugins.png](experiment-6/outputs/02-offline-skip-plugins.png) | setup wizard reports the instance offline; plugins skipped |
+| [03-create-admin-user.png](experiment-6/outputs/03-create-admin-user.png) | Create First Admin User |
+| [04-jenkins-ready.png](experiment-6/outputs/04-jenkins-ready.png) | Jenkins is ready |
+| [05-dashboard.png](experiment-6/outputs/05-dashboard.png) | dashboard |
+| [06-job-config-snyk-cli.png](experiment-6/outputs/06-job-config-snyk-cli.png) | Execute shell step running the Snyk CLI |
+| [07-job-build-failed.png](experiment-6/outputs/07-job-build-failed.png) | build #1 failed |
+| [08-console-output.png](experiment-6/outputs/08-console-output.png), [console-output.txt](experiment-6/outputs/console-output.txt) | console log of build #1 |
+| [09-plugin-manager-offline.png](experiment-6/outputs/09-plugin-manager-offline.png) | plugin manager: `UnknownHostException: updates.jenkins.io` |
 
 ### 7.2 Cross-check with npm audit (not Snyk)
 

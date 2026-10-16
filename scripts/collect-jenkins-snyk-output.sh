@@ -20,7 +20,7 @@ get() { curl --fail --silent --show-error --user "$JENKINS_USER:$JENKINS_API_TOK
 get "$base/api/json?tree=number,result,duration,timestamp,url" -o "$out/build.json"
 get "$base/consoleText" -o "$out/console-output.txt"
 get "$base/wfapi/describe" -o "$out/stages.json" 2>/dev/null || echo "Stage data not available (pipeline-stage-view plugin missing?)"
-if get "$base/artifact/*zip*/archive.zip" -o "$out/artifacts.zip"; then
+if get "$base/artifact/*zip*/archive.zip" -o "$out/artifacts.zip" 2>/dev/null; then
   if command -v unzip >/dev/null; then
     unzip -oq "$out/artifacts.zip" -d "$out/artifacts" && rm "$out/artifacts.zip"
   fi

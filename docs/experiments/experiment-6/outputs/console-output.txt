@@ -1,0 +1,32 @@
+Started by user Jenkins Admin
+Running as SYSTEM
+Building in workspace /var/jenkins_home/workspace/deploysourabh-snyk
+[deploysourabh-snyk] $ /bin/sh -xe /tmp/jenkins16728463419032049198.sh
++ echo === Stage 1: Source ===
+=== Stage 1: Source ===
++ cp /src/package.json /src/package-lock.json .
++ git -c safe.directory=/src -C /src log -1 --format=Commit %h on %cd: %s --date=iso
+Commit cf6f0ef on 2026-10-16 11:14:31 +0000: Add Experiment 6: Snyk dependency scanning in Jenkins
++ test -f package-lock.json
++ echo Lockfile present: package-lock.json
+Lockfile present: package-lock.json
++ echo === Stage 2: Snyk dependency scan ===
+=== Stage 2: Snyk dependency scan ===
++ snyk --version
+1.1308.1
++ getent hosts api.snyk.io
++ echo api.snyk.io: DNS resolution failed from this network
+api.snyk.io: DNS resolution failed from this network
++ snyk test --file=package.json --severity-threshold=high
+
+ ERROR   Unspecified Error (SNYK-CLI-0000)
+                                                                                        
+           An unknown error occurred. Please run with `-d` and include full trace when  
+           reporting to Snyk                                                            
+
+Docs:    https://docs.snyk.io/scan-with-snyk/error-catalog#snyk-cli-0000 
+Tip:     Give the snyk doctor your logs to debug: `snyk doctor --input <log-file>` 
+                                                                                   
+ID:      urn:snyk:interaction:190e5f06-40f8-41d3-947b-a40a01caebf6 
+Build step 'Execute shell' marked build as failure
+Finished: FAILURE
