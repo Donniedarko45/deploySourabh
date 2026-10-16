@@ -39,6 +39,10 @@ The architecture diagram and AI paths explain connected systems. The footer sign
 
 Aceternity adaptations are documented in [component attribution](components/ui/README.md).
 
+## Dependency scanning
+
+The Jenkinsfile runs a Snyk dependency scan with a high-severity gate. Jenkins and Snyk setup, diagrams and outputs are in [Experiment 6](docs/experiments/experiment-6-snyk-jenkins.md).
+
 ## Verification
 
 Enquiry tests mock providers and send no email. Business-page browser checks cover layouts, metadata, SEO files, form failure/retry/success and lightweight rendering. Set CLOUDFIRE_BASE_URL, CLOUDFIRE_PLAYWRIGHT_MODULE and optionally CLOUDFIRE_ENGINE=webkit for the test environment. Physical Android/iPhone checks and a real inbox delivery test require the actual deployed configuration.
