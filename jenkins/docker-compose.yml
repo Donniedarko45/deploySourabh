@@ -1,0 +1,13 @@
+services:
+  jenkins:
+    build: .
+    image: deploysourabh-jenkins-snyk:local
+    container_name: jenkins-snyk
+    ports:
+      - "8080:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:

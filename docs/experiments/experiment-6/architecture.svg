@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" role="img" aria-labelledby="title desc">
+  <title id="title">Experiment 6: Snyk dependency scanning in a Jenkins pipeline</title>
+  <desc id="desc">A developer pushes to the private GitHub repository. Jenkins checks it out, installs the Snyk CLI with the Snyk Security plugin, sends the dependency graph to the Snyk API, receives findings, optionally records a monitored snapshot on the Snyk dashboard, and produces console output, an HTML report and a pass or fail severity gate.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#334155"/>
+    </marker>
+    <marker id="arrow-snyk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6d28d9"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "Segoe UI", Arial, Helvetica, sans-serif; fill: #0f172a; }
+    .title { font-size: 24px; font-weight: 700; }
+    .sub { font-size: 14px; fill: #475569; }
+    .h { font-size: 17px; font-weight: 700; }
+    .b { font-size: 15px; font-weight: 700; }
+    .s { font-size: 13px; font-weight: 600; }
+    .t { font-size: 12.5px; fill: #334155; }
+    .k { font-size: 12px; fill: #64748b; }
+    .m { font-family: Consolas, "Courier New", monospace; font-size: 12.5px; fill: #1e293b; }
+    .lbl { font-size: 12px; font-weight: 600; fill: #334155; }
+    .lbl-s { font-size: 12px; font-weight: 600; fill: #5b21b6; }
+    .line { stroke: #334155; stroke-width: 1.6; fill: none; }
+    .line-s { stroke: #6d28d9; stroke-width: 1.6; fill: none; }
+    .dash { stroke: #64748b; stroke-width: 1.4; stroke-dasharray: 5 4; fill: none; }
+  </style>
+
+  <rect width="1280" height="800" fill="#ffffff"/>
+
+  <text class="title" x="30" y="46">Experiment 6 · Snyk dependency scanning in a Jenkins pipeline</text>
+  <text class="sub" x="30" y="72">Project: Donniedarko45/deploySourabh (Next.js 16.1) · Jenkins 2.580.1 LTS · Snyk Security plugin · Snyk CLI</text>
+
+  <!-- Developer and GitHub -->
+  <rect x="30" y="120" width="180" height="80" rx="10" fill="#f4f4f5" stroke="#52525b" stroke-width="1.4"/>
+  <text class="b" x="120" y="153" text-anchor="middle">Developer</text>
+  <text class="t" x="120" y="177" text-anchor="middle">edits code, git push</text>
+
+  <path class="line" d="M120,200 L120,266" marker-end="url(#arrow)"/>
+  <text class="lbl" x="130" y="238">① git push</text>
+
+  <rect x="30" y="270" width="180" height="160" rx="10" fill="#f4f4f5" stroke="#52525b" stroke-width="1.4"/>
+  <text class="b" x="120" y="298" text-anchor="middle">GitHub</text>
+  <text class="k" x="120" y="317" text-anchor="middle">private repository</text>
+  <text class="m" x="48" y="345">deploySourabh/</text>
+  <text class="m" x="60" y="366">Jenkinsfile</text>
+  <text class="m" x="60" y="387">package.json</text>
+  <text class="m" x="60" y="408">package-lock.json</text>
+
+  <text class="lbl" x="216" y="372">② checkout</text>
+  <text class="k" x="216" y="388">GitHub PAT</text>
+
+  <!-- Jenkins -->
+  <rect x="300" y="100" width="510" height="470" rx="14" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.6"/>
+  <text class="h" x="318" y="128" fill="#1e3a8a">Jenkins controller</text>
+  <text class="k" x="318" y="148">Docker · jenkins/jenkins:lts-jdk21 · http://localhost:8080</text>
+
+  <rect x="318" y="165" width="474" height="200" rx="10" fill="#ffffff" stroke="#3b82f6" stroke-width="1.4"/>
+  <text class="s" x="334" y="188">Pipeline job · deploysourabh-snyk · Jenkinsfile from SCM</text>
+
+  <rect x="334" y="205" width="136" height="140" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.2"/>
+  <text class="k" x="402" y="228" text-anchor="middle">Stage 1</text>
+  <text class="b" x="402" y="249" text-anchor="middle">Source</text>
+  <text class="t" x="402" y="276" text-anchor="middle">checkout scm</text>
+  <text class="t" x="402" y="296" text-anchor="middle">git log -1</text>
+  <text class="t" x="402" y="316" text-anchor="middle">lockfile check</text>
+
+  <path class="line" d="M470,275 L497,275" marker-end="url(#arrow)"/>
+  <path class="line" d="M210,350 L260,350 L260,275 L332,275" marker-end="url(#arrow)"/>
+
+  <rect x="500" y="205" width="276" height="140" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.4"/>
+  <text class="k" x="638" y="228" text-anchor="middle">Stage 2</text>
+  <text class="b" x="638" y="249" text-anchor="middle">Snyk dependency scan</text>
+  <text class="m" x="518" y="274">snykSecurity(…)</text>
+  <text class="m" x="518" y="294">snyk test --json → gate</text>
+  <text class="m" x="518" y="314">snyk monitor  (MONITOR)</text>
+  <text class="m" x="518" y="334">snyk-to-html → report</text>
+
+  <rect x="318" y="390" width="228" height="96" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>
+  <text class="s" x="334" y="413">Credentials</text>
+  <text class="m" x="334" y="437">snyk-api-token</text>
+  <text class="k" x="334" y="454">kind: Snyk API token</text>
+  <text class="m" x="334" y="476">github-deploysourabh</text>
+
+  <rect x="564" y="390" width="228" height="96" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>
+  <text class="s" x="580" y="413">Tools · Snyk installations</text>
+  <text class="m" x="580" y="437">snyk@latest</text>
+  <text class="k" x="580" y="456">Install automatically</text>
+  <text class="k" x="580" y="474">update policy: 24 hours</text>
+
+  <path class="dash" d="M524,390 L524,349" marker-end="url(#arrow)"/>
+  <text class="k" x="460" y="380">API token</text>
+  <path class="dash" d="M700,390 L700,349" marker-end="url(#arrow)"/>
+  <text class="k" x="708" y="380">CLI path</text>
+
+  <rect x="318" y="502" width="474" height="52" rx="8" fill="#dbeafe"/>
+  <text class="s" x="555" y="523" text-anchor="middle">Plugins</text>
+  <text class="t" x="555" y="543" text-anchor="middle">Snyk Security · Pipeline · Git · Pipeline: Stage View</text>
+
+  <!-- Snyk -->
+  <rect x="900" y="100" width="350" height="470" rx="14" fill="#f5f3ff" stroke="#6d28d9" stroke-width="1.6"/>
+  <text class="h" x="918" y="128" fill="#4c1d95">Snyk (cloud)</text>
+  <text class="k" x="918" y="148">free account · API token from Account settings</text>
+
+  <rect x="918" y="168" width="314" height="132" rx="10" fill="#ffffff" stroke="#a78bfa" stroke-width="1.4"/>
+  <text class="m" x="1075" y="194" text-anchor="middle" font-weight="700">api.snyk.io</text>
+  <text class="b" x="1075" y="217" text-anchor="middle">Vulnerability database</text>
+  <text class="t" x="1075" y="242" text-anchor="middle">matches the dependency graph</text>
+  <text class="t" x="1075" y="261" text-anchor="middle">against known advisories and returns</text>
+  <text class="t" x="1075" y="280" text-anchor="middle">severity, dependency path, fix version</text>
+
+  <rect x="918" y="314" width="314" height="110" rx="10" fill="#ffffff" stroke="#a78bfa" stroke-width="1.4"/>
+  <text class="m" x="1075" y="340" text-anchor="middle" font-weight="700">app.snyk.io</text>
+  <text class="b" x="1075" y="363" text-anchor="middle">Snyk dashboard</text>
+  <text class="t" x="1075" y="388" text-anchor="middle">project deploySourabh: monitored</text>
+  <text class="t" x="1075" y="407" text-anchor="middle">snapshot, alerts for new issues</text>
+
+  <rect x="918" y="438" width="314" height="114" rx="10" fill="#ffffff" stroke="#a78bfa" stroke-width="1.4"/>
+  <text class="m" x="1075" y="464" text-anchor="middle" font-weight="700">downloads.snyk.io</text>
+  <text class="b" x="1075" y="487" text-anchor="middle">CLI downloads</text>
+  <text class="t" x="1075" y="512" text-anchor="middle">Snyk CLI and snyk-to-html binaries,</text>
+  <text class="t" x="1075" y="531" text-anchor="middle">fetched by the tool installer</text>
+
+  <path class="line-s" d="M776,240 L916,240" marker-end="url(#arrow-snyk)"/>
+  <text class="lbl-s" x="816" y="232">④ snyk test</text>
+  <path class="line-s" d="M916,276 L778,276" marker-end="url(#arrow-snyk)"/>
+  <text class="lbl-s" x="816" y="268">⑤ findings</text>
+  <path class="line-s" d="M776,330 L916,330" marker-end="url(#arrow-snyk)"/>
+  <text class="lbl-s" x="816" y="322">⑥ monitor</text>
+  <path class="line-s" d="M916,466 L794,466" marker-end="url(#arrow-snyk)"/>
+  <text class="lbl-s" x="812" y="458">③ install CLI</text>
+
+  <!-- Outputs -->
+  <path class="line" d="M555,570 L555,616" marker-end="url(#arrow)"/>
+  <text class="lbl" x="565" y="598">⑦ build results</text>
+
+  <rect x="30" y="620" width="1220" height="156" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text class="b" x="50" y="647">Build outputs · the actual output to capture</text>
+
+  <rect x="50" y="664" width="370" height="94" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>
+  <text class="s" x="66" y="689">Stage View + Console Output</text>
+  <text class="t" x="66" y="713">per-stage status and time, Snyk CLI log,</text>
+  <text class="t" x="66" y="733">tested dependencies and issue count</text>
+
+  <rect x="445" y="664" width="370" height="94" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>
+  <text class="s" x="461" y="689">Snyk Security Report</text>
+  <text class="t" x="461" y="713">HTML report linked from the build:</text>
+  <text class="t" x="461" y="733">vulnerable package, path, upgrade fix</text>
+
+  <rect x="840" y="664" width="390" height="94" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>
+  <text class="s" x="856" y="689">Severity gate (build result)</text>
+  <text class="t" x="856" y="713">finding ≥ SEVERITY and FAIL_ON_ISSUES</text>
+  <text class="t" x="856" y="733"><tspan fill="#b91c1c" font-weight="700">FAILURE</tspan> · otherwise <tspan fill="#15803d" font-weight="700">SUCCESS</tspan></text>
+</svg>
