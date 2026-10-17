@@ -11,7 +11,7 @@ const targets: Record<Kind, string> = {
   text: [
     ".sticky-heading > .eyebrow", ".engineering-copy > .eyebrow", ".engineering-copy > p", ".engineering-footnote",
     ".positioning-content > *", ".example-caption", ".example-intro", ".capability-tabs", ".ai-use-list",
-    ".final-cta > .eyebrow", ".final-cta-side", ".footer-top > div", ".footer-bottom",
+    ".final-cta > .eyebrow", ".final-cta-side", ".footer-grid > *", ".footer-mail", ".footer-bottom",
     ".chapter-body > *", ".contact-aside > *",
   ].join(","),
   row: [

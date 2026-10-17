@@ -1,15 +1,14 @@
-.wordmark { width: clamp(280px, 47vw, 620px); max-width: 100%; flex-shrink: 1; }
+.wordmark { width: 100%; }
 .wordmark svg { display: block; width: 100%; height: auto; overflow: visible; }
 .base, .dot { stroke-width: 26; stroke-linejoin: round; paint-order: stroke fill; }
-.base { fill: #92918a; stroke: #92918a; }
+.base { fill: #242424; stroke: #242424; }
 .dot { fill: var(--accent); stroke: var(--accent); }
 .outline, .trace { fill: none; stroke: var(--accent); stroke-linecap: round; stroke-linejoin: round; }
-.outline { stroke-width: 6; opacity: .3; }
+.outline { stroke-width: 5; opacity: .32; }
 .trace { stroke-width: 9; stroke-dasharray: .2 .8; stroke-dashoffset: 1; opacity: .95; }
 .wordmark[data-entered=true] .trace { animation: signature-trace 16s linear infinite; animation-play-state: paused; }
 .wordmark[data-playing=true] .trace { animation-play-state: running; }
 @keyframes signature-trace { to { stroke-dashoffset: 0; } }
-@media (max-width: 599px) { .wordmark { width: 100%; max-width: 430px; } }
 @media (prefers-reduced-motion: reduce) {
   .wordmark[data-entered=true] .trace { animation: none; }
   .trace { display: none; }

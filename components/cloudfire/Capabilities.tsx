@@ -1,5 +1,5 @@
 "use client";
-import { useId, useRef, useState } from "react";
+import { Fragment, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useInView } from "framer-motion";
 import { ArrowUpRight, Plus } from "lucide-react";
 import Link from "next/link";
@@ -121,24 +121,60 @@ export function CapabilityDrawing({ index, instant = false }: { index: number; i
     <figcaption className="drawing-steps">{drawingSteps[index].map((step, i) => <span key={step} style={css(beats[index][i])}><span className="mono">0{i + 1}</span>{step}</span>)}</figcaption>
   </figure>;
 }
+// One column (phones and small tablets): the tabs become an accordion, so the detail opens right under the row that
+// was tapped instead of changing a panel further down the page. The server renders the tabs; the section is far
+// below the fold, so the switch after hydration is never seen.
+const narrowQuery = "(max-width: 800px)";
+const subscribeNarrow = (onChange: () => void) => { const media = window.matchMedia(narrowQuery); media.addEventListener("change", onChange); return () => media.removeEventListener("change", onChange); };
+const useNarrow = () => useSyncExternalStore(subscribeNarrow, () => window.matchMedia(narrowQuery).matches, () => false);
+
 export default function Capabilities() {
   const [active, setActive] = useState(0);
+  const [open, setOpen] = useState(true);
   // "pointer" earns the full entrance. "keyboard" is instant: arrowing through tabs shouldn't make anyone wait.
   const [mode, setMode] = useState<"idle" | "pointer" | "keyboard">("idle");
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
+  const narrow = useNarrow();
+  // Opening a row closes the one above it. Hold the tapped row where the finger left it, so the page doesn't jump.
+  const anchor = useRef<{ index: number; top: number } | null>(null);
+  useLayoutEffect(() => {
+    const held = anchor.current; anchor.current = null;
+    const row = held && refs.current[held.index];
+    if (!held || !row) return;
+    const shift = row.getBoundingClientRect().top - held.top;
+    if (Math.abs(shift) > 1) window.scrollBy({ top: shift, behavior: "instant" });
+    // A row opened low on the screen would show nothing new, so it rises to sit under the header.
+    const top = row.getBoundingClientRect().top;
+    const header = document.querySelector(".site-header")?.getBoundingClientRect().bottom ?? 80;
+    if (open && top > window.innerHeight * .5) window.scrollBy({ top: top - header - 12, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+  }, [active, open]);
+  const select = (index: number, how: "pointer" | "keyboard") => {
+    if (narrow) {
+      anchor.current = { index, top: refs.current[index]?.getBoundingClientRect().top ?? 0 };
+      if (index === active) { setOpen(value => !value); return; }
+      setOpen(true);
+    }
+    setMode(how); setActive(index);
+  };
   const current = capabilities[active];
+  const explore = (className: string) => <Link href={`/capabilities#${current.id}`} className={`text-link ${className}`}>Explore {current.title} <ArrowUpRight size={16}/></Link>;
+  const body = <div key={active} className="capability-body" data-enter={mode === "pointer" || undefined}>
+    <CapabilityDrawing index={active} instant={mode === "keyboard"}/><p className="eyebrow accent">{current.label}</p><h3>{current.headline}</h3><p>{current.description}</p><ul className="capability-services">{current.items.map(item=><li key={item}>{item}</li>)}</ul><div className="capability-outcome"><span className="eyebrow">WHAT YOU LEAVE WITH</span><p>{current.deliverable}</p></div>
+    {narrow && explore("capability-explore")}
+  </div>;
   return <section id="capabilities" className="section container"><div className="section-heading"><div><p className="eyebrow"><span className="section-index">02 /</span> CAPABILITIES</p><h2>One partner.<br /><span className="muted">The whole picture.</span></h2></div><p>Strategy, experience and engineering.<br />Connected from day one.</p></div>
-    <div className="capabilities-grid"><div><div className="capability-tabs" role="tablist" aria-label="Our capabilities" aria-orientation="vertical">
-      {capabilities.map((item,index) => <button key={item.id} id={`tab-${item.id}`} ref={element => { refs.current[index] = element; }} role="tab" aria-selected={active===index} aria-controls="capability-panel" tabIndex={active===index?0:-1} onClick={event => { setMode(event.detail === 0 ? "keyboard" : "pointer"); setActive(index); }}
-        onKeyDown={event => { const offsets: Record<string, number> = { ArrowDown: 1, ArrowUp: -1, ArrowRight: 1, ArrowLeft: -1 }; let next: number | undefined; if (event.key in offsets) next=(index+offsets[event.key]+capabilities.length)%capabilities.length; if(event.key==="Home")next=0;if(event.key==="End")next=capabilities.length-1; if(next!==undefined){event.preventDefault();setMode("keyboard");setActive(next);refs.current[next]?.focus();} }}>
-        <span className="mono">{item.number}</span><span>{item.title}</span><span className="tab-icon" aria-hidden="true"><Plus className="icon-plus" size={18}/><ArrowUpRight className="icon-arrow" size={21}/></span>
-      </button>)}
-      </div><Link href={`/capabilities#${current.id}`} className="text-link all-capabilities">Explore {current.title} <ArrowUpRight size={16}/></Link>
+    <div className="capabilities-grid" data-layout={narrow ? "accordion" : "tabs"}><div><div className="capability-tabs" {...(narrow ? {} : { role: "tablist", "aria-label": "Our capabilities", "aria-orientation": "vertical" as const })}>
+      {capabilities.map((item,index) => { const expanded = narrow && open && active === index; return <Fragment key={item.id}>
+        <button id={`tab-${item.id}`} ref={element => { refs.current[index] = element; }} type="button"
+          {...(narrow ? { "aria-expanded": expanded, "aria-controls": expanded ? `capability-${item.id}` : undefined } : { role: "tab", "aria-selected": active === index, "aria-controls": "capability-panel", tabIndex: active === index ? 0 : -1 })}
+          onClick={event => select(index, event.detail === 0 ? "keyboard" : "pointer")}
+          onKeyDown={event => { if (narrow) return; const offsets: Record<string, number> = { ArrowDown: 1, ArrowUp: -1, ArrowRight: 1, ArrowLeft: -1 }; let next: number | undefined; if (event.key in offsets) next=(index+offsets[event.key]+capabilities.length)%capabilities.length; if(event.key==="Home")next=0;if(event.key==="End")next=capabilities.length-1; if(next!==undefined){event.preventDefault();setMode("keyboard");setActive(next);refs.current[next]?.focus();} }}>
+          <span className="mono">{item.number}</span><span>{item.title}</span><span className="tab-icon" aria-hidden="true"><Plus className="icon-plus" size={18}/><ArrowUpRight className="icon-arrow" size={21}/></span>
+        </button>
+        {expanded && <div className="capability-panel" id={`capability-${item.id}`} role="region" aria-labelledby={`tab-${item.id}`}>{body}</div>}
+      </Fragment>; })}
+      </div>{!narrow && explore("all-capabilities")}
     </div>
-    <div className="capability-panel" id="capability-panel" role="tabpanel" aria-labelledby={`tab-${current.id}`} tabIndex={0}>
-      <div key={active} className="capability-body" data-enter={mode === "pointer" || undefined}>
-        <CapabilityDrawing index={active} instant={mode === "keyboard"}/><p className="eyebrow accent">{current.label}</p><h3>{current.headline}</h3><p>{current.description}</p><ul className="capability-services">{current.items.map(item=><li key={item}>{item}</li>)}</ul><div className="capability-outcome"><span className="eyebrow">WHAT YOU LEAVE WITH</span><p>{current.deliverable}</p></div>
-      </div>
-    </div>
+    {!narrow && <div className="capability-panel" id="capability-panel" role="tabpanel" aria-labelledby={`tab-${current.id}`} tabIndex={0}>{body}</div>}
   </div></section>;
 }
